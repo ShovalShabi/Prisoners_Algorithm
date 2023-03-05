@@ -5,6 +5,3 @@ class Board:
         self.linked_list_boxes = []
         self.prisoners = []
         self.statistics = ""
-        
-    def adom():
-        print("Adoommmmm")
