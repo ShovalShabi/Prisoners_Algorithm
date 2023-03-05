@@ -79,6 +79,6 @@ def main(n ,k, printF):
     print("probability by loop calculate the geometric series:\n",
           "1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) =",
           1-s)
-sys.stdout = open("PrisonersReults.txt", "w")
-main(100, 100000, False)
+sys.stdout = open("PrisonersResults.txt", "w")
+main(10, 100, False)
 sys.stdout.close()
