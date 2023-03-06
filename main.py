@@ -4,7 +4,7 @@ import sys
 import random
 
 
-def pr(list_of_boxes, print_route):
+def run_route(list_of_boxes, print_route):
     number_of_boxes = len(list_of_boxes)
     list_of_success = number_of_boxes * [0]
     for j in range(number_of_boxes):
@@ -72,7 +72,7 @@ def main(number_prisoners, rounds, print_route):
         for j in range(number_prisoners):
             list_of_boxes[j] = j
         random.shuffle(list_of_boxes)
-        if pr(list_of_boxes, print_route):
+        if run_route(list_of_boxes, print_route):
             s += 1
     print("The number of prisoners is", number_prisoners, ",the number of rounds is", rounds, ",s = ", s,
           "\ns / k in % =", 100 * (s / rounds))

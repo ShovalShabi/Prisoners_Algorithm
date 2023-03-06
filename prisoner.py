@@ -9,8 +9,8 @@ class Prisoner:
         self.prisoner_number=num_prisoner
         self.position = position
         self.pace=pace
-        self.visited_boxes=dict()
-        self.all_boxes=all_boxes  #will be a dict
+        self.visited_boxes=dict()  # key number box , value box
+        self.all_boxes=all_boxes  # is a dict, key number box , value box
         self.trgt_box = trgt_box
         self.found_number=False
         self.updated_pos=False

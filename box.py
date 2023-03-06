@@ -4,7 +4,6 @@ class Box:
 
     def __init__(self,position,box_number):
         self.position=position
-        self.img=None
         self.box_number=box_number
         self.next_box=None
 
