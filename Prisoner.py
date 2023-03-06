@@ -1,15 +1,14 @@
-from threading import Thread
 from Prisoners_Algorithm.Box import Box
 
 import os
 import pygame
 
-class Prisoner(Thread):
+class Prisoner:
 
-    def __init__(self,trgt_box,num_prisoner,position,pace):
-        super().__init__()
+    def __init__(self,box_number,trgt_pos,num_prisoner,position,pace):
         self.prisoner_number=num_prisoner
-        self.trgt_box=trgt_box
+        self.trgt_box_number=box_number
+        self.trgt_pos=trgt_pos
         self.position = position
         self.pace=pace
         self.visited_boxes={int:Box}
@@ -32,16 +31,16 @@ class Prisoner(Thread):
         return self.prisoner_number
 
     def is_still_searching(self):
-        if self.trgt_box.get_position[0] == self.position[0] and \
-                self.trgt_box.get_position[1] == self.position[1]:
-            if self.trgt_box.get_nextbox.get_number == self.prisoner_number:
+        if self.trgt_pos.get_position[0] == self.position[0] and \
+                self.trgt_pos.get_position[1] == self.position[1]:
+            if self.trgt_pos.get_nextbox.get_number == self.prisoner_number:
                 self.found_number = True
                 return False
             if self.trgt_box.get_nextbox.get_number in self.visited_boxes.keys():
                 return False
             else:
-                self.visited_boxes.update({self.trgt_box.get_number: self.trgt_box})
-                self.trgt_box = self.trgt_box.get_nextbox
+                self.visited_boxes.update({self.trgt_pos.get_number: self.trgt_pos})
+                self.trgt_box = self.trgt_pos.get_nextbox
         return True
 
     def move_to_box(self):
