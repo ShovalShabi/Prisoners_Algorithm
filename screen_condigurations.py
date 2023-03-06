@@ -1,4 +1,4 @@
-from Prisoners_Algorithm.Prisoner import Prisoner
+from Prisoners_Algorithm.prisoner import Prisoner
 import pygame
 import os
 

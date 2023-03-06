@@ -74,13 +74,13 @@ def main(number_prisoners, rounds, print_route):
         random.shuffle(list_of_boxes)
         if pr(list_of_boxes, print_route):
             s += 1
-    print("The number of prisoners is ", number_prisoners, " The number of rounds is", rounds, " s = ", s,
+    print("The number of prisoners is", number_prisoners, ",the number of rounds is", rounds, ",s = ", s,
           "\ns / k in % =", 100 * (s / rounds))
     s = 0
     hn = number_prisoners / 2
     for i in range(number_prisoners // 2):
         s += 1 / ((hn) + (i + 1))
-    print("probability by loop calculate the geometric series:\n",
+    print("Probability by loop calculation of the geometric series:\n",
           "1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) =", 1 - s)
 
 

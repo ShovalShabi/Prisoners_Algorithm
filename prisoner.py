@@ -1,4 +1,4 @@
-from Prisoners_Algorithm.Box import Box
+from Prisoners_Algorithm.box import Box
 
 import os
 import pygame
