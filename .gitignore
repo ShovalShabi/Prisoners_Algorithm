@@ -1,2 +1,5 @@
 # ignore prsoners results file
-*.txt
+PrisonersResults.txt
+
+# ignorig check file for running model backend
+check.py
