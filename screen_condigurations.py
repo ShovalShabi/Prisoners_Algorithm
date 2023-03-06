@@ -36,10 +36,10 @@ def blitRotateCenter(surf, image, topleft, angle):
 
 def load_images_to_prisoner(prisoner,trgt_box,num_pr_display,num_pr_img):
     list_imgs=[pygame.image.load(os.path.join("Resources",f"SP1{num_pr_img}" + type_img + ".png")) for type_img in ('front,back,side')]
-    prisoner=Prisoner(box=trgt_box,num_prisoner_display=num_pr_display,list_imgs=list_imgs)
-    return prisoner
+    # prisoner=Prisoner(box=trgt_box,num_prisoner_display=num_pr_display,list_imgs=list_imgs)
+    # return prisoner
 
-def draw_window(win,prisoner_img,box_img): #, birds, pipes, base, score, gen, pipe_ind
+def draw_window(win,prisoner,boxes): #, birds, pipes, base, score, gen, pipe_ind
     """
     draws the windows for the main game loop
     :param win: pygame window surface
@@ -53,8 +53,9 @@ def draw_window(win,prisoner_img,box_img): #, birds, pipes, base, score, gen, pi
     # if gen == 0:
     #     gen = 1
     win.blit(bg_img, (0,0))
-    win.blit(box_img, (0, 0))
-    win.blit(prisoner_img,(250,250))
+    for box in boxes:
+        win.blit(box_img,box.get_position())
+    win.blit(prisoner_img,prisoner.get_position())
 
     # for pipe in pipes:
     #     pipe.draw(win)
