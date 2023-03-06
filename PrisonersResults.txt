@@ -1,0 +1,64 @@
+round number: 1
+Iteration number 1
+Attempt: 1  is leading to box 4
+Attempt: 2  is leading to box 1
+Total Boxes: 4 2 3 1 
+Visited in boxes: 4 1 
+Prisoner number 1 has been succeeded, the chain length is 2
+
+Iteration number 2
+Attempt: 1  is leading to box 2
+Total Boxes: 4 2 3 1 
+Visited in boxes: 2 
+Prisoner number 2 has been succeeded, the chain length is 1
+
+Iteration number 3
+Attempt: 1  is leading to box 3
+Total Boxes: 4 2 3 1 
+Visited in boxes: 3 
+Prisoner number 3 has been succeeded, the chain length is 1
+
+Iteration number 4
+Attempt: 1  is leading to box 1
+Attempt: 2  is leading to box 4
+Total Boxes: 4 2 3 1 
+Visited in boxes: 1 4 
+Prisoner number 4 has been succeeded, the chain length is 2
+
+The number of prisoners that found their number is: 4 
+    from 4  prisoners.
+
+round number: 2
+Iteration number 1
+Attempt: 1  is leading to box 2
+Attempt: 2  is leading to box 1
+Total Boxes: 2 1 3 4 
+Visited in boxes: 2 1 
+Prisoner number 1 has been succeeded, the chain length is 2
+
+Iteration number 2
+Attempt: 1  is leading to box 1
+Attempt: 2  is leading to box 2
+Total Boxes: 2 1 3 4 
+Visited in boxes: 1 2 
+Prisoner number 2 has been succeeded, the chain length is 2
+
+Iteration number 3
+Attempt: 1  is leading to box 3
+Total Boxes: 2 1 3 4 
+Visited in boxes: 3 
+Prisoner number 3 has been succeeded, the chain length is 1
+
+Iteration number 4
+Attempt: 1  is leading to box 4
+Total Boxes: 2 1 3 4 
+Visited in boxes: 4 
+Prisoner number 4 has been succeeded, the chain length is 1
+
+The number of prisoners that found their number is: 4 
+    from 4  prisoners.
+
+The number of prisoners is  4  The number of rounds is 2  s =  2 
+s / k in % = 100.0
+probability by loop calculate the geometric series:
+ 1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) = 0.41666666666666674
