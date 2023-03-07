@@ -1,7 +1,8 @@
 import random
+
+from copy import deepcopy
 from threading import Lock
 from threading import Thread
-
 from Prisoners_Algorithm.Model.boxm import BoxM
 from Prisoners_Algorithm.Model.prisonerm import PrisonerM
 
@@ -10,7 +11,6 @@ class ModelManger:
     filename= "PrisonersResults.txt"
     file=None
     lock_shuffle=Lock()
-    lock_run_route=Lock()
 
     def __init__(self,num_prisoners,num_rounds,listener):
         self.dict_rounds={}  #dict of {round_num:list dependencies of boxes}
@@ -20,21 +20,21 @@ class ModelManger:
         self.num_prisoners=num_prisoners
         self.num_rounds= num_rounds
         self.current_round = 1
+        self.current_prisoner = 1
         self.succeeded=0
-        self.current_prisoner=None
 
-    def ntfy_pris_pos(self, num_prisoner):
-        return self.dict_prisoners[num_prisoner].get_pos()
+    def ntfy_pris_pos(self):
+        self.listener.ntfy_pris_pos(self.dict_prisoners[self.current_prisoner].get_pos())
 
-    def ntfy_pris_need_box(self, box_number):
-        self.listener.notify_model_need_box(box_number)
+    def ntfy_pris_need_box(self):
+        self.listener.notify_model_need_box(self.dict_prisoners[self.current_prisoner].trgt_box.box_num)
 
     def init_boxes(self):
         for index_box in range(self.num_prisoners):
             box=BoxM(box_num=index_box + 1)
             self.dict_boxes[index_box+1]=box
         for box_num in self.dict_boxes.keys():  #box num starts from 1 to n+1
-            self.dict_boxes[box_num].set_nxt_box=self.dict_boxes[self.dict_rounds[box_num-1]]  #redirecting each box to current next box
+            self.dict_boxes[box_num].set_nxt_box=self.dict_boxes[self.dict_rounds[self.current_round][box_num-1]]  #redirecting each box to current next box
         self.set_all_boxes_pos()
 
     def set_all_boxes_pos(self):
@@ -48,9 +48,6 @@ class ModelManger:
     def init_prisoners(self):
         for index_pris in range(self.num_prisoners):
             self.dict_prisoners[index_pris+1]=PrisonerM(num_prisoner=index_pris + 1, position=(0, 0), pace=5, all_boxes=self.dict_rounds[self.current_round], trgt_box=self.dict_boxes[index_pris + 1])
-
-    def prepare_for_rounds(self):
-        pass
 
     def run_route(self,list_of_boxes, print_route):
         number_of_boxes = len(list_of_boxes)
@@ -78,11 +75,11 @@ class ModelManger:
             if print_route:
                 print("Total Boxes:", end=" ",file=self.file)
                 for o in range(number_of_boxes):
-                    print(list_of_boxes[o], end=" ",file=self.file)
+                    print(list_of_boxes[o]+1, end=" ",file=self.file)
                 print()
                 print("Visited in boxes:", end=" ",file=self.file)
                 for g in range(len(visited_boxes)):
-                    print(visited_boxes[g], end=" ",file=self.file)
+                    print(visited_boxes[g]+1, end=" ",file=self.file)
                 print()
                 if success:
                     print("Prisoner number", j + 1, "has been succeeded,",
@@ -129,6 +126,8 @@ class ModelManger:
                 self.dict_rounds[i+1]=general_lists[i+1]  #matching dependencies of each box to another for each round
             if self.run_route(self.dict_rounds[i+1], print_route): ## fix this for one calculation
                 s += 1
+            self.dict_rounds[i+1]=[box_i+1 for box_i in general_lists[i+1]] ## making renumbering boxes from 1 to n+1
+
         print("The number of prisoners is", self.num_prisoners, ",the number of rounds is", self.num_rounds, ",s = ", s,
               "\ns / k in % =", 100 * (s / self.num_rounds),file=self.file)
         s = 0
@@ -147,7 +146,7 @@ class ModelManger:
 
     def run_threads(self):
         threads=[]
-        for i in range(self.num_prisoners):  #this number could be bigger
+        for i in range((self.num_rounds/2)+1):  #this number could be bigger
             threads.append(Thread(target=self.run_all_rounds(True)))
         for thread in threads:
             thread.start()
@@ -155,7 +154,26 @@ class ModelManger:
             thread.join()
 
     def run_rounds(self):
-        pass
+        while self.current_round < self.num_rounds:
+
+            if self.current_prisoner > self.num_prisoners:
+                self.current_prisoner=1
+                self.current_round+=1
+                if self.current_round > self.num_rounds:
+                    return
+                else:
+                    self.current_round+=1
+
+            self.init_boxes()
+            self.init_prisoners()
+
+            while self.dict_prisoners[self.current_prisoner].is_still_searching():
+                self.ntfy_pris_need_box()
+                self.dict_prisoners[self.current_prisoner].move_to_box()
+                self.ntfy_pris_pos()
+            self.current_prisoner+=1
+
+
 
 
 
