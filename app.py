@@ -108,7 +108,9 @@ class App:
         if self.text_input_n != "":
             num = int(str(self.text_input_n))
             if num <= MAX_NO_PRISONER:
-                self.num_of_boxes = 2 * num
+                self.num_of_boxes = num
+            else:
+                self.num_of_boxes = MAX_NO_PRISONER
         else:
             self.num_of_boxes = 0
 
