@@ -54,8 +54,8 @@ def draw_window(win,prisoner,boxes): #, birds, pipes, base, score, gen, pipe_ind
     #     gen = 1
     win.blit(bg_img, (0,0))
     for box in boxes:
-        win.blit(box_img,box.get_position())
-    win.blit(prisoner_img,prisoner.get_position())
+        win.blit(box_img, box.get_pos())
+    win.blit(prisoner_img, prisoner.get_pos())
 
     # for pipe in pipes:
     #     pipe.draw(win)
