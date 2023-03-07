@@ -38,6 +38,9 @@ class ViewManager:
         self.listener = None
 
     #  listener
+    def replace_prisoner(self, prisoner_num):
+        self.create_prisoner(prisoner_num)
+
     def send_boxes_locations(self):
         self.listener.send_boxes_locationV(self.boxes)
 
@@ -52,6 +55,7 @@ class ViewManager:
 
     def draw_prisoner(self):
         self.prisoner.draw_prisoner()
+
     # # # # # # #
 
     def run(self):
@@ -65,10 +69,13 @@ class ViewManager:
             # start pressed
             if self.state == 'begin':
                 self.create_boxes()  # create boxes with number and locations
-                self.create_prisoner(5)
-                # send boxes location via listener to model
-                # self.send_boxes_locations()
-                self.draw_prisoner()
+                # self.create_prisoner(5)  # ????
+                #
+                # # send boxes location via listener to model
+                # # self.send_boxes_locations()
+                #
+                # # move
+                # self.draw_prisoner()
 
             pygame.display.update()
         pygame.quit()
