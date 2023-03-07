@@ -35,6 +35,7 @@ class ViewManager:
         self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
         self.prisoners = {}
+        #add listener
 
     def run(self):
         while self.running:
