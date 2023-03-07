@@ -2,12 +2,12 @@ import random
 from threading import Lock
 from threading import Thread
 
-from Prisoners_Algorithm.box import Box
-from Prisoners_Algorithm.prisoner import Prisoner
+from Prisoners_Algorithm.Model.boxm import BoxM
+from Prisoners_Algorithm.Model.prisonerm import PrisonerM
 
 
 class ModelManger:
-    filename="PrisonersResults.txt"
+    filename= "PrisonersResults.txt"
     file=None
     lock_shuffle=Lock()
     lock_run_route=Lock()
@@ -31,7 +31,7 @@ class ModelManger:
 
     def init_boxes(self):
         for index_box in range(self.num_prisoners):
-            box=Box(box_num=index_box+1)
+            box=BoxM(box_num=index_box + 1)
             self.dict_boxes[index_box+1]=box
         for box_num in self.dict_boxes.keys():  #box num starts from 1 to n+1
             self.dict_boxes[box_num].set_nxt_box=self.dict_boxes[self.dict_rounds[box_num-1]]  #redirecting each box to current next box
@@ -47,7 +47,7 @@ class ModelManger:
 
     def init_prisoners(self):
         for index_pris in range(self.num_prisoners):
-            self.dict_prisoners[index_pris+1]=Prisoner(num_prisoner=index_pris+1,position=(0,0),pace=5,all_boxes=self.dict_rounds[self.current_round],trgt_box=self.dict_boxes[index_pris+1])
+            self.dict_prisoners[index_pris+1]=PrisonerM(num_prisoner=index_pris + 1, position=(0, 0), pace=5, all_boxes=self.dict_rounds[self.current_round], trgt_box=self.dict_boxes[index_pris + 1])
 
     def prepare_for_rounds(self):
         pass
@@ -154,7 +154,7 @@ class ModelManger:
         for thread in threads:
             thread.join()
 
-    def run_calculations(self):
+    def run_rounds(self):
         pass
 
 

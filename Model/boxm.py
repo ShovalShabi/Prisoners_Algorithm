@@ -1,6 +1,6 @@
 
 
-class Box:
+class BoxM:
 
     def __init__(self, box_num):
         self.box_num=box_num

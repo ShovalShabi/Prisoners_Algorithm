@@ -1,4 +1,4 @@
-class Prisoner:
+class PrisonerM:
 
     def __init__(self,num_prisoner,position,pace,all_boxes,trgt_box):
         self.prisoner_num=num_prisoner
