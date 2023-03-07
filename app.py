@@ -15,12 +15,16 @@ class App:
         self.state = 'start'
         self.running = True
         self.num_of_boxes = 0
-        self.num_of_prisoners = 1
+        self.num_of_prisoners = 0
         self.size = (screen_width, screen_height)
         self.screen = pygame.display.set_mode(self.size)
         self.image = pygame.image.load(IMG_BACKGROUND)
         self.background_image = pygame.transform.scale(self.image, (screen_width, screen_height))
-        self.text_input = ""
+        self.text_input_n = ""
+        self.text_input_k = ""
+        self.status = 'Prisoner'
+        self.p_color = RED
+        self.r_color = BLACK
 
     def run(self):
         while self.running:
@@ -35,13 +39,22 @@ class App:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+
             if event.type == KEYDOWN:
-                if event.key == K_BACKSPACE:
-                    if len(self.text_input) > 0:
-                        self.text_input = self.text_input[:-1]
-                else:
-                    self.text_input += event.unicode
-            self.convert_input_to_num_of_box()
+                if event.key == pygame.K_LEFT:
+                    self.status = 'Prisoner'
+                    self.p_color = RED
+                    self.r_color = BLACK
+                if event.key == pygame.K_RIGHT:
+                    self.status = 'Round'
+                    self.p_color = BLACK
+                    self.r_color = RED
+
+                if self.status == 'Round':  # rounds
+                    self.text_input_k = self.handle_input(event, self.text_input_k)
+                if self.status == 'Prisoner':  # prisoner
+                    self.text_input_n = self.handle_input(event, self.text_input_n)
+                    self.convert_input_to_num_of_box()
 
     def start_draw(self):
         self.screen.blit(self.background_image, (0, 0))
@@ -53,8 +66,10 @@ class App:
         # Draw the screen
         self.draw_button(GREEN, 50, 800, button_width, button_height, "Start")
         self.draw_button(RED, 200, 800, button_width, button_height, "Reset")
-        self.draw_label(RED, 350, 800, 'Enter number of boxes: (maximum ' + str(MAX_NO_BOX) + ')')
-        self.draw_label(RED, 400, 820, self.text_input)
+        self.draw_label(self.p_color, 350, 800, 'Number of prisoners:')
+        self.draw_label(RED, 350, 820, self.text_input_n)
+        self.draw_label(self.r_color, 600, 800, 'Number of rounds:')
+        self.draw_label(RED, 600, 820, self.text_input_k)
 
     def draw_label(self, color, x, y, text):
         text_surface = self.font.render(text, True, color)
@@ -90,9 +105,17 @@ class App:
                 self.draw_box(rem, rows)
 
     def convert_input_to_num_of_box(self):
-        if self.text_input != "":
-            num = int(str(self.text_input))
-            if num <= MAX_NO_BOX:
-                self.num_of_boxes = num
+        if self.text_input_n != "":
+            num = int(str(self.text_input_n))
+            if num <= MAX_NO_PRISONER:
+                self.num_of_boxes = 2 * num
         else:
             self.num_of_boxes = 0
+
+    def handle_input(self, event_input, text):
+        if event_input.key == K_BACKSPACE:
+            if len(text) > 0:
+                text = text[:-1]
+        else:
+            text += event_input.unicode
+        return text
