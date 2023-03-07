@@ -3,3 +3,6 @@ PrisonersResults.txt
 
 # ignorig check file for running model backend
 check.py
+
+# ignorig text file for tests model backend
+stam.py

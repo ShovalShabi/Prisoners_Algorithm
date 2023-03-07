@@ -85,5 +85,5 @@ def main(number_prisoners, rounds, print_route):
 
 
 sys.stdout = open("PrisonersResults.txt", "w")
-main(number_prisoners=4, rounds=2, print_route=True)
+main(number_prisoners=5, rounds=20, print_route=True)
 sys.stdout.close()

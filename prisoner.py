@@ -1,8 +1,3 @@
-from Prisoners_Algorithm.box import Box
-
-import os
-import pygame
-
 class Prisoner:
 
     def __init__(self,num_prisoner,position,pace,all_boxes,trgt_box):

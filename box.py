@@ -2,9 +2,9 @@
 
 class Box:
 
-    def __init__(self, pos, box_num):
-        self.pos=pos
+    def __init__(self, box_num):
         self.box_num=box_num
+        self.pos = None
         self.next_box=None
 
     def get_pos(self):
