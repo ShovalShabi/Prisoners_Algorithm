@@ -1,4 +1,0 @@
-n = 10  k = 10000  success rate =  0.3491 
-success rate / k in % = 34.910000000000004 
-probability by loop calculate the geometric series:
- 1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) = 0.3543650793650793
