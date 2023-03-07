@@ -55,7 +55,6 @@ class PrisonerM:
         elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  #moving right
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
-        self.is_still_searching()
         self.updated_pos=False
 
     def check_collision(self,box_width,box_height):
