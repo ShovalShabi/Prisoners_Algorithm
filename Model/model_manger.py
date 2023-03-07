@@ -49,6 +49,26 @@ class ModelManger:
         for index_pris in range(self.num_prisoners):
             self.dict_prisoners[index_pris+1]=PrisonerM(num_prisoner=index_pris + 1, position=(0, 0), pace=5, all_boxes=self.dict_rounds[self.current_round], trgt_box=self.dict_boxes[index_pris + 1])
 
+    def run_game(self):
+        while self.current_round < self.num_rounds:
+
+            if self.current_prisoner > self.num_prisoners:
+                self.current_prisoner=1
+                self.current_round+=1
+                if self.current_round > self.num_rounds:
+                    return
+                else:
+                    self.current_round+=1
+
+            self.init_boxes()
+            self.init_prisoners()
+
+            while self.dict_prisoners[self.current_prisoner].is_still_searching():
+                self.ntfy_pris_need_box()
+                self.dict_prisoners[self.current_prisoner].move_to_box()
+                self.ntfy_pris_pos()
+            self.current_prisoner+=1
+
     def run_route(self,list_of_boxes, print_route):
         number_of_boxes = len(list_of_boxes)
         list_of_success = number_of_boxes * [0]
@@ -76,21 +96,21 @@ class ModelManger:
                 print("Total Boxes:", end=" ",file=self.file)
                 for o in range(number_of_boxes):
                     print(list_of_boxes[o]+1, end=" ",file=self.file)
-                print()
+                print(file=self.file)
                 print("Visited in boxes:", end=" ",file=self.file)
                 for g in range(len(visited_boxes)):
                     print(visited_boxes[g]+1, end=" ",file=self.file)
-                print()
+                print(file=self.file)
                 if success:
                     print("Prisoner number", j + 1, "has been succeeded,",
                           "the chain length is", (attempts + 1),file=self.file)
                 else:
                     print("Prisoner number", j + 1, "has been failed,",
                           "the chain length is", (attempts + 1),file=self.file)
-                print()
+                print(file=self.file)
         if print_route:
             print("The number of prisoners that found their number is:",
-                  sum(list_of_success), "\n    from", number_of_boxes, " prisoners.\n",file=self.file)
+                  sum(list_of_success), "\nfrom", number_of_boxes, "prisoners.\n",file=self.file)
         if sum(list_of_success) == number_of_boxes:
             return True
         else:
@@ -123,10 +143,10 @@ class ModelManger:
             general_lists[i+1]=list_of_boxes  #### need to fix the pointing value of each box to another from 1 to n+1
             self.lock_shuffle.release()  #release shuffling list area
             if i+1 not in self.dict_rounds.keys():
-                self.dict_rounds[i+1]=general_lists[i+1]  #matching dependencies of each box to another for each round
-            if self.run_route(self.dict_rounds[i+1], print_route): ## fix this for one calculation
+                self.dict_rounds[i+1]=deepcopy(general_lists[i+1])  #matching dependencies of each box to another for each round
+            if self.run_route(general_lists[i+1], print_route): ## fix this for one calculation
                 s += 1
-            self.dict_rounds[i+1]=[box_i+1 for box_i in general_lists[i+1]] ## making renumbering boxes from 1 to n+1
+            self.dict_rounds[i+1]=[box_i+1 for box_i in self.dict_rounds[i+1]] ## making renumbering boxes from 1 to n+1
 
         print("The number of prisoners is", self.num_prisoners, ",the number of rounds is", self.num_rounds, ",s = ", s,
               "\ns / k in % =", 100 * (s / self.num_rounds),file=self.file)
@@ -146,32 +166,14 @@ class ModelManger:
 
     def run_threads(self):
         threads=[]
-        for i in range((self.num_rounds/2)+1):  #this number could be bigger
+        for i in range((int(self.num_rounds/2))+1):  #this number could be bigger
             threads.append(Thread(target=self.run_all_rounds(True)))
         for thread in threads:
             thread.start()
         for thread in threads:
             thread.join()
 
-    def run_rounds(self):
-        while self.current_round < self.num_rounds:
 
-            if self.current_prisoner > self.num_prisoners:
-                self.current_prisoner=1
-                self.current_round+=1
-                if self.current_round > self.num_rounds:
-                    return
-                else:
-                    self.current_round+=1
-
-            self.init_boxes()
-            self.init_prisoners()
-
-            while self.dict_prisoners[self.current_prisoner].is_still_searching():
-                self.ntfy_pris_need_box()
-                self.dict_prisoners[self.current_prisoner].move_to_box()
-                self.ntfy_pris_pos()
-            self.current_prisoner+=1
 
 
 

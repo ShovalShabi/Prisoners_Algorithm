@@ -6,7 +6,7 @@ from prisoner_view import *
 
 
 class ViewManager:
-    def __init__(self) -> None:
+    def __init__(self,listener) -> None:
         pygame.init()
         pygame.font.init()
         pygame.display.set_caption("Prisoners")
@@ -18,22 +18,24 @@ class ViewManager:
         self.num_of_prisoners = 0
         self.size = (screen_width, screen_height)
         self.screen = pygame.display.set_mode(self.size)
-        self.image = pygame.image.load(IMG_BACKGROUND)
+        self.image = IMG_BACKGROUND
         self.background_image = pygame.transform.scale(self.image, (screen_width, screen_height))
         self.text_input_n = ""
         self.text_input_k = ""
         self.status = 'Prisoner'
         self.p_color = RED
         self.r_color = BLACK
-        self.boxes = {}
         self.actual_num_of_boxes = 0
+        self.num_of_rounds=0
         self.start_rect = pygame.Rect(50, 800, button_width, button_height)
         self.start_hover_rect = pygame.Rect(50, 800, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
         self.reset_rect = pygame.Rect(200, 800, button_width, button_height)
         self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
+        self.boxes = {}
         self.prisoners = {}
+        self.listener=listener
 
     def run(self):
         while self.running:
@@ -47,7 +49,7 @@ class ViewManager:
                 self.create_boxes()  # create boxes with number and locations
                 self.create_prisoner()  # create prisoner with number and locations
                 print(self.prisoners)
-
+                #here there is a need to sent data to model
             pygame.display.update()
         pygame.quit()
         sys.exit()
@@ -88,6 +90,7 @@ class ViewManager:
 
                 if self.status == 'Round':  # rounds
                     self.text_input_k = self.handle_input(event, self.text_input_k)
+                    #0self.num_of_rounds = int(str(self.text_input_k))
                 if self.status == 'Prisoner':  # prisoner
                     self.text_input_n = self.handle_input(event, self.text_input_n)
                     self.convert_input_to_num()

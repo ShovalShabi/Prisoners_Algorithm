@@ -1,4 +1,7 @@
 # Color
+import os
+
+import pygame.image
 
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
@@ -8,7 +11,7 @@ WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 
 # Image path
-IMG_BACKGROUND = "Resources/Lunetic_Room.jpg"
+IMG_BACKGROUND = pygame.image.load(os.path.join('Resources','Lunatic_Room.jpg'))
 
 
 # Screen and button
