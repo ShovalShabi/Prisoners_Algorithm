@@ -23,11 +23,21 @@ class ModelManger:
         self.current_prisoner = 1
         self.succeeded=0
 
+    ############# listener ######################
+
     def ntfy_pris_pos(self):
-        self.listener.ntfy_pris_pos(self.dict_prisoners[self.current_prisoner].get_pos())
+        self.listener.ntfy_view_pris_pos(self.dict_prisoners[self.current_prisoner].get_pos())
 
     def ntfy_pris_need_box(self):
         self.listener.notify_model_need_box(self.dict_prisoners[self.current_prisoner].trgt_box.box_num)
+
+    def ntfy_pris_changed(self):
+        self.listener.ntfy_pris_changed(self.current_prisoner.get_num())
+
+    def ntfy_model_need_boxes_pos(self):
+        return self.listener.ntfy_model_need_boxes_pos()  #will return dict of {num_box:position}
+
+    ######################
 
     def init_boxes(self):
         for index_box in range(self.num_prisoners):
@@ -41,9 +51,6 @@ class ModelManger:
         positions = self.ntfy_model_need_boxes_pos()
         for box_num in self.dict_boxes.keys():
             self.dict_boxes[box_num].set_pos = positions[box_num]
-
-    def ntfy_model_need_boxes_pos(self):
-        return self.listener.ntfy_model_need_boxes_pos()  #will return dict of {num_box:position}
 
     def init_prisoners(self):
         for index_pris in range(self.num_prisoners):
