@@ -1,5 +1,10 @@
-# Color
+import os
 
+import pygame
+
+from box_view import *
+
+# Color
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
@@ -21,3 +26,9 @@ MAX_BOX_WIDTH = 10
 MAX_NO_PRISONER_BOX = 90
 MAX_NO_ROUND = 10000
 DOOR_WAY = (120, 400)
+
+IMG_BOX = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
+IMG_BOX_WIDTH = IMG_BOX.get_width()
+IMG_BOX_HEIGHT = IMG_BOX.get_height()
+
+IMG_BACKGROUND = pygame.image.load(os.path.join('Resources', 'Lunetic_Room.jpg'))

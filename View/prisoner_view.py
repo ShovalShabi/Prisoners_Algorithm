@@ -14,3 +14,9 @@ class PrisonerV:
 
     def rotate_prisoner(self):
         pass
+
+    def update_prisoner_location(self, location):
+        self.location = location
+
+    def get_prisoner_location(self):
+        return self.location

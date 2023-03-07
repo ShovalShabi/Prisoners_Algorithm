@@ -2,6 +2,7 @@ import pygame
 from settings import *
 import os
 
+
 class BoxV:
     def __init__(self, screen, num):
         self.num = num
@@ -21,5 +22,5 @@ class BoxV:
         self.screen.blit(self.img_box, rect)
         return x, y
 
-    def replace(self):
+    def replace_box(self):
         pass

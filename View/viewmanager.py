@@ -18,14 +18,13 @@ class ViewManager:
         self.num_of_prisoners = 0
         self.size = (screen_width, screen_height)
         self.screen = pygame.display.set_mode(self.size)
-        self.image = pygame.image.load(os.path.join('Resources', 'Lunetic_Room.jpg'))
-        self.background_image = pygame.transform.scale(self.image, (screen_width, screen_height))
+        self.image_background = IMG_BACKGROUND
+        self.background_image = pygame.transform.scale(self.image_background, (screen_width, screen_height))
         self.text_input_n = ""
         self.text_input_k = ""
         self.status = 'Prisoner'
         self.p_color = RED
         self.r_color = BLACK
-        self.boxes = {}
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.start_rect = pygame.Rect(50, 800, button_width, button_height)
@@ -34,10 +33,29 @@ class ViewManager:
         self.reset_rect = pygame.Rect(200, 800, button_width, button_height)
         self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
-        self.prisoners = {}
-        #add listener
+        self.prisoner = None
+        self.boxes = {}
+        self.listener = None
+
+    #  listener
+    def send_boxes_locations(self):
+        self.listener.send_boxes_locationV(self.boxes)
+
+    def send_box_dimension(self):
+        self.listener.send_box_dimension(IMG_BOX_WIDTH, IMG_BOX_HEIGHT)
+
+    def set_listener(self, listener):
+        self.listener = listener
+
+    def update_prisoner_location(self, location):
+        self.prisoner.update_prisoner_location(location)
+
+    def draw_prisoner(self):
+        self.prisoner.draw_prisoner()
+    # # # # # # #
 
     def run(self):
+        # self.send_box_dimension()
         while self.running:
             # draw board
             self.start_events()
@@ -47,8 +65,11 @@ class ViewManager:
             # start pressed
             if self.state == 'begin':
                 self.create_boxes()  # create boxes with number and locations
-                self.create_prisoners()  # create prisoner with number and locations
-                # integrate with model
+                self.create_prisoner(5)
+                # send boxes location via listener to model
+                # self.send_boxes_locations()
+                self.draw_prisoner()
+
             pygame.display.update()
         pygame.quit()
         sys.exit()
@@ -112,15 +133,14 @@ class ViewManager:
         self.screen.blit(text_surface, (x, y))
 
     def draw_boxes(self):
-
         if self.num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index in range(self.num_of_boxes_view):
                 box = BoxV(self.screen, box_index + 1)
                 box.location = box.draw_box(box_index, 0, self.font)
-
         else:
             rows = int(math.floor(self.num_of_boxes_view / MAX_BOX_WIDTH))
             remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
+
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
                     box = BoxV(self.screen, box_index + 1)
@@ -186,7 +206,5 @@ class ViewManager:
         y = 80 + inc * CELL_SIZE
         return x, y
 
-    def create_prisoners(self):
-        for p in range(self.num_of_prisoners):
-            prisoner = PrisonerV(DOOR_WAY, p + 1, self.screen)
-            self.prisoners[prisoner.num] = prisoner.location
+    def create_prisoner(self, num_prisoner):
+        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen)
