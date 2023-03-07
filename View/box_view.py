@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-
+import os
 
 class BoxV:
     def __init__(self, screen, num):
@@ -8,7 +8,7 @@ class BoxV:
         self.next_box_num = -1
         self.screen = screen
         self.location = None
-        self.img_box = pygame.image.load("Resources/chest_closed.png")
+        self.img_box = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
 
     def draw_box(self, box_index, inc, font):
         x = 150 + box_index * CELL_SIZE
@@ -23,4 +23,3 @@ class BoxV:
 
     def replace(self):
         pass
-
