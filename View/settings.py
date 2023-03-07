@@ -7,10 +7,6 @@ PURPLE = (255, 0, 255)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 
-# Image path
-IMG_BACKGROUND = "Resources/Lunetic_Room.jpg"
-
-
 # Screen and button
 screen_width = 1100
 screen_height = 880

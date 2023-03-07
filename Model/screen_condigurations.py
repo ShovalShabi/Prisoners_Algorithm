@@ -13,9 +13,9 @@ DRAW_LINES = False
 WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("Prison Riddle")
 
-prisoner_img = pygame.image.load(os.path.join("../Resources", "SP1_front.png")).convert_alpha()
-box_img = pygame.image.load(os.path.join("../Resources", "chest_closed.png")).convert_alpha()
-bg_img = pygame.transform.scale(pygame.image.load(os.path.join("../Resources", "Lunetic_Room.jpg")).convert_alpha(), (600, 900))
+prisoner_img = pygame.image.load(os.path.join("../View/Resources", "SP1_front.png")).convert_alpha()
+box_img = pygame.image.load(os.path.join("../View/Resources", "chest_closed.png")).convert_alpha()
+bg_img = pygame.transform.scale(pygame.image.load(os.path.join("../View/Resources", "Lunetic_Room.jpg")).convert_alpha(), (600, 900))
 #bird_images = [pygame.transform.scale2x(pygame.image.load(os.path.join("images","bird" + str(x) + ".png"))) for x in range(1,4)]
 #base_img = pygame.transform.scale2x(pygame.image.load(os.path.join("images","base.png")).convert_alpha())
 
@@ -35,7 +35,7 @@ def blitRotateCenter(surf, image, topleft, angle):
     surf.blit(rotated_image, new_rect.topleft)
 
 def load_images_to_prisoner(prisoner,trgt_box,num_pr_display,num_pr_img):
-    list_imgs=[pygame.image.load(os.path.join("../Resources", f"SP1{num_pr_img}" + type_img + ".png")) for type_img in ('front,back,side')]
+    list_imgs=[pygame.image.load(os.path.join("../View/Resources", f"SP1{num_pr_img}" + type_img + ".png")) for type_img in ('front,back,side')]
     # prisoner=Prisoner(box=trgt_box,num_prisoner_display=num_pr_display,list_imgs=list_imgs)
     # return prisoner
 

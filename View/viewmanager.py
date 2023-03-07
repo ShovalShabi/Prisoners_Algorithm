@@ -6,7 +6,7 @@ from prisoner_view import *
 
 
 class ViewManager:
-    def __init__(self) -> None:
+    def __init__(self):
         pygame.init()
         pygame.font.init()
         pygame.display.set_caption("Prisoners")
@@ -18,7 +18,7 @@ class ViewManager:
         self.num_of_prisoners = 0
         self.size = (screen_width, screen_height)
         self.screen = pygame.display.set_mode(self.size)
-        self.image = pygame.image.load(IMG_BACKGROUND)
+        self.image = pygame.image.load(os.path.join('Resources', 'Lunetic_Room.jpg'))
         self.background_image = pygame.transform.scale(self.image, (screen_width, screen_height))
         self.text_input_n = ""
         self.text_input_k = ""
@@ -26,6 +26,7 @@ class ViewManager:
         self.p_color = RED
         self.r_color = BLACK
         self.boxes = {}
+        self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.start_rect = pygame.Rect(50, 800, button_width, button_height)
         self.start_hover_rect = pygame.Rect(50, 800, button_width, button_height)
@@ -45,9 +46,8 @@ class ViewManager:
             # start pressed
             if self.state == 'begin':
                 self.create_boxes()  # create boxes with number and locations
-                self.create_prisoner()  # create prisoner with number and locations
-                print(self.prisoners)
-
+                self.create_prisoners()  # create prisoner with number and locations
+                # integrate with model
             pygame.display.update()
         pygame.quit()
         sys.exit()
@@ -88,9 +88,10 @@ class ViewManager:
 
                 if self.status == 'Round':  # rounds
                     self.text_input_k = self.handle_input(event, self.text_input_k)
+                    self.convert_input_round_to_num()
                 if self.status == 'Prisoner':  # prisoner
                     self.text_input_n = self.handle_input(event, self.text_input_n)
-                    self.convert_input_to_num()
+                    self.convert_input_prisoner_to_num()
 
     def start_draw(self):
         self.screen.blit(self.background_image, (0, 0))
@@ -128,8 +129,21 @@ class ViewManager:
                 box = BoxV(self.screen, rem + 1)
                 box.location = box.draw_box(rem, rows, self.font)
 
-    def convert_input_to_num(self):
-        if self.text_input_n != "":
+    def convert_input_round_to_num(self):
+        if self.text_input_k != "" and str.isdigit(self.text_input_k):
+            num = int(str(self.text_input_k))
+            if num <= MAX_NO_ROUND:
+                self.num_of_rounds = num
+            else:
+                self.num_of_rounds = MAX_NO_ROUND
+            self.num_of_rounds = num
+        else:
+            self.text_input_k = ""
+            self.num_of_rounds = 0
+
+    def convert_input_prisoner_to_num(self):
+
+        if self.text_input_n != "" and str.isdigit(self.text_input_n):
             num = int(str(self.text_input_n))
             if num <= MAX_NO_PRISONER_BOX:
                 self.num_of_boxes_view = num
@@ -138,6 +152,7 @@ class ViewManager:
             self.actual_num_of_boxes = num
             self.num_of_prisoners = num
         else:
+            self.text_input_n = ""
             self.num_of_boxes_view = 0
             self.num_of_prisoners = 0
 
@@ -170,7 +185,7 @@ class ViewManager:
         y = 80 + inc * CELL_SIZE
         return x, y
 
-    def create_prisoner(self):
+    def create_prisoners(self):
         for p in range(self.num_of_prisoners):
             prisoner = PrisonerV(DOOR_WAY, p + 1, self.screen)
             self.prisoners[prisoner.num] = prisoner.location
