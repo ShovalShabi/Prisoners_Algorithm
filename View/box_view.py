@@ -4,23 +4,53 @@ import os
 
 
 class BoxV:
-    def __init__(self, screen, num):
-        self.num = num
-        self.next_box_num = -1
+    def __init__(self, screen: pygame.Surface, box_number: int) -> None:
+        """
+        Initializes a BoxV object.
+
+        :param screen: The pygame surface to draw the box on.
+        :type screen: pygame.Surface
+        :param box_number: The number of the box.
+        :type box_number: int
+        """
+        self.box_number = box_number
+        self.next_box_number = -1
         self.screen = screen
         self.location = None
-        self.img_box = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
+        self.closed_chest_image = None
+        self.load_images()
 
-    def draw_box(self, box_index, inc, font):
-        x = 150 + box_index * CELL_SIZE
-        y = 80 + inc * CELL_SIZE
+    def load_images(self) -> None:
+        """
+        Loads the image resources needed for the BoxV object.
+        """
+        self.closed_chest_image = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
+
+    def draw_box(self, box_index: int, increment: int, font: pygame.font.Font) -> tuple[int, int]:
+        """
+        Draws the box on the pygame surface.
+
+        :param box_index: The index of the box.
+        :type box_index: int
+        :param increment: The increment value.
+        :type increment: int
+        :param font: The font used to render the box index.
+        :type font: pygame.font.Font
+
+        :returns: A tuple containing the x and y coordinates of the box.
+        """
+        x = BOX_START_X + box_index * CELL_SIZE
+        y = BOX_START_Y + increment * CELL_SIZE
         rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
-        text_surface = font.render(str(box_index + 1 + inc * MAX_BOX_WIDTH), True, YELLOW)
+        text_surface = font.render(str(box_index + 1 + increment * MAX_BOX_WIDTH), True, YELLOW)
         text_rect = text_surface.get_rect()
-        text_rect.center = self.img_box.get_rect().center
-        self.img_box.blit(text_surface, text_rect)
-        self.screen.blit(self.img_box, rect)
+        text_rect.center = self.closed_chest_image.get_rect().center
+        self.closed_chest_image.blit(text_surface, text_rect)
+        self.screen.blit(self.closed_chest_image, rect)
         return x, y
 
-    def replace_box(self):
+    def replace_box(self) -> None:
+        """
+        Replaces the current box with the next one.
+        """
         pass
