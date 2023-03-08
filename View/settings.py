@@ -1,9 +1,5 @@
-import os
-
-import pygame
-
 from box_view import *
-
+import os
 # Color
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
@@ -19,6 +15,7 @@ button_width = 100
 button_height = 50
 BUTTON_COLOR = WHITE
 
+# FONT
 FONT_SIZE = 17
 
 # BOX
