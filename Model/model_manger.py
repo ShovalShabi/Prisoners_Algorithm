@@ -44,7 +44,7 @@ class ModelManger:
             self.dict_boxes[index_box+1]=box
         for box_num in self.dict_boxes.keys():  #box num starts from 1 to n+1
             self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][box_num-1]])  #redirecting each box to current next box
-        # self.set_all_boxes_pos()
+        self.set_all_boxes_pos()
 
     def set_all_boxes_pos(self):
         positions = self.ntfy_model_need_boxes_pos()
