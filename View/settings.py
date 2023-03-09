@@ -1,5 +1,6 @@
 from box_view import *
 import os
+
 # Color
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)

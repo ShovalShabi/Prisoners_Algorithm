@@ -1,5 +1,6 @@
 import pygame
-from settings import *
+
+from Prisoners_Algorithm.View.settings import *
 import os
 
 
@@ -9,9 +10,7 @@ class BoxV:
         Initializes a BoxV object.
 
         :param screen: The pygame surface to draw the box on.
-        :type screen: pygame.Surface
         :param box_number: The number of the box.
-        :type box_number: int
         """
         self.box_number = box_number
         self.next_box_number = -1
@@ -31,11 +30,8 @@ class BoxV:
         Draws the box on the pygame surface.
 
         :param box_index: The index of the box.
-        :type box_index: int
         :param increment: The increment value.
-        :type increment: int
         :param font: The font used to render the box index.
-        :type font: pygame.font.Font
 
         :returns: A tuple containing the x and y coordinates of the box.
         """
