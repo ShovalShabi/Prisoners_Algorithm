@@ -1,8 +1,4 @@
-import random
-
-from copy import deepcopy
 from threading import Lock
-from threading import Thread
 from Prisoners_Algorithm.Model.boxm import BoxM
 from Prisoners_Algorithm.Model.prisonerm import PrisonerM
 from Prisoners_Algorithm.Model.probabilities_handler import ProbabilitiesHandler
@@ -82,10 +78,5 @@ class ModelManger:
                 self.ntfy_pris_pos()
             self.current_prisoner+=1
 
-
-
-    def run_stam(self):
-        self.prob_handler=ProbabilitiesHandler(num_prisoners=self.num_prisoners,num_rounds=self.num_rounds,print_specifically=self.print_specifically)
-        self.dict_rounds=self.prob_handler.run_probabilities()
 
 
