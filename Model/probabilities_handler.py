@@ -7,12 +7,14 @@ class ProbabilitiesHandler:
     filename = "PrisonersResults.txt"
     file = None
     lock_shuffle = Lock()
+    lock_organize=Lock()
 
     def __init__(self,num_prisoners,num_rounds,print_specifically):
         self.num_prisoners=num_prisoners
         self.num_rounds=num_rounds
         self.print_specifically=print_specifically
         self.dict_rounds={}
+        self.orgenized_rounds={}
 
     def run_route(self,list_of_boxes, print_route):
         number_of_boxes = len(list_of_boxes)
@@ -81,17 +83,20 @@ class ProbabilitiesHandler:
                 print("round number:", (i + 1),file=self.file)
             list_of_boxes = self.num_prisoners * [0]
             for j in range(self.num_prisoners):
-                list_of_boxes[j] = j  #naming boxes from 1 to n+1
+                list_of_boxes[j] = j
 
             self.lock_shuffle.acquire()  #lock shuffling list area
-            random.shuffle(list_of_boxes)
-            general_lists[i+1]=list_of_boxes  #### need to fix the pointing value of each box to another from 1 to n+1
+            if i + 1 not in general_lists.keys():
+                random.shuffle(list_of_boxes)
+                general_lists[i + 1] = list_of_boxes  #### need to fix the pointing value of each box to another from 1 to n+1
+                self.dict_rounds[i + 1] = deepcopy(general_lists[i + 1])  # matching dependencies of each box to another for each round
+                self.dict_rounds[i + 1] = [box_i + 1 for box_i in self.dict_rounds[i + 1]]  ## making renumbering boxes from 1 to n+1
+            else:
+                continue
             self.lock_shuffle.release()  #release shuffling list area
-            if i+1 not in self.dict_rounds.keys():
-                self.dict_rounds[i+1]=deepcopy(general_lists[i+1])  #matching dependencies of each box to another for each round
-            if self.run_route(general_lists[i+1], print_route): ## fix this for one calculation
+
+            if self.run_route(general_lists[i+1], print_route):  ## fix this for one calculation
                 s += 1
-            self.dict_rounds[i+1]=[box_i+1 for box_i in self.dict_rounds[i+1]] ## making renumbering boxes from 1 to n+1
 
         print("The number of prisoners is", self.num_prisoners, ",the number of rounds is", self.num_rounds, ",s = ", s,
               "\ns / k in % =", 100 * (s / self.num_rounds),file=self.file)
