@@ -10,6 +10,7 @@ from Prisoners_Algorithm.View.settings import *
 from box_view import BoxV
 import warnings
 
+
 def suppress_warnings(func):
     def wrapper(*args, **kwargs):
         with warnings.catch_warnings():
@@ -17,6 +18,7 @@ def suppress_warnings(func):
             return func(*args, **kwargs)
 
     return wrapper
+
 
 class ViewManager:
 
