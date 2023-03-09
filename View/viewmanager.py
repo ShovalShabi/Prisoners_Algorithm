@@ -1,14 +1,25 @@
 import math
 import sys
 from typing import Tuple
+
+import pygame
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from screen_operator import ScreenOperator
 from Prisoners_Algorithm.View.prisoner_view import PrisonerV
 from Prisoners_Algorithm.View.settings import *
 from box_view import BoxV
+import warnings
 
+def suppress_warnings(func):
+    def wrapper(*args, **kwargs):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            return func(*args, **kwargs)
+
+    return wrapper
 
 class ViewManager:
+
     def __init__(self) -> None:
         """
         Initialize the game by setting up Pygame and initializing various game variables.
@@ -34,6 +45,7 @@ class ViewManager:
         # Screen Operations
         self.screen_operator = ScreenOperator()
 
+    @suppress_warnings
     def pygame_initialize(self):
         pygame.init()
         pygame.font.init()
@@ -172,6 +184,7 @@ class ViewManager:
             self.num_of_boxes_view = 0
             self.num_of_prisoners = 0
 
+    @suppress_warnings
     def handle_input(self, event_input: pygame.event, text: str = "") -> str:
         """
         Updates the text based on the given input event.
@@ -207,6 +220,7 @@ class ViewManager:
                 box = BoxV(self.screen_operator.screen, rows * MAX_BOX_WIDTH + rem + 1)
                 self.boxes[box.box_number] = self.get_box_location(box.box_number, rows)
 
+    @suppress_warnings
     def get_box_location(self, box_index: int, inc: int) -> tuple:
         """
         This method calculates the coordinates of a box given its index and the amount to increment.
