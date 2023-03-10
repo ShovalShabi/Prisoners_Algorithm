@@ -1,11 +1,13 @@
-import pygame
-
 from Prisoners_Algorithm.View.settings import *
+from pygame import Surface, image, Rect
+from pygame.font import Font
 import os
+
+from Prisoners_Algorithm.View.settings import MAX_BOX_WIDTH
 
 
 class BoxV:
-    def __init__(self, screen: pygame.Surface, box_number: int) -> None:
+    def __init__(self, screen: Surface, box_number: int) -> None:
         """
         Initializes a BoxV object.
 
@@ -23,9 +25,9 @@ class BoxV:
         """
         Loads the image resources needed for the BoxV object.
         """
-        self.closed_chest_image = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
+        self.closed_chest_image = image.load(os.path.join('Resources', 'chest_closed.png'))
 
-    def draw_box(self, box_index: int, increment: int, font: pygame.font.Font) -> tuple[int, int]:
+    def draw_box(self, box_index: int, increment: int, font: Font) -> tuple[int, int]:
         """
         Draws the box on the pygame surface.
 
@@ -37,7 +39,7 @@ class BoxV:
         """
         x = BOX_START_X + box_index * CELL_SIZE
         y = BOX_START_Y + increment * CELL_SIZE
-        rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
+        rect = Rect(x, y, CELL_SIZE, CELL_SIZE)
         text_surface = font.render(str(box_index + 1 + increment * MAX_BOX_WIDTH), True, YELLOW)
         text_rect = text_surface.get_rect()
         text_rect.center = self.closed_chest_image.get_rect().center

@@ -1,4 +1,4 @@
-from box_view import *
+import pygame
 import os
 
 # Color

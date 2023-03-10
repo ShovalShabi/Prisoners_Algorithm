@@ -1,14 +1,12 @@
 import math
 import sys
-from typing import Tuple
-
+import warnings
 import pygame
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from screen_operator import ScreenOperator
 from Prisoners_Algorithm.View.prisoner_view import PrisonerV
 from Prisoners_Algorithm.View.settings import *
 from box_view import BoxV
-import warnings
 
 
 def suppress_warnings(func):
@@ -39,17 +37,19 @@ class ViewManager:
 
         # Objects
         self.prisoner = None
-        self.boxes = {}
         self.listener = None
+        self.boxes_on_screen={}
+        self.boxes_off_screen={}
 
         # Screen Operations
-        self.screen_operator = ScreenOperator()
+        self.screen_operator = None
 
     @suppress_warnings
-    def pygame_initialize(self):
+    def pygame_setup(self):
         pygame.init()
         pygame.font.init()
-        pygame.display.set_caption("Prisoners")
+        pygame.display.set_caption("Prisoners Riddle")
+        self.screen_operator = ScreenOperator()
 
     #  Listener functions
     def replace_prisoner(self, prisoner_num: int) -> None:
@@ -64,7 +64,7 @@ class ViewManager:
         """
         Sends the current locations of all the boxes to the listener.
         """
-        self.listener.send_boxes_locationV(self.boxes)
+        self.listener.send_boxes_locationV(self.boxes_on_screen)
 
     def send_box_dimension(self) -> None:
         """
@@ -80,7 +80,7 @@ class ViewManager:
         """
         self.listener = listener
 
-    def update_prisoner_location(self, location: Tuple[int, int]) -> None:
+    def update_prisoner_location(self, location: tuple[int, int]) -> None:
         """
         Updates the location of the prisoner.
 
@@ -94,13 +94,13 @@ class ViewManager:
         Main loop of the game. Runs until self.running is False.
         """
         # Initialize the game
-        self.pygame_initialize()
+        self.pygame_setup()
         while self.running:
 
             # Create and draw the boxes, handle events, and update the button states
             self.create_boxes()
-            self.screen_operator.start_draw(self.boxes)
-            self.start_events()
+            self.screen_operator.draw_objects(self.boxes_on_screen)
+            self.listen_to_events()
             self.button_events()
 
             # Handle the 'begin' state
@@ -127,7 +127,7 @@ class ViewManager:
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset, RED, self.state)
 
-    def start_events(self) -> None:
+    def listen_to_events(self) -> None:
         """
         Function that handles the events that happen in the game.
         """
@@ -204,26 +204,32 @@ class ViewManager:
 
     def create_boxes(self) -> None:
         """
-        Creates box objects and adds their locations to the self.boxes dictionary.
+        Creates box objects and adds their locations to the boxes_on_screen dictionary.\n
+        The rest of the boxes that cannot fit the screen are inserted to boxes_off_screen dictionary.
         """
-        self.boxes.clear()
+        self.boxes_on_screen.clear()
+        self.boxes_off_screen.clear()
         if self.num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index in range(self.num_of_boxes_view):
                 box = BoxV(self.screen_operator.screen, box_index + 1)
-                self.boxes[box.box_number] = self.get_box_location(box.box_number, 0)
+                self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, 0)
         else:
             rows = int(math.floor(self.num_of_boxes_view / MAX_BOX_WIDTH))
             remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
                     box = BoxV(self.screen_operator.screen, box_index + 1 + row * MAX_BOX_WIDTH)
-                    self.boxes[box.box_number] = self.get_box_location(box.box_number, row)
+                    self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, row)
             for rem in range(remainder):
                 box = BoxV(self.screen_operator.screen, rows * MAX_BOX_WIDTH + rem + 1)
-                self.boxes[box.box_number] = self.get_box_location(box.box_number, rows)
+                self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, rows)
+        if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
+            for box_index in range(MAX_NO_PRISONER_BOX+1,self.actual_num_of_boxes+1):
+                box = BoxV(self.screen_operator.screen, box_index)
+                self.boxes_off_screen[box.box_number]=box
 
     @suppress_warnings
-    def get_box_location(self, box_index: int, inc: int) -> tuple:
+    def generate_box_location(self, box_index: int, inc: int) -> tuple:
         """
         This method calculates the coordinates of a box given its index and the amount to increment.
 
@@ -242,3 +248,7 @@ class ViewManager:
         :param num_prisoner: An integer representing the number of the prisoner.
         """
         self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.screen)
+
+    def replace_randomly_from_screen(self,trgt_box_num):
+        #trgt box num is the designated box that will replace the other box
+        pass

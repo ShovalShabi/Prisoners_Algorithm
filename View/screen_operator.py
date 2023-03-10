@@ -1,4 +1,4 @@
-from typing import Tuple
+from Prisoners_Algorithm.View.box_view import BoxV
 from Prisoners_Algorithm.View.prisoner_view import PrisonerV
 from settings import *
 import pygame
@@ -29,15 +29,15 @@ class ScreenOperator:
         self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
 
-    def draw_prisoner(self, prisoner: PrisonerV, location) -> None:
+    def draw_prisoner(self, prisoner: PrisonerV, location:tuple) -> None:
         """
         Draws the prisoner on the screen.
         """
         prisoner.draw_prisoner(location)
 
-    def draw_button(self, mouse_click: Tuple[int, int, int], mouse_pos: Tuple[int, int],
+    def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
-                    color: Tuple[int, int, int], state: str) -> str:
+                    color: tuple[int, int, int], state: str) -> str:
         """
         Draw a button and handle mouse hover and click events.
 
@@ -64,7 +64,7 @@ class ScreenOperator:
                                         rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
-    def start_draw(self, boxes) -> None:
+    def draw_objects(self, boxes) -> None:
         """
         Function that draws the game elements on the screen.
         """
@@ -83,7 +83,7 @@ class ScreenOperator:
         self.draw_label(self.r_color, 600, 800, 'Number of rounds:')
         self.draw_label(RED, 600, 820, self.text_input_k)
 
-    def draw_label(self, color: Tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
+    def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
         Draws a label on the screen.
 
