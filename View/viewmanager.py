@@ -24,10 +24,8 @@ class ViewManager:
 
     def __init__(self) -> None:
         """
-        Initialize the game by setting up Pygame and initializing various game variables.
+        Initialize the ViewManager Object and initializing various game variables.
         """
-        self.pygame_initialize()
-
         # Game state
         self.state = 'start'
         self.running = True
@@ -95,6 +93,8 @@ class ViewManager:
         """
         Main loop of the game. Runs until self.running is False.
         """
+        # Initialize the game
+        self.pygame_initialize()
         while self.running:
 
             # Create and draw the boxes, handle events, and update the button states
