@@ -8,4 +8,4 @@ check.py
 stam.py
 
 # ignorig probabilities file for tests model backend
-probabilities.py.py
+probabilities.py
