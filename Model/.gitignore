@@ -6,3 +6,6 @@ check.py
 
 # ignorig text file for tests model backend
 stam.py
+
+# ignorig probabilities file for tests model backend
+probabilities.py.py
