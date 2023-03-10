@@ -1,24 +1,29 @@
+from Prisoners_Algorithm.Model.boxm import BoxM
+
+
 class PrisonerM:
     """
-    A class representing a prisoner in a game.
+    A class representing a prisoner in a game.\n
 
-    :parameter:prisoner_num, prisoner number -> int.
-    :parameter:pos, position of the prisoner on screen-> tuple of (x,y).
-    :parameter:pace, pace of the prisoner, int.
-    :parameter:visited_boxes, all the boxes that the prisoner have opened, dictionary of {number box:value box}.
-    :parameter:all_boxes,all the boxes located on screen-> dictionary of {number box:value box}.
-    :parameter:trgt_box, the current target box of the prisoner -> BoxM object.
-    :parameter:found_number, indicator if the prisoner have found his number -> bool.
-    :parameter:updated_pos, flag the represents if the prisoner has been change position -> bool.
+    Attributes:
+
+    prisoner_num: prisoner number -> int.\n
+    pos: the position of the prisoner on screen -> tuple of (x,y).\n
+    pace: the pace of the prisoner, int.\n
+    visited_boxes: all the boxes that the prisoner has opened, dictionary of {box number: value box}.\n
+    all_boxes: all the boxes located on screen-> dictionary of {box number:value box}.\n
+    trgt_box: the current target box of the prisoner -> BoxM object.\n
+    found_number: indicator if the prisoner has found his number -> bool.\n
+    updated_pos: flag the represents if the prisoner has been changed position -> bool.
     """
 
-    def __init__(self,num_prisoner,position,pace,all_boxes,trgt_box):
+    def __init__(self,num_prisoner:int,position:tuple,pace:int,all_boxes:dict,trgt_box:BoxM):
         """
-        Initialize the PrisonerM object.
-        :param num_prisoner: int , represents prisoner number
-        :param position: tuple of (x,y) according to place of
-        :param pace:int , pace of the prisoner on the screen
-        :param all_boxes:list, list of BoxM objects located on screen
+        Initialize the PrisonerM object.\n
+        :param num_prisoner: int , represents prisoner number.
+        :param position: tuple of (x,y) according to place of.
+        :param pace:int , pace of the prisoner on the screen.
+        :param all_boxes:dict, dictionary of BoxM objects located on screen.
         :param trgt_box:BoxM object, represents the target box.
         """
         self.prisoner_num=num_prisoner
@@ -30,47 +35,47 @@ class PrisonerM:
         self.found_number=False
         self.updated_pos=False
 
-    def set_pos(self, position)->None:
+    def set_pos(self, position:tuple)->None:
         """
-        Set position of the prisoner, tuple of (x,y) of pixels on screen.
-        :return:None.
+        Set position of the prisoner, tuple of (x,y) of pixels on screen.\n
+        :return: None.
         """
         self.pos=position
 
     def get_pos(self)->tuple:
         """
-        Return position of the prisoner image, tuple of (x,y) of pixels on screen.
-        :return:tuple, (x,y) of pixels.
+        Return position of the prisoner image, tuple of (x,y) of pixels on screen.\n
+        :return: tuple, (x,y) of pixels.
         """
         return self.pos
 
-    def set_pace(self,pace)->None:
+    def set_pace(self,pace:int)->None:
         """
-        Set pace of the prisoner.
-        :return:None.
+        Set pace of the prisoner.\n
+        :return: None.
         """
         self.pace=pace
 
     def get_pace(self)->int:
         """
-        Return prisoner number.
-        :return:int.
+        Return prisoner number.\n
+        :return: int.
         """
         return self.pace
 
     def get_num(self)->int:
         """
-        Return prisoner number.
-        :return: int
+        Return prisoner number.\n
+        :return: int.
         """
         return self.prisoner_num
 
     def is_still_searching(self)->bool:
         """
-        This function check if the prisoner is still searching his target box, and replaces it if there is a need.
+        This function check if the prisoner is still searching his target box, and replaces it if there is a need.\n
         As long the prisoner is still searching for his number the output of this function will be True otherwise
-        if the prisoner got disqualified or won the game, the function will return False.
-        :return:bool, indication of relevance participant.
+        if the prisoner got disqualified or won the game, the function will return False.\n
+        :return: bool, indication of relevance participant.
         """
         if self.trgt_box.get_pos()[0] == self.pos[0] and \
                 self.trgt_box.get_pos()[1] == self.pos[1]:
@@ -87,11 +92,11 @@ class PrisonerM:
                 self.trgt_box= self.trgt_box.get_nxt_box()
         return True
 
-    def move_to_box(self,blocked):
+    def move_to_box(self,blocked:bool):
         """
-        This function check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.
-        :param blocked:bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM)
-        :return:bool, is the object moving or not.
+        This function check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.\n
+        :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
+        :return: bool, is the object moving or not.
         """
         if self.trgt_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:
             self.set_pos((self.pos[0], self.pos[1] - self.pace))  #moving upwards
@@ -108,9 +113,9 @@ class PrisonerM:
             self.updated_pos = True
         self.updated_pos=False
 
-    def check_collision(self,box_width,box_height) -> None:
+    def check_collision(self,box_width:int,box_height:int) -> None:
         """
-        This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.
+        This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.\n
         :param box_width: int, represents a box width of an image.
         :param box_height: int, represents a box height of an image.
         :return: None.

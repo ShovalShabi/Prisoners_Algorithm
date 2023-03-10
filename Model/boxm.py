@@ -2,12 +2,14 @@
 
 class BoxM:
     """
-    A class representing a box in a game.
-    :parameter:box_num, box number -> int.
-    :parameter:pos, position of the box on screen-> tuple of (x,y).
-    :parameter:next_box, the pointer to the next target box -> BoxM object.
+    A class representing a box in a game.\n
+
+    Attributes:\n
+    box_num: box number -> int.\n
+    pos: the position of the box on screen-> tuple of (x,y).\n
+    next_box: the pointer to the next target box -> BoxM object.\n
     """
-    def __init__(self, box_num):
+    def __init__(self, box_num:int):
         """
         Initialize the PrisonerM object.
         :param box_num:int, the number of the box
@@ -23,10 +25,10 @@ class BoxM:
         """
         return self.pos
 
-    def set_pos(self,pos)->None:
+    def set_pos(self,pos:tuple)->None:
         """
-        Set position of the prisoner, tuple of (x,y) of pixels on screen
-        :return:None.
+        Set position of the prisoner, tuple of (x,y) of pixels on screen.\n
+        :return: None.
         """
         self.pos=pos
 
@@ -39,7 +41,7 @@ class BoxM:
 
     def set_next_box(self,box)->None:
         """
-        Set next box pointer number.
+        Set next box pointer number.\n
         :return: int
         """
         self.next_box=box
