@@ -4,19 +4,44 @@ from threading import Thread, Lock
 
 
 class ProbabilitiesHandler:
+    """
+    A class representing the probabilities' handler object that is trusted of the details of each round and printing it to file
+    "PrisonersResults.txt".\n
+    The class creates scenarios for all game rounds and the linkage between the boxes.\n
+
+    Attributes:\n
+
+    filename: The designated file for showing game details.\n
+    file: file pointer within file system.\n
+    lock_shuffle: mutex lock for protection to critical blocks.\n
+    num_prisoners: the total number of prisoners -> int.\n
+    num_rounds: the total number of rounds -> int.\n
+    print_specifically: user choice if he/she wants to print to file "PrisonersResults.txt" the specific route of each prisoner or not -> bool.\n
+    dict_rounds: all rounds and its relational list representation -> dictionary of {round number: list of box numbers}.
+    """
     filename = "PrisonersResults.txt"
     file = None
     lock_shuffle = Lock()
-    lock_organize=Lock()
 
-    def __init__(self,num_prisoners,num_rounds,print_specifically):
+    def __init__(self,num_prisoners:int,num_rounds:int,print_specifically:bool):
+        """
+        Initialization of ProbabilitiesHandler object.\n
+        :param num_prisoners: int, the number of prisoners.
+        :param num_rounds: int, the number of rounds.
+        :param print_specifically: bool, indication of details specification in file "PrisonerResults.txt".
+        """
         self.num_prisoners=num_prisoners
         self.num_rounds=num_rounds
         self.print_specifically=print_specifically
         self.dict_rounds={}
-        self.orgenized_rounds={}
 
-    def run_route(self,list_of_boxes, print_route):
+    def run_route(self,list_of_boxes:list, print_route:bool) -> bool:
+        """
+        Method that runs the search route of each prisoner.\n
+        :param list_of_boxes: list, list of dependencies between the boxes.
+        :param print_route: bool, indication of details specification "PrisonerResults.txt".
+        :return: bool, True -> prisoner succeed, False -> prisoner Failed.
+        """
         number_of_boxes = len(list_of_boxes)
         list_of_success = number_of_boxes * [0]
         for j in range(number_of_boxes):
@@ -63,7 +88,12 @@ class ProbabilitiesHandler:
         else:
             return False
 
-    def run_all_probs(self, print_route):
+    def run_all_probs(self, print_route) -> None:
+        """
+        Method that runs the search route of all prisoners of each round.\n
+        :param print_route: bool, indication of details specification "PrisonerResults.txt"
+        :return: None
+        """
         self.open_file()
         if not isinstance(self.num_prisoners, int):
             print("The number of prisoners is ", self.num_prisoners, " the number of prisoners must be an integer.",file=self.file)
@@ -77,7 +107,7 @@ class ProbabilitiesHandler:
         if self.num_rounds <= 0:
             print("The number of rounds is ", self.num_rounds, " rounds must be greater 0.",file=self.file)
         s = 0
-        general_lists={} ## {round:list dependencies}
+        general_lists={}  # {round:list dependencies}
         for i in range(self.num_rounds):
             if print_route:
                 print("round number:", (i + 1),file=self.file)
@@ -103,18 +133,31 @@ class ProbabilitiesHandler:
         s = 0
         hn = self.num_prisoners / 2
         for i in range(self.num_prisoners // 2):
-            s += 1 / ((hn) + (i + 1))
+            s += 1 / (hn + (i + 1))
         print("Probability by loop calculation of the geometric series:\n",
               "1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) =", 1 - s,file=self.file)
         self.close_file()
 
-    def open_file(self):
+    def open_file(self) -> None:
+        """
+        Method for opening file for specification.
+        :return: None.
+        """
         self.file=open(self.filename,"w")
 
-    def close_file(self):
+    def close_file(self) -> None:
+        """
+        Method for closing file for specification.
+        :return: None.
+        """
         self.file.close()
 
-    def run_probabilities(self):
+    def run_probabilities(self) -> dict:
+        """
+        Method that run the probability calculation concurrently by threads and afterwards return the relation between each round and its
+        dependencies list of boxes.\n
+        :return: dict, each round has a dependencies for the boxes, dictionary of {round number:list of box number dependencies}
+        """
         threads=[]
         for i in range((int(self.num_rounds/2))+1):  #this number could be bigger
             threads.append(Thread(target=self.run_all_probs(self.print_specifically)))
@@ -123,4 +166,3 @@ class ProbabilitiesHandler:
         for thread in threads:
             thread.join()
         return self.dict_rounds
-
