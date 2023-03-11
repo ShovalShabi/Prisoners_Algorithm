@@ -29,6 +29,7 @@ BOX_START_X = 150
 BOX_START_Y = 80
 
 IMG_BOX = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
+IMG_PRIS = pygame.image.load(os.path.join('Resources', 'SP1_front.png'))
 IMG_BOX_WIDTH = IMG_BOX.get_width()
 IMG_BOX_HEIGHT = IMG_BOX.get_height()
 

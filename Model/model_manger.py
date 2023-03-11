@@ -33,7 +33,7 @@ class ModelManger:
         self.dict_prisoners = {}  # dict of {num_pris:prisoner}
         self.dict_boxes = {}  # dict of {num_box:box}
         self.current_round = 1
-        self.current_prisoner = 1
+        self.current_pris_num = 1
         self.succeeded = 0
         self.prob_handler = None
         self.listener = None
@@ -41,13 +41,13 @@ class ModelManger:
     ############################## MVC Methods ###################################
 
     def ntfy_to_view_pris_pos(self):
-        self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_prisoner].get_pos())
+        self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_pris_num].get_pos())
 
     def pris_request_box(self):
-        self.listener.model_need_box(self.dict_prisoners[self.current_prisoner].trgt_box.box_num)
+        self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].trgt_box.box_num)
 
     def ntfy_view_to_replace_pris(self):
-        self.listener.ntfy_view_to_replace_pris(self.current_prisoner.get_num())
+        self.listener.ntfy_view_to_replace_pris(self.current_pris_num.get_num())
 
     def model_request_box_dimensions(self):
         return self.listener.model_request_box_dimensions()
@@ -117,8 +117,8 @@ class ModelManger:
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
         while self.current_round < num_rounds:
 
-            if self.current_prisoner > num_pris:
-                self.current_prisoner = 1
+            if self.current_pris_num > num_pris:
+                self.current_pris_num = 1
                 self.current_round += 1
                 self.succeeded = 0
                 if self.current_round > num_rounds:
@@ -128,9 +128,15 @@ class ModelManger:
                     self.init_boxes(num_pris=num_pris)
                     self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
 
-            while self.dict_prisoners[self.current_prisoner].is_still_searching():
+            while self.dict_prisoners[self.current_pris_num].is_still_searching():
                 self.pris_request_box()
-                self.dict_prisoners[self.current_prisoner].move_to_box()
+                self.dict_prisoners[self.current_pris_num].move_to_box()
                 self.ntfy_to_view_pris_pos()
 
-            self.current_prisoner += 1
+            self.current_pris_num += 1
+
+    def get_current_pris_num(self):
+        return self.current_pris_num
+
+    def get_current_pris_pos(self):
+        return self.dict_prisoners[self.current_pris_num].get_pos()

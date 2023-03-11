@@ -24,7 +24,7 @@ class ViewManager:
         Initialize the ViewManager Object and initializing various game variables.
         """
         # Game state
-        self.state = 'start'
+        self.state = 'not running'
         self.running = True
 
         # Variables
@@ -50,6 +50,7 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
+    #################################################Listener methods##########################################
     def view_request_to_start_game(self, num_of_prisoners, num_of_rounds, initial_pos, print_specifically) -> None:
         """
         Send the input data to model object.
@@ -60,6 +61,12 @@ class ViewManager:
         :param num_of_prisoners: The numbers of input prisoners
         """
         self.listener.view_need_to_start_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+
+    def view_request_pris_num(self):
+        return self.listener.view_need_pris_num()
+
+    def view_request_pris_pos(self):
+        return self.listener.view_need_pris_pos()
 
     def set_listener(self, listener) -> None:
         """
@@ -87,17 +94,27 @@ class ViewManager:
             if self.state == 'reset':
                 self.reset_input_view()
 
-            if self.state == 'start':  #Need to know where the code is officially starts #
+            if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
                 self.create_boxes()
                 #self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                # Need to know where the code is officially starts #
                 self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
-                self.screen_operator.draw_boxes(self.boxes_on_screen)
-                #self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
+                pris_num = self.view_request_pris_num()
+                self.prisoner=PrisonerV(start_location=DOOR_WAY,num=pris_num,screen=self.screen_operator.screen)
+                self.state = "running"
+
+            if self.state == "running":
+                pris_num = self.view_request_pris_num()
+                if pris_num != self.prisoner.num:
+                    self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                else:
+                    pos = self.view_request_pris_pos()
+                    self.prisoner.update_prisoner_location(location=pos)
+                self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
+            #self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
 
             # Update the display
             pygame.display.update()
@@ -122,7 +139,7 @@ class ViewManager:
         self.screen_operator.text_input_n = ""
         self.screen_operator.text_input_k = ""
 
-        self.state = 'start'
+        self.state = 'not running'
 
     def button_events(self) -> None:
         """

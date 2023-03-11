@@ -32,14 +32,14 @@ class Controller:
         self.model = model
 
     #################### Model related methods #####################################
-    def ntfy_to_view_pris_pos(self, pos: tuple):
-        self.ntfy_view_on_pris_location(pos)
+    def ntfy_to_view_pris_pos(self):
+        return self.model.get_current_pris_pos()
 
     def model_need_box(self, box_num):
         self.ntfy_view_handle_box_request(box_num)
 
-    def ntfy_to_view_pris_changed(self, new_pris_num):
-        self.ntfy_view_to_replace_pris(new_pris_num)
+    def ntfy_to_view_pris_changed(self):
+        self.model.get_current_pris_num()
 
     def model_request_box_dimensions(self):
         return self.ntfy_to_view_get_box_dimension()
@@ -53,8 +53,8 @@ class Controller:
     ###################################################################################
     ######################## View related methods #####################################
 
-    def ntfy_view_on_pris_location(self, pos):
-        self.view.update_prisoner_location(pos)
+    def view_need_pris_pos(self):
+        return self.ntfy_to_view_pris_pos()
 
     def ntfy_view_handle_box_request(self, box_num):
         self.view.handle_box_request(box_num)
@@ -84,3 +84,6 @@ class Controller:
         :param num_of_prisoners: The numbers of input prisoners
         """
         self.ntfy_to_model_start_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+
+    def view_need_pris_num(self):
+        return self.ntfy_to_view_pris_changed()
