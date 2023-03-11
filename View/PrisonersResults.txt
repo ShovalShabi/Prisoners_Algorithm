@@ -1,1 +1,0 @@
-The number of prisoners is  1  the number of prisoners must be greater than 1.

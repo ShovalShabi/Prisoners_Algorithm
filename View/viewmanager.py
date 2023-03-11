@@ -96,6 +96,7 @@ class ViewManager:
             if self.state == 'begin':
                 # Need to know where the code is officially starts #
                 self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
+                self.screen_operator.draw_boxes(self.boxes_on_screen)
                 #self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
 
             # Update the display

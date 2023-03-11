@@ -4,8 +4,6 @@
     <list default="true" id="ce1cea30-8450-4b83-baa7-3863d0d95cf1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/View/PrisonersResults.txt" beforeDir="false" afterPath="$PROJECT_DIR$/View/PrisonersResults.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/prisoner_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/prisoner_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/screen_operator.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/screen_operator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/View/viewmanager.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/viewmanager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
