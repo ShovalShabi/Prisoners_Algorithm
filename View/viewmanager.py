@@ -79,21 +79,24 @@ class ViewManager:
         # Initialize the game
         self.pygame_setup()
         while self.running:
-
-            self.screen_operator.draw_objects(self.boxes_on_screen)
+            self.screen_operator.draw_screen()
+            self.screen_operator.draw_boxes(self.boxes_on_screen)
             self.listen_to_events()
             self.button_events()
 
             if self.state == 'reset':
                 self.reset_input_view()
 
-            if self.state == 'start':
+            if self.state == 'start':  #Need to know where the code is officially starts #
                 # Create and draw the boxes, handle events, and update the button states
                 self.create_boxes()
+                #self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
 
             # Occurs when start button is clicked
             if self.state == 'begin':
+                # Need to know where the code is officially starts #
                 self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
+                #self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
 
             # Update the display
             pygame.display.update()

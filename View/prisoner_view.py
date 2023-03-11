@@ -1,10 +1,9 @@
 import pygame
 import os
-from typing import Tuple
 
 
 class PrisonerV:
-    def __init__(self, start_location: Tuple[int, int], num: int, screen: pygame.Surface) -> None:
+    def __init__(self, start_location: tuple[int, int], num: int, screen: pygame.Surface) -> None:
         """
         Initializes a PrisonerV object.
 
@@ -17,13 +16,11 @@ class PrisonerV:
         self.img_prisoner = pygame.image.load(os.path.join('Resources', 'SP1_front.png'))
         self.screen = screen
 
-    def draw_prisoner(self, location: Tuple[int, int]) -> None:
+    def draw_prisoner(self) -> None:
         """
         Draws the prisoner on the pygame surface.
-
-        :param location: A tuple containing the x and y coordinates of the location to draw the prisoner at.
         """
-        self.screen.blit(self.img_prisoner, location)
+        self.screen.blit(self.img_prisoner, self.location)
 
     def rotate_prisoner(self) -> None:
         """
@@ -31,7 +28,7 @@ class PrisonerV:
         """
         pass
 
-    def update_prisoner_location(self, location: Tuple[int, int]) -> None:
+    def update_prisoner_location(self, location: tuple[int, int]) -> None:
         """
         Updates the location of the prisoner.
 
@@ -39,7 +36,7 @@ class PrisonerV:
         """
         self.location = location
 
-    def get_prisoner_location(self) -> Tuple[int, int]:
+    def get_prisoner_location(self) -> tuple[int, int]:
         """
         Returns the location of the prisoner.
 

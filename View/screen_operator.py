@@ -29,11 +29,11 @@ class ScreenOperator:
         self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
 
-    def draw_prisoner(self, prisoner: PrisonerV, location:tuple) -> None:
+    def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
         Draws the prisoner on the screen.
         """
-        prisoner.draw_prisoner(location)
+        prisoner.draw_prisoner()
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
@@ -69,14 +69,12 @@ class ScreenOperator:
                                         rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
-    def draw_objects(self, boxes) -> None:
+    def draw_objects(self, boxes,prisoner) -> None:
         """
         Function that draws the game elements on the screen.
         """
-        self.screen.blit(self.background_image, (0, 0))
-        self.draw_menu()
         self.draw_boxes(boxes)
-        # self.draw_prisoners()
+        self.draw_prisoner(prisoner)
 
     def draw_menu(self) -> None:
         """
@@ -125,3 +123,9 @@ class ScreenOperator:
             for rem in range(remainder):
                 box = BoxV(self.screen, rows * MAX_BOX_WIDTH + rem)
                 box.location = box.draw_box(rem, rows, self.font)
+
+    def draw_screen(self):
+        self.screen.blit(self.background_image, (0, 0))
+        self.draw_menu()
+
+
