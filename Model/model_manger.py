@@ -73,7 +73,6 @@ class ModelManger:
             self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
                                                             all_boxes=self.dict_rounds[self.current_round],
                                                             trgt_box=self.dict_boxes[index_pris + 1])
-            print(self.dict_prisoners[index_pris + 1].all_boxes)
 
     def init_boxes(self, num_pris) -> None:
         """
