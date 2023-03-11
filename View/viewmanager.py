@@ -50,7 +50,6 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
-    ###########################  Listener functions ########################################################
     def view_request_to_start_game(self, num_of_prisoners, num_of_rounds, initial_pos, print_specifically) -> None:
         """
         Send the input data to model object.
@@ -60,7 +59,7 @@ class ViewManager:
         :param num_of_rounds: The numbers of input rounds
         :param num_of_prisoners: The numbers of input prisoners
         """
-        self.listener.view_need_to_start_game(num_of_prisoners,num_of_rounds,initial_pos,print_specifically)
+        self.listener.view_need_to_start_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
 
     def set_listener(self, listener) -> None:
         """
@@ -69,6 +68,7 @@ class ViewManager:
         :param listener: The listener object to be set.
         """
         self.listener = listener
+
     ########################################################################################################
 
     # Game functions
@@ -91,7 +91,8 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.send_start_game(self.num_of_prisoners, self.num_of_rounds)
+                self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds,
+                                                      CELL_SIZE, True)
 
             # Update the display
             pygame.display.update()
@@ -251,7 +252,7 @@ class ViewManager:
         """
         self.create_prisoner(prisoner_num)
 
-    def handle_box_request(self,box_number):
+    def handle_box_request(self, box_number):
         pass
 
     def replace_randomly_from_screen(self, trgt_box_num):
@@ -261,5 +262,6 @@ class ViewManager:
     def get_boxes_locations(self):
         return self.boxes_on_screen
 
+    @suppress_warnings
     def get_box_dimensions(self):
-        return (IMG_BOX_WIDTH,IMG_BOX_HEIGHT)
+        return IMG_BOX_WIDTH, IMG_BOX_HEIGHT
