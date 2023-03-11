@@ -50,26 +50,27 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
-    #  Listener functions
-    def replace_prisoner(self, prisoner_num: int) -> None:
-        """
-        Replaces the current prisoner with a new one.
-
-        :param prisoner_num: An integer representing the number of the new prisoner.
-        """
-        self.create_prisoner(prisoner_num)
-
-    def send_boxes_locations(self) -> None:
+    ###########################  Listener functions ########################################################
+    def ntfy_to_model_boxes_locationV(self,boxes_on_screen:dict) -> None:
         """
         Sends the current locations of all the boxes to the listener.
         """
-        self.listener.send_boxes_locationV(self.boxes_on_screen)
+        self.listener.send_boxes_locationV(boxes_on_screen)
 
-    def send_box_dimension(self) -> None:
+    def ntfy_to_model_box_dimension(self,box_width:int,box_height:int) -> None:
         """
         Sends the dimensions of the box image to the listener.
         """
-        self.listener.send_box_dimension(IMG_BOX_WIDTH, IMG_BOX_HEIGHT)
+        self.listener.send_box_dimension(box_width, box_height)
+
+    def ntfy_to_model_send_start_game(self, num_of_prisoners, num_of_rounds, print_specifically) -> None:
+        """
+        Send the input data to model object.
+
+        :param num_of_rounds: The numbers of input rounds
+        :param num_of_prisoners: The numbers of input prisoners
+        """
+        self.listener.send_start_game(num_of_prisoners, print_specifically=True)
 
     def set_listener(self, listener) -> None:
         """
@@ -78,23 +79,7 @@ class ViewManager:
         :param listener: The listener object to be set.
         """
         self.listener = listener
-
-    def update_prisoner_location(self, location: tuple[int, int]) -> None:
-        """
-        Updates the location of the prisoner.
-
-        :param location: The new location of the prisoner as a tuple of integers (x, y).
-        """
-        self.prisoner.update_prisoner_location(location)
-
-    def send_start_game(self, num_of_prisoners, num_of_rounds) -> None:
-        """
-        Send the input data to listener object.
-
-        :param num_of_rounds: The numbers of input rounds
-        :param num_of_prisoners: The numbers of input prisoners
-        """
-        self.listener.send_start_game(num_of_prisoners, num_of_rounds)
+    ########################################################################################################
 
     # Game functions
     def run(self) -> None:
@@ -180,6 +165,14 @@ class ViewManager:
             self.screen_operator.text_input_k = ""
             self.num_of_rounds = 0
 
+    def update_prisoner_location(self, location: tuple[int, int]) -> None:
+        """
+        Updates the location of the prisoner.
+
+        :param location: The new location of the prisoner as a tuple of integers (x, y).
+        """
+        self.prisoner.update_prisoner_location(location)
+
     def convert_input_prisoner_to_num(self) -> None:
         """
         Converts the text input for the number of prisoners to an integer.
@@ -259,6 +252,14 @@ class ViewManager:
         :param num_prisoner: An integer representing the number of the prisoner.
         """
         self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.screen)
+
+    def replace_prisoner(self, prisoner_num: int) -> None:
+        """
+        Replaces the current prisoner with a new one.
+
+        :param prisoner_num: An integer representing the number of the new prisoner.
+        """
+        self.create_prisoner(prisoner_num)
 
     def replace_randomly_from_screen(self, trgt_box_num):
         # trgt box num is the designated box that will replace the other box
