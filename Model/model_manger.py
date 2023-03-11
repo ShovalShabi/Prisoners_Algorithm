@@ -128,9 +128,11 @@ class ModelManger:
                 self.pris_request_box()
                 self.dict_prisoners[self.current_prisoner].move_to_box()
                 self.ntfy_pris_pos()
-
-            self.ntfy_pris_succeed()
+<<<<<<< HEAD
             self.current_prisoner += 1
 
     def set_listener(self, listener):
         self.listener = listener
+=======
+            self.current_prisoner+=1
+>>>>>>> model
