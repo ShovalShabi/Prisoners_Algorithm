@@ -1,1014 +1,126 @@
 round number: 1
 Iteration number 1
 Attempt: 1  is leading to box 11
-Attempt: 2  is leading to box 3
-Attempt: 3  is leading to box 10
-Attempt: 4  is leading to box 4
-Attempt: 5  is leading to box 15
-Attempt: 6  is leading to box 12
-Attempt: 7  is leading to box 13
-Attempt: 8  is leading to box 6
-Attempt: 9  is leading to box 2
-Attempt: 10  is leading to box 5
-Attempt: 11  is leading to box 8
-Attempt: 12  is leading to box 14
-Attempt: 13  is leading to box 9
-Attempt: 14  is leading to box 1
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 11 3 10 4 15 12 13 6 2 5 8 14 9 1 
-Prisoner number 1 has been failed, the chain length is 14
-
-Iteration number 2
-Attempt: 1  is leading to box 5
-Attempt: 2  is leading to box 8
-Attempt: 3  is leading to box 14
-Attempt: 4  is leading to box 9
-Attempt: 5  is leading to box 1
-Attempt: 6  is leading to box 11
-Attempt: 7  is leading to box 3
-Attempt: 8  is leading to box 10
-Attempt: 9  is leading to box 4
-Attempt: 10  is leading to box 15
-Attempt: 11  is leading to box 12
-Attempt: 12  is leading to box 13
-Attempt: 13  is leading to box 6
-Attempt: 14  is leading to box 2
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 5 8 14 9 1 11 3 10 4 15 12 13 6 2 
-Prisoner number 2 has been failed, the chain length is 14
-
-Iteration number 3
-Attempt: 1  is leading to box 10
-Attempt: 2  is leading to box 4
-Attempt: 3  is leading to box 15
-Attempt: 4  is leading to box 12
-Attempt: 5  is leading to box 13
-Attempt: 6  is leading to box 6
-Attempt: 7  is leading to box 2
-Attempt: 8  is leading to box 5
-Attempt: 9  is leading to box 8
-Attempt: 10  is leading to box 14
-Attempt: 11  is leading to box 9
-Attempt: 12  is leading to box 1
-Attempt: 13  is leading to box 11
-Attempt: 14  is leading to box 3
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 10 4 15 12 13 6 2 5 8 14 9 1 11 3 
-Prisoner number 3 has been failed, the chain length is 14
-
-Iteration number 4
-Attempt: 1  is leading to box 15
-Attempt: 2  is leading to box 12
-Attempt: 3  is leading to box 13
-Attempt: 4  is leading to box 6
-Attempt: 5  is leading to box 2
-Attempt: 6  is leading to box 5
-Attempt: 7  is leading to box 8
-Attempt: 8  is leading to box 14
-Attempt: 9  is leading to box 9
-Attempt: 10  is leading to box 1
-Attempt: 11  is leading to box 11
-Attempt: 12  is leading to box 3
-Attempt: 13  is leading to box 10
-Attempt: 14  is leading to box 4
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 15 12 13 6 2 5 8 14 9 1 11 3 10 4 
-Prisoner number 4 has been failed, the chain length is 14
-
-Iteration number 5
-Attempt: 1  is leading to box 8
-Attempt: 2  is leading to box 14
-Attempt: 3  is leading to box 9
-Attempt: 4  is leading to box 1
-Attempt: 5  is leading to box 11
-Attempt: 6  is leading to box 3
-Attempt: 7  is leading to box 10
-Attempt: 8  is leading to box 4
-Attempt: 9  is leading to box 15
-Attempt: 10  is leading to box 12
-Attempt: 11  is leading to box 13
-Attempt: 12  is leading to box 6
-Attempt: 13  is leading to box 2
-Attempt: 14  is leading to box 5
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 8 14 9 1 11 3 10 4 15 12 13 6 2 5 
-Prisoner number 5 has been failed, the chain length is 14
-
-Iteration number 6
-Attempt: 1  is leading to box 2
-Attempt: 2  is leading to box 5
-Attempt: 3  is leading to box 8
-Attempt: 4  is leading to box 14
-Attempt: 5  is leading to box 9
-Attempt: 6  is leading to box 1
-Attempt: 7  is leading to box 11
-Attempt: 8  is leading to box 3
-Attempt: 9  is leading to box 10
-Attempt: 10  is leading to box 4
-Attempt: 11  is leading to box 15
-Attempt: 12  is leading to box 12
-Attempt: 13  is leading to box 13
-Attempt: 14  is leading to box 6
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 2 5 8 14 9 1 11 3 10 4 15 12 13 6 
-Prisoner number 6 has been failed, the chain length is 14
-
-Iteration number 7
-Attempt: 1  is leading to box 7
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 7 
-Prisoner number 7 has been succeeded, the chain length is 1
-
-Iteration number 8
-Attempt: 1  is leading to box 14
-Attempt: 2  is leading to box 9
-Attempt: 3  is leading to box 1
-Attempt: 4  is leading to box 11
-Attempt: 5  is leading to box 3
-Attempt: 6  is leading to box 10
-Attempt: 7  is leading to box 4
-Attempt: 8  is leading to box 15
-Attempt: 9  is leading to box 12
-Attempt: 10  is leading to box 13
-Attempt: 11  is leading to box 6
-Attempt: 12  is leading to box 2
-Attempt: 13  is leading to box 5
-Attempt: 14  is leading to box 8
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 14 9 1 11 3 10 4 15 12 13 6 2 5 8 
-Prisoner number 8 has been failed, the chain length is 14
-
-Iteration number 9
-Attempt: 1  is leading to box 1
-Attempt: 2  is leading to box 11
-Attempt: 3  is leading to box 3
-Attempt: 4  is leading to box 10
-Attempt: 5  is leading to box 4
-Attempt: 6  is leading to box 15
-Attempt: 7  is leading to box 12
-Attempt: 8  is leading to box 13
-Attempt: 9  is leading to box 6
-Attempt: 10  is leading to box 2
-Attempt: 11  is leading to box 5
-Attempt: 12  is leading to box 8
-Attempt: 13  is leading to box 14
-Attempt: 14  is leading to box 9
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 1 11 3 10 4 15 12 13 6 2 5 8 14 9 
-Prisoner number 9 has been failed, the chain length is 14
-
-Iteration number 10
-Attempt: 1  is leading to box 4
-Attempt: 2  is leading to box 15
-Attempt: 3  is leading to box 12
-Attempt: 4  is leading to box 13
-Attempt: 5  is leading to box 6
-Attempt: 6  is leading to box 2
-Attempt: 7  is leading to box 5
-Attempt: 8  is leading to box 8
-Attempt: 9  is leading to box 14
-Attempt: 10  is leading to box 9
-Attempt: 11  is leading to box 1
-Attempt: 12  is leading to box 11
-Attempt: 13  is leading to box 3
-Attempt: 14  is leading to box 10
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 4 15 12 13 6 2 5 8 14 9 1 11 3 10 
-Prisoner number 10 has been failed, the chain length is 14
-
-Iteration number 11
-Attempt: 1  is leading to box 3
-Attempt: 2  is leading to box 10
-Attempt: 3  is leading to box 4
-Attempt: 4  is leading to box 15
-Attempt: 5  is leading to box 12
-Attempt: 6  is leading to box 13
-Attempt: 7  is leading to box 6
-Attempt: 8  is leading to box 2
-Attempt: 9  is leading to box 5
-Attempt: 10  is leading to box 8
-Attempt: 11  is leading to box 14
-Attempt: 12  is leading to box 9
-Attempt: 13  is leading to box 1
-Attempt: 14  is leading to box 11
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 3 10 4 15 12 13 6 2 5 8 14 9 1 11 
-Prisoner number 11 has been failed, the chain length is 14
-
-Iteration number 12
-Attempt: 1  is leading to box 13
-Attempt: 2  is leading to box 6
-Attempt: 3  is leading to box 2
-Attempt: 4  is leading to box 5
-Attempt: 5  is leading to box 8
-Attempt: 6  is leading to box 14
-Attempt: 7  is leading to box 9
-Attempt: 8  is leading to box 1
-Attempt: 9  is leading to box 11
-Attempt: 10  is leading to box 3
-Attempt: 11  is leading to box 10
-Attempt: 12  is leading to box 4
-Attempt: 13  is leading to box 15
-Attempt: 14  is leading to box 12
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 13 6 2 5 8 14 9 1 11 3 10 4 15 12 
-Prisoner number 12 has been failed, the chain length is 14
-
-Iteration number 13
-Attempt: 1  is leading to box 6
-Attempt: 2  is leading to box 2
-Attempt: 3  is leading to box 5
-Attempt: 4  is leading to box 8
-Attempt: 5  is leading to box 14
-Attempt: 6  is leading to box 9
-Attempt: 7  is leading to box 1
-Attempt: 8  is leading to box 11
-Attempt: 9  is leading to box 3
-Attempt: 10  is leading to box 10
-Attempt: 11  is leading to box 4
-Attempt: 12  is leading to box 15
-Attempt: 13  is leading to box 12
-Attempt: 14  is leading to box 13
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 6 2 5 8 14 9 1 11 3 10 4 15 12 13 
-Prisoner number 13 has been failed, the chain length is 14
-
-Iteration number 14
-Attempt: 1  is leading to box 9
 Attempt: 2  is leading to box 1
-Attempt: 3  is leading to box 11
-Attempt: 4  is leading to box 3
-Attempt: 5  is leading to box 10
-Attempt: 6  is leading to box 4
-Attempt: 7  is leading to box 15
-Attempt: 8  is leading to box 12
-Attempt: 9  is leading to box 13
-Attempt: 10  is leading to box 6
-Attempt: 11  is leading to box 2
-Attempt: 12  is leading to box 5
-Attempt: 13  is leading to box 8
-Attempt: 14  is leading to box 14
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 9 1 11 3 10 4 15 12 13 6 2 5 8 14 
-Prisoner number 14 has been failed, the chain length is 14
-
-Iteration number 15
-Attempt: 1  is leading to box 12
-Attempt: 2  is leading to box 13
-Attempt: 3  is leading to box 6
-Attempt: 4  is leading to box 2
-Attempt: 5  is leading to box 5
-Attempt: 6  is leading to box 8
-Attempt: 7  is leading to box 14
-Attempt: 8  is leading to box 9
-Attempt: 9  is leading to box 1
-Attempt: 10  is leading to box 11
-Attempt: 11  is leading to box 3
-Attempt: 12  is leading to box 10
-Attempt: 13  is leading to box 4
-Attempt: 14  is leading to box 15
-Total Boxes: 11 5 10 15 8 2 7 14 1 4 3 13 6 9 12 
-Visited in boxes: 12 13 6 2 5 8 14 9 1 11 3 10 4 15 
-Prisoner number 15 has been failed, the chain length is 14
-
-The number of prisoners that found their number is: 1 
-from 15 prisoners.
-
-round number: 2
-Iteration number 1
-Attempt: 1  is leading to box 1
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 1 
-Prisoner number 1 has been succeeded, the chain length is 1
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 11 1 
+Prisoner number 1 has been succeeded, the chain length is 2
 
 Iteration number 2
-Attempt: 1  is leading to box 4
-Attempt: 2  is leading to box 12
-Attempt: 3  is leading to box 6
-Attempt: 4  is leading to box 14
-Attempt: 5  is leading to box 2
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 4 12 6 14 2 
-Prisoner number 2 has been succeeded, the chain length is 5
+Attempt: 1  is leading to box 7
+Attempt: 2  is leading to box 2
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 7 2 
+Prisoner number 2 has been succeeded, the chain length is 2
 
 Iteration number 3
-Attempt: 1  is leading to box 10
-Attempt: 2  is leading to box 13
-Attempt: 3  is leading to box 5
-Attempt: 4  is leading to box 3
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 10 13 5 3 
-Prisoner number 3 has been succeeded, the chain length is 4
+Attempt: 1  is leading to box 8
+Attempt: 2  is leading to box 9
+Attempt: 3  is leading to box 12
+Attempt: 4  is leading to box 5
+Attempt: 5  is leading to box 6
+Attempt: 6  is leading to box 4
+Attempt: 7  is leading to box 3
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 8 9 12 5 6 4 3 
+Prisoner number 3 has been failed, the chain length is 7
 
 Iteration number 4
-Attempt: 1  is leading to box 12
-Attempt: 2  is leading to box 6
-Attempt: 3  is leading to box 14
-Attempt: 4  is leading to box 2
-Attempt: 5  is leading to box 4
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 12 6 14 2 4 
-Prisoner number 4 has been succeeded, the chain length is 5
+Attempt: 1  is leading to box 3
+Attempt: 2  is leading to box 8
+Attempt: 3  is leading to box 9
+Attempt: 4  is leading to box 12
+Attempt: 5  is leading to box 5
+Attempt: 6  is leading to box 6
+Attempt: 7  is leading to box 4
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 3 8 9 12 5 6 4 
+Prisoner number 4 has been failed, the chain length is 7
 
 Iteration number 5
-Attempt: 1  is leading to box 3
-Attempt: 2  is leading to box 10
-Attempt: 3  is leading to box 13
-Attempt: 4  is leading to box 5
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 3 10 13 5 
-Prisoner number 5 has been succeeded, the chain length is 4
+Attempt: 1  is leading to box 6
+Attempt: 2  is leading to box 4
+Attempt: 3  is leading to box 3
+Attempt: 4  is leading to box 8
+Attempt: 5  is leading to box 9
+Attempt: 6  is leading to box 12
+Attempt: 7  is leading to box 5
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 6 4 3 8 9 12 5 
+Prisoner number 5 has been failed, the chain length is 7
 
 Iteration number 6
-Attempt: 1  is leading to box 14
-Attempt: 2  is leading to box 2
-Attempt: 3  is leading to box 4
-Attempt: 4  is leading to box 12
-Attempt: 5  is leading to box 6
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 14 2 4 12 6 
-Prisoner number 6 has been succeeded, the chain length is 5
+Attempt: 1  is leading to box 4
+Attempt: 2  is leading to box 3
+Attempt: 3  is leading to box 8
+Attempt: 4  is leading to box 9
+Attempt: 5  is leading to box 12
+Attempt: 6  is leading to box 5
+Attempt: 7  is leading to box 6
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 4 3 8 9 12 5 6 
+Prisoner number 6 has been failed, the chain length is 7
 
 Iteration number 7
-Attempt: 1  is leading to box 15
+Attempt: 1  is leading to box 2
 Attempt: 2  is leading to box 7
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 15 7 
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 2 7 
 Prisoner number 7 has been succeeded, the chain length is 2
 
 Iteration number 8
-Attempt: 1  is leading to box 8
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 8 
-Prisoner number 8 has been succeeded, the chain length is 1
-
-Iteration number 9
 Attempt: 1  is leading to box 9
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 9 
-Prisoner number 9 has been succeeded, the chain length is 1
-
-Iteration number 10
-Attempt: 1  is leading to box 13
-Attempt: 2  is leading to box 5
-Attempt: 3  is leading to box 3
-Attempt: 4  is leading to box 10
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 13 5 3 10 
-Prisoner number 10 has been succeeded, the chain length is 4
-
-Iteration number 11
-Attempt: 1  is leading to box 11
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 11 
-Prisoner number 11 has been succeeded, the chain length is 1
-
-Iteration number 12
-Attempt: 1  is leading to box 6
-Attempt: 2  is leading to box 14
-Attempt: 3  is leading to box 2
-Attempt: 4  is leading to box 4
-Attempt: 5  is leading to box 12
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 6 14 2 4 12 
-Prisoner number 12 has been succeeded, the chain length is 5
-
-Iteration number 13
-Attempt: 1  is leading to box 5
-Attempt: 2  is leading to box 3
-Attempt: 3  is leading to box 10
-Attempt: 4  is leading to box 13
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 5 3 10 13 
-Prisoner number 13 has been succeeded, the chain length is 4
-
-Iteration number 14
-Attempt: 1  is leading to box 2
-Attempt: 2  is leading to box 4
-Attempt: 3  is leading to box 12
-Attempt: 4  is leading to box 6
-Attempt: 5  is leading to box 14
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 2 4 12 6 14 
-Prisoner number 14 has been succeeded, the chain length is 5
-
-Iteration number 15
-Attempt: 1  is leading to box 7
-Attempt: 2  is leading to box 15
-Total Boxes: 1 4 10 12 3 14 15 8 9 13 11 6 5 2 7 
-Visited in boxes: 7 15 
-Prisoner number 15 has been succeeded, the chain length is 2
-
-The number of prisoners that found their number is: 15 
-from 15 prisoners.
-
-round number: 3
-Iteration number 1
-Attempt: 1  is leading to box 1
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 1 
-Prisoner number 1 has been succeeded, the chain length is 1
-
-Iteration number 2
-Attempt: 1  is leading to box 11
-Attempt: 2  is leading to box 3
-Attempt: 3  is leading to box 12
-Attempt: 4  is leading to box 8
-Attempt: 5  is leading to box 4
-Attempt: 6  is leading to box 10
-Attempt: 7  is leading to box 7
-Attempt: 8  is leading to box 14
-Attempt: 9  is leading to box 6
-Attempt: 10  is leading to box 13
-Attempt: 11  is leading to box 15
-Attempt: 12  is leading to box 2
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 11 3 12 8 4 10 7 14 6 13 15 2 
-Prisoner number 2 has been failed, the chain length is 12
-
-Iteration number 3
-Attempt: 1  is leading to box 12
-Attempt: 2  is leading to box 8
-Attempt: 3  is leading to box 4
-Attempt: 4  is leading to box 10
-Attempt: 5  is leading to box 7
-Attempt: 6  is leading to box 14
-Attempt: 7  is leading to box 6
-Attempt: 8  is leading to box 13
-Attempt: 9  is leading to box 15
-Attempt: 10  is leading to box 2
-Attempt: 11  is leading to box 11
-Attempt: 12  is leading to box 3
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 12 8 4 10 7 14 6 13 15 2 11 3 
-Prisoner number 3 has been failed, the chain length is 12
-
-Iteration number 4
-Attempt: 1  is leading to box 10
-Attempt: 2  is leading to box 7
-Attempt: 3  is leading to box 14
-Attempt: 4  is leading to box 6
-Attempt: 5  is leading to box 13
-Attempt: 6  is leading to box 15
-Attempt: 7  is leading to box 2
-Attempt: 8  is leading to box 11
-Attempt: 9  is leading to box 3
-Attempt: 10  is leading to box 12
-Attempt: 11  is leading to box 8
-Attempt: 12  is leading to box 4
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 10 7 14 6 13 15 2 11 3 12 8 4 
-Prisoner number 4 has been failed, the chain length is 12
-
-Iteration number 5
-Attempt: 1  is leading to box 9
-Attempt: 2  is leading to box 5
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 9 5 
-Prisoner number 5 has been succeeded, the chain length is 2
-
-Iteration number 6
-Attempt: 1  is leading to box 13
-Attempt: 2  is leading to box 15
-Attempt: 3  is leading to box 2
-Attempt: 4  is leading to box 11
-Attempt: 5  is leading to box 3
-Attempt: 6  is leading to box 12
-Attempt: 7  is leading to box 8
-Attempt: 8  is leading to box 4
-Attempt: 9  is leading to box 10
-Attempt: 10  is leading to box 7
-Attempt: 11  is leading to box 14
-Attempt: 12  is leading to box 6
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 13 15 2 11 3 12 8 4 10 7 14 6 
-Prisoner number 6 has been failed, the chain length is 12
-
-Iteration number 7
-Attempt: 1  is leading to box 14
-Attempt: 2  is leading to box 6
-Attempt: 3  is leading to box 13
-Attempt: 4  is leading to box 15
-Attempt: 5  is leading to box 2
-Attempt: 6  is leading to box 11
-Attempt: 7  is leading to box 3
-Attempt: 8  is leading to box 12
-Attempt: 9  is leading to box 8
-Attempt: 10  is leading to box 4
-Attempt: 11  is leading to box 10
-Attempt: 12  is leading to box 7
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 14 6 13 15 2 11 3 12 8 4 10 7 
-Prisoner number 7 has been failed, the chain length is 12
-
-Iteration number 8
-Attempt: 1  is leading to box 4
-Attempt: 2  is leading to box 10
-Attempt: 3  is leading to box 7
-Attempt: 4  is leading to box 14
-Attempt: 5  is leading to box 6
-Attempt: 6  is leading to box 13
-Attempt: 7  is leading to box 15
-Attempt: 8  is leading to box 2
-Attempt: 9  is leading to box 11
-Attempt: 10  is leading to box 3
-Attempt: 11  is leading to box 12
-Attempt: 12  is leading to box 8
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 4 10 7 14 6 13 15 2 11 3 12 8 
-Prisoner number 8 has been failed, the chain length is 12
-
-Iteration number 9
-Attempt: 1  is leading to box 5
-Attempt: 2  is leading to box 9
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 5 9 
-Prisoner number 9 has been succeeded, the chain length is 2
-
-Iteration number 10
-Attempt: 1  is leading to box 7
-Attempt: 2  is leading to box 14
-Attempt: 3  is leading to box 6
-Attempt: 4  is leading to box 13
-Attempt: 5  is leading to box 15
-Attempt: 6  is leading to box 2
-Attempt: 7  is leading to box 11
-Attempt: 8  is leading to box 3
-Attempt: 9  is leading to box 12
-Attempt: 10  is leading to box 8
-Attempt: 11  is leading to box 4
-Attempt: 12  is leading to box 10
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 7 14 6 13 15 2 11 3 12 8 4 10 
-Prisoner number 10 has been failed, the chain length is 12
-
-Iteration number 11
-Attempt: 1  is leading to box 3
 Attempt: 2  is leading to box 12
-Attempt: 3  is leading to box 8
-Attempt: 4  is leading to box 4
-Attempt: 5  is leading to box 10
-Attempt: 6  is leading to box 7
-Attempt: 7  is leading to box 14
-Attempt: 8  is leading to box 6
-Attempt: 9  is leading to box 13
-Attempt: 10  is leading to box 15
-Attempt: 11  is leading to box 2
-Attempt: 12  is leading to box 11
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 3 12 8 4 10 7 14 6 13 15 2 11 
-Prisoner number 11 has been failed, the chain length is 12
-
-Iteration number 12
-Attempt: 1  is leading to box 8
-Attempt: 2  is leading to box 4
-Attempt: 3  is leading to box 10
-Attempt: 4  is leading to box 7
-Attempt: 5  is leading to box 14
-Attempt: 6  is leading to box 6
-Attempt: 7  is leading to box 13
-Attempt: 8  is leading to box 15
-Attempt: 9  is leading to box 2
-Attempt: 10  is leading to box 11
-Attempt: 11  is leading to box 3
-Attempt: 12  is leading to box 12
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 8 4 10 7 14 6 13 15 2 11 3 12 
-Prisoner number 12 has been failed, the chain length is 12
-
-Iteration number 13
-Attempt: 1  is leading to box 15
-Attempt: 2  is leading to box 2
-Attempt: 3  is leading to box 11
-Attempt: 4  is leading to box 3
-Attempt: 5  is leading to box 12
-Attempt: 6  is leading to box 8
-Attempt: 7  is leading to box 4
-Attempt: 8  is leading to box 10
-Attempt: 9  is leading to box 7
-Attempt: 10  is leading to box 14
-Attempt: 11  is leading to box 6
-Attempt: 12  is leading to box 13
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 15 2 11 3 12 8 4 10 7 14 6 13 
-Prisoner number 13 has been failed, the chain length is 12
-
-Iteration number 14
-Attempt: 1  is leading to box 6
-Attempt: 2  is leading to box 13
-Attempt: 3  is leading to box 15
-Attempt: 4  is leading to box 2
-Attempt: 5  is leading to box 11
-Attempt: 6  is leading to box 3
-Attempt: 7  is leading to box 12
-Attempt: 8  is leading to box 8
-Attempt: 9  is leading to box 4
-Attempt: 10  is leading to box 10
-Attempt: 11  is leading to box 7
-Attempt: 12  is leading to box 14
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 6 13 15 2 11 3 12 8 4 10 7 14 
-Prisoner number 14 has been failed, the chain length is 12
-
-Iteration number 15
-Attempt: 1  is leading to box 2
-Attempt: 2  is leading to box 11
-Attempt: 3  is leading to box 3
-Attempt: 4  is leading to box 12
-Attempt: 5  is leading to box 8
-Attempt: 6  is leading to box 4
-Attempt: 7  is leading to box 10
-Attempt: 8  is leading to box 7
-Attempt: 9  is leading to box 14
-Attempt: 10  is leading to box 6
-Attempt: 11  is leading to box 13
-Attempt: 12  is leading to box 15
-Total Boxes: 1 11 12 10 9 13 14 4 5 7 3 8 15 6 2 
-Visited in boxes: 2 11 3 12 8 4 10 7 14 6 13 15 
-Prisoner number 15 has been failed, the chain length is 12
-
-The number of prisoners that found their number is: 3 
-from 15 prisoners.
-
-round number: 4
-Iteration number 1
-Attempt: 1  is leading to box 4
-Attempt: 2  is leading to box 11
-Attempt: 3  is leading to box 13
-Attempt: 4  is leading to box 3
-Attempt: 5  is leading to box 10
-Attempt: 6  is leading to box 6
-Attempt: 7  is leading to box 2
-Attempt: 8  is leading to box 9
-Attempt: 9  is leading to box 8
-Attempt: 10  is leading to box 14
-Attempt: 11  is leading to box 1
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 4 11 13 3 10 6 2 9 8 14 1 
-Prisoner number 1 has been failed, the chain length is 11
-
-Iteration number 2
-Attempt: 1  is leading to box 9
-Attempt: 2  is leading to box 8
-Attempt: 3  is leading to box 14
-Attempt: 4  is leading to box 1
+Attempt: 3  is leading to box 5
+Attempt: 4  is leading to box 6
 Attempt: 5  is leading to box 4
-Attempt: 6  is leading to box 11
-Attempt: 7  is leading to box 13
-Attempt: 8  is leading to box 3
-Attempt: 9  is leading to box 10
-Attempt: 10  is leading to box 6
-Attempt: 11  is leading to box 2
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 9 8 14 1 4 11 13 3 10 6 2 
-Prisoner number 2 has been failed, the chain length is 11
+Attempt: 6  is leading to box 3
+Attempt: 7  is leading to box 8
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 9 12 5 6 4 3 8 
+Prisoner number 8 has been failed, the chain length is 7
 
-Iteration number 3
-Attempt: 1  is leading to box 10
-Attempt: 2  is leading to box 6
-Attempt: 3  is leading to box 2
-Attempt: 4  is leading to box 9
-Attempt: 5  is leading to box 8
-Attempt: 6  is leading to box 14
-Attempt: 7  is leading to box 1
-Attempt: 8  is leading to box 4
-Attempt: 9  is leading to box 11
-Attempt: 10  is leading to box 13
-Attempt: 11  is leading to box 3
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 10 6 2 9 8 14 1 4 11 13 3 
-Prisoner number 3 has been failed, the chain length is 11
-
-Iteration number 4
-Attempt: 1  is leading to box 11
-Attempt: 2  is leading to box 13
-Attempt: 3  is leading to box 3
-Attempt: 4  is leading to box 10
-Attempt: 5  is leading to box 6
-Attempt: 6  is leading to box 2
+Iteration number 9
+Attempt: 1  is leading to box 12
+Attempt: 2  is leading to box 5
+Attempt: 3  is leading to box 6
+Attempt: 4  is leading to box 4
+Attempt: 5  is leading to box 3
+Attempt: 6  is leading to box 8
 Attempt: 7  is leading to box 9
-Attempt: 8  is leading to box 8
-Attempt: 9  is leading to box 14
-Attempt: 10  is leading to box 1
-Attempt: 11  is leading to box 4
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 11 13 3 10 6 2 9 8 14 1 4 
-Prisoner number 4 has been failed, the chain length is 11
-
-Iteration number 5
-Attempt: 1  is leading to box 5
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 5 
-Prisoner number 5 has been succeeded, the chain length is 1
-
-Iteration number 6
-Attempt: 1  is leading to box 2
-Attempt: 2  is leading to box 9
-Attempt: 3  is leading to box 8
-Attempt: 4  is leading to box 14
-Attempt: 5  is leading to box 1
-Attempt: 6  is leading to box 4
-Attempt: 7  is leading to box 11
-Attempt: 8  is leading to box 13
-Attempt: 9  is leading to box 3
-Attempt: 10  is leading to box 10
-Attempt: 11  is leading to box 6
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 2 9 8 14 1 4 11 13 3 10 6 
-Prisoner number 6 has been failed, the chain length is 11
-
-Iteration number 7
-Attempt: 1  is leading to box 7
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 7 
-Prisoner number 7 has been succeeded, the chain length is 1
-
-Iteration number 8
-Attempt: 1  is leading to box 14
-Attempt: 2  is leading to box 1
-Attempt: 3  is leading to box 4
-Attempt: 4  is leading to box 11
-Attempt: 5  is leading to box 13
-Attempt: 6  is leading to box 3
-Attempt: 7  is leading to box 10
-Attempt: 8  is leading to box 6
-Attempt: 9  is leading to box 2
-Attempt: 10  is leading to box 9
-Attempt: 11  is leading to box 8
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 14 1 4 11 13 3 10 6 2 9 8 
-Prisoner number 8 has been failed, the chain length is 11
-
-Iteration number 9
-Attempt: 1  is leading to box 8
-Attempt: 2  is leading to box 14
-Attempt: 3  is leading to box 1
-Attempt: 4  is leading to box 4
-Attempt: 5  is leading to box 11
-Attempt: 6  is leading to box 13
-Attempt: 7  is leading to box 3
-Attempt: 8  is leading to box 10
-Attempt: 9  is leading to box 6
-Attempt: 10  is leading to box 2
-Attempt: 11  is leading to box 9
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 8 14 1 4 11 13 3 10 6 2 9 
-Prisoner number 9 has been failed, the chain length is 11
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 12 5 6 4 3 8 9 
+Prisoner number 9 has been failed, the chain length is 7
 
 Iteration number 10
-Attempt: 1  is leading to box 6
-Attempt: 2  is leading to box 2
-Attempt: 3  is leading to box 9
-Attempt: 4  is leading to box 8
-Attempt: 5  is leading to box 14
-Attempt: 6  is leading to box 1
-Attempt: 7  is leading to box 4
-Attempt: 8  is leading to box 11
-Attempt: 9  is leading to box 13
-Attempt: 10  is leading to box 3
-Attempt: 11  is leading to box 10
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 6 2 9 8 14 1 4 11 13 3 10 
-Prisoner number 10 has been failed, the chain length is 11
-
-Iteration number 11
-Attempt: 1  is leading to box 13
-Attempt: 2  is leading to box 3
-Attempt: 3  is leading to box 10
-Attempt: 4  is leading to box 6
-Attempt: 5  is leading to box 2
-Attempt: 6  is leading to box 9
-Attempt: 7  is leading to box 8
-Attempt: 8  is leading to box 14
-Attempt: 9  is leading to box 1
-Attempt: 10  is leading to box 4
-Attempt: 11  is leading to box 11
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 13 3 10 6 2 9 8 14 1 4 11 
-Prisoner number 11 has been failed, the chain length is 11
-
-Iteration number 12
-Attempt: 1  is leading to box 12
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 12 
-Prisoner number 12 has been succeeded, the chain length is 1
-
-Iteration number 13
-Attempt: 1  is leading to box 3
-Attempt: 2  is leading to box 10
-Attempt: 3  is leading to box 6
-Attempt: 4  is leading to box 2
-Attempt: 5  is leading to box 9
-Attempt: 6  is leading to box 8
-Attempt: 7  is leading to box 14
-Attempt: 8  is leading to box 1
-Attempt: 9  is leading to box 4
-Attempt: 10  is leading to box 11
-Attempt: 11  is leading to box 13
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 3 10 6 2 9 8 14 1 4 11 13 
-Prisoner number 13 has been failed, the chain length is 11
-
-Iteration number 14
-Attempt: 1  is leading to box 1
-Attempt: 2  is leading to box 4
-Attempt: 3  is leading to box 11
-Attempt: 4  is leading to box 13
-Attempt: 5  is leading to box 3
-Attempt: 6  is leading to box 10
-Attempt: 7  is leading to box 6
-Attempt: 8  is leading to box 2
-Attempt: 9  is leading to box 9
-Attempt: 10  is leading to box 8
-Attempt: 11  is leading to box 14
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 1 4 11 13 3 10 6 2 9 8 14 
-Prisoner number 14 has been failed, the chain length is 11
-
-Iteration number 15
-Attempt: 1  is leading to box 15
-Total Boxes: 4 9 10 11 5 2 7 14 8 6 13 12 3 1 15 
-Visited in boxes: 15 
-Prisoner number 15 has been succeeded, the chain length is 1
-
-The number of prisoners that found their number is: 4 
-from 15 prisoners.
-
-round number: 5
-Iteration number 1
-Attempt: 1  is leading to box 2
-Attempt: 2  is leading to box 13
-Attempt: 3  is leading to box 4
-Attempt: 4  is leading to box 10
-Attempt: 5  is leading to box 7
-Attempt: 6  is leading to box 8
-Attempt: 7  is leading to box 15
-Attempt: 8  is leading to box 6
-Attempt: 9  is leading to box 1
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 2 13 4 10 7 8 15 6 1 
-Prisoner number 1 has been failed, the chain length is 9
-
-Iteration number 2
-Attempt: 1  is leading to box 13
-Attempt: 2  is leading to box 4
-Attempt: 3  is leading to box 10
-Attempt: 4  is leading to box 7
-Attempt: 5  is leading to box 8
-Attempt: 6  is leading to box 15
-Attempt: 7  is leading to box 6
-Attempt: 8  is leading to box 1
-Attempt: 9  is leading to box 2
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 13 4 10 7 8 15 6 1 2 
-Prisoner number 2 has been failed, the chain length is 9
-
-Iteration number 3
-Attempt: 1  is leading to box 3
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 3 
-Prisoner number 3 has been succeeded, the chain length is 1
-
-Iteration number 4
 Attempt: 1  is leading to box 10
-Attempt: 2  is leading to box 7
-Attempt: 3  is leading to box 8
-Attempt: 4  is leading to box 15
-Attempt: 5  is leading to box 6
-Attempt: 6  is leading to box 1
-Attempt: 7  is leading to box 2
-Attempt: 8  is leading to box 13
-Attempt: 9  is leading to box 4
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 10 7 8 15 6 1 2 13 4 
-Prisoner number 4 has been failed, the chain length is 9
-
-Iteration number 5
-Attempt: 1  is leading to box 9
-Attempt: 2  is leading to box 5
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 9 5 
-Prisoner number 5 has been succeeded, the chain length is 2
-
-Iteration number 6
-Attempt: 1  is leading to box 1
-Attempt: 2  is leading to box 2
-Attempt: 3  is leading to box 13
-Attempt: 4  is leading to box 4
-Attempt: 5  is leading to box 10
-Attempt: 6  is leading to box 7
-Attempt: 7  is leading to box 8
-Attempt: 8  is leading to box 15
-Attempt: 9  is leading to box 6
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 1 2 13 4 10 7 8 15 6 
-Prisoner number 6 has been failed, the chain length is 9
-
-Iteration number 7
-Attempt: 1  is leading to box 8
-Attempt: 2  is leading to box 15
-Attempt: 3  is leading to box 6
-Attempt: 4  is leading to box 1
-Attempt: 5  is leading to box 2
-Attempt: 6  is leading to box 13
-Attempt: 7  is leading to box 4
-Attempt: 8  is leading to box 10
-Attempt: 9  is leading to box 7
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 8 15 6 1 2 13 4 10 7 
-Prisoner number 7 has been failed, the chain length is 9
-
-Iteration number 8
-Attempt: 1  is leading to box 15
-Attempt: 2  is leading to box 6
-Attempt: 3  is leading to box 1
-Attempt: 4  is leading to box 2
-Attempt: 5  is leading to box 13
-Attempt: 6  is leading to box 4
-Attempt: 7  is leading to box 10
-Attempt: 8  is leading to box 7
-Attempt: 9  is leading to box 8
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 15 6 1 2 13 4 10 7 8 
-Prisoner number 8 has been failed, the chain length is 9
-
-Iteration number 9
-Attempt: 1  is leading to box 5
-Attempt: 2  is leading to box 9
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 5 9 
-Prisoner number 9 has been succeeded, the chain length is 2
-
-Iteration number 10
-Attempt: 1  is leading to box 7
-Attempt: 2  is leading to box 8
-Attempt: 3  is leading to box 15
-Attempt: 4  is leading to box 6
-Attempt: 5  is leading to box 1
-Attempt: 6  is leading to box 2
-Attempt: 7  is leading to box 13
-Attempt: 8  is leading to box 4
-Attempt: 9  is leading to box 10
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 7 8 15 6 1 2 13 4 10 
-Prisoner number 10 has been failed, the chain length is 9
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 10 
+Prisoner number 10 has been succeeded, the chain length is 1
 
 Iteration number 11
-Attempt: 1  is leading to box 14
-Attempt: 2  is leading to box 12
-Attempt: 3  is leading to box 11
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 14 12 11 
-Prisoner number 11 has been succeeded, the chain length is 3
+Attempt: 1  is leading to box 1
+Attempt: 2  is leading to box 11
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 1 11 
+Prisoner number 11 has been succeeded, the chain length is 2
 
 Iteration number 12
-Attempt: 1  is leading to box 11
-Attempt: 2  is leading to box 14
-Attempt: 3  is leading to box 12
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 11 14 12 
-Prisoner number 12 has been succeeded, the chain length is 3
+Attempt: 1  is leading to box 5
+Attempt: 2  is leading to box 6
+Attempt: 3  is leading to box 4
+Attempt: 4  is leading to box 3
+Attempt: 5  is leading to box 8
+Attempt: 6  is leading to box 9
+Attempt: 7  is leading to box 12
+Total Boxes: 11 7 8 3 6 4 2 9 12 10 1 5 
+Visited in boxes: 5 6 4 3 8 9 12 
+Prisoner number 12 has been failed, the chain length is 7
 
-Iteration number 13
-Attempt: 1  is leading to box 4
-Attempt: 2  is leading to box 10
-Attempt: 3  is leading to box 7
-Attempt: 4  is leading to box 8
-Attempt: 5  is leading to box 15
-Attempt: 6  is leading to box 6
-Attempt: 7  is leading to box 1
-Attempt: 8  is leading to box 2
-Attempt: 9  is leading to box 13
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 4 10 7 8 15 6 1 2 13 
-Prisoner number 13 has been failed, the chain length is 9
+The number of prisoners that found their number is: 5 
+from 12 prisoners.
 
-Iteration number 14
-Attempt: 1  is leading to box 12
-Attempt: 2  is leading to box 11
-Attempt: 3  is leading to box 14
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 12 11 14 
-Prisoner number 14 has been succeeded, the chain length is 3
-
-Iteration number 15
-Attempt: 1  is leading to box 6
-Attempt: 2  is leading to box 1
-Attempt: 3  is leading to box 2
-Attempt: 4  is leading to box 13
-Attempt: 5  is leading to box 4
-Attempt: 6  is leading to box 10
-Attempt: 7  is leading to box 7
-Attempt: 8  is leading to box 8
-Attempt: 9  is leading to box 15
-Total Boxes: 2 13 3 10 9 1 8 15 5 7 14 11 4 12 6 
-Visited in boxes: 6 1 2 13 4 10 7 8 15 
-Prisoner number 15 has been failed, the chain length is 9
-
-The number of prisoners that found their number is: 6 
-from 15 prisoners.
-
-The number of prisoners is 15 ,the number of rounds is 5 ,s =  1 
-s / k in % = 20.0
+The number of prisoners is 12 ,the number of rounds is 1 ,s =  0 
+s / k in % = 0.0
 Probability by loop calculation of the geometric series:
- 1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) = 0.37185557498905464
+ 1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) = 0.34678932178932176
