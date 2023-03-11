@@ -1,11 +1,14 @@
 import math
 import sys
 import warnings
+
+import pygame.time
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
 from box_view import BoxV
+from pygame.time import Clock
 
 
 def suppress_warnings(func):
@@ -42,6 +45,7 @@ class ViewManager:
 
         # Screen Operations
         self.screen_operator = None
+        self.clock=Clock()
 
     @suppress_warnings
     def pygame_setup(self):
@@ -60,13 +64,16 @@ class ViewManager:
         :param num_of_rounds: The numbers of input rounds
         :param num_of_prisoners: The numbers of input prisoners
         """
-        self.listener.view_need_to_start_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+        self.listener.view_need_to_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
 
     def view_request_pris_num(self):
         return self.listener.view_need_pris_num()
 
     def view_request_pris_pos(self):
         return self.listener.view_need_pris_pos()
+
+    def view_request_run_game(self):
+        self.listener.view_need_to_run_game()
 
     def set_listener(self, listener) -> None:
         """
@@ -97,16 +104,16 @@ class ViewManager:
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
                 self.create_boxes()
-                #self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
+                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, True)
                 pris_num = self.view_request_pris_num()
                 self.prisoner=PrisonerV(start_location=DOOR_WAY,num=pris_num,screen=self.screen_operator.screen)
                 self.state = "running"
 
             if self.state == "running":
+                self.view_request_run_game()
                 pris_num = self.view_request_pris_num()
                 if pris_num != self.prisoner.num:
                     self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
@@ -114,9 +121,9 @@ class ViewManager:
                     pos = self.view_request_pris_pos()
                     self.prisoner.update_prisoner_location(location=pos)
                 self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
-            #self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
 
             # Update the display
+            self.clock.tick(25)
             pygame.display.update()
 
         # Quit the game

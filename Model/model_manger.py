@@ -35,6 +35,9 @@ class ModelManger:
         self.current_round = 1
         self.current_pris_num = 1
         self.succeeded = 0
+        self.total_pris=0
+        self.total_rounds=1
+        self.initial_pos=None
         self.prob_handler = None
         self.listener = None
 
@@ -50,7 +53,7 @@ class ModelManger:
         self.listener.ntfy_view_to_replace_pris(self.current_pris_num.get_num())
 
     def model_request_box_dimensions(self):
-        return self.listener.model_request_box_dimensions()
+        return self.listener.model_need_box_dimensions()
 
     def ntfy_to_view_get_all_boxes_pos(self):
         return self.listener.ntfy_view_get_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
@@ -71,7 +74,7 @@ class ModelManger:
             self.dict_prisoners = {}
         for index_pris in range(num_pris):
             self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
-                                                            all_boxes=self.dict_rounds[self.current_round],
+                                                            all_boxes=self.dict_boxes,
                                                             trgt_box=self.dict_boxes[index_pris + 1])
 
     def init_boxes(self, num_pris) -> None:
@@ -97,43 +100,43 @@ class ModelManger:
         """
         boxes_on_screen = self.ntfy_to_view_get_all_boxes_pos()
         for box_num in self.dict_boxes.keys():
-            self.dict_boxes[box_num].set_pos = boxes_on_screen[box_num]
+            self.dict_boxes[box_num].set_pos(boxes_on_screen[box_num])
 
-    def run_game(self, num_pris, num_rounds, initial_pos, print_specifically) -> None:
-        """
-        The actual method that responsible for the game functionality.\n
-        At first the function run the ProbabilityManager calculations and let the prisoners move by its requirements.\n
-        :param num_pris: int, the number o prisoners.
-        :param num_rounds: int, the number of rounds.
-        :param initial_pos: tuple, the initial position of the prisoner on screen (x,y)
-        :param print_specifically: bool, indication if the user want full description of each prisoner and round
-        :return: None
-        """
+    def setup_game(self, num_pris, num_rounds, initial_pos, print_specifically):
         self.prob_handler = ProbabilitiesHandler(num_prisoners=num_pris, num_rounds=num_rounds,
                                                  print_specifically=print_specifically)
         self.dict_rounds = self.prob_handler.run_probabilities()
         self.current_round = 1
+        self.total_rounds=num_rounds
+        self.total_pris=num_pris
+        self.initial_pos=initial_pos
         self.init_boxes(num_pris=num_pris)
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
-        while self.current_round < num_rounds:
 
-            if self.current_pris_num > num_pris:
+    def run_game(self) -> None:
+        """
+        The actual method that responsible for the game functionality.\n
+        At first the function run the ProbabilityManager calculations and let the prisoners move by its requirements.\n
+        :return: None
+        """
+        if self.current_round <= self.total_rounds:
+            if self.current_pris_num <= self.total_pris:
+                if self.dict_prisoners[self.current_pris_num].is_still_searching():
+                    self.pris_request_box()
+                    dimensions= self.model_request_box_dimensions()
+                    self.dict_prisoners[self.current_pris_num].navigate(box_width=dimensions[0],box_height=dimensions[1])
+                else:
+                    if self.dict_prisoners[self.current_pris_num].found_number:
+                        self.succeeded += 1
+                    self.current_pris_num += 1
+            else:
                 self.current_pris_num = 1
                 self.current_round += 1
-                self.succeeded = 0
-                if self.current_round > num_rounds:
-                    return
-                else:
-                    self.current_round += 1
-                    self.init_boxes(num_pris=num_pris)
-                    self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
-
-            while self.dict_prisoners[self.current_pris_num].is_still_searching():
-                self.pris_request_box()
-                self.dict_prisoners[self.current_pris_num].move_to_box()
-                self.ntfy_to_view_pris_pos()
-
-            self.current_pris_num += 1
+                self.init_boxes(self.total_pris)
+                self.succeeded=0
+        else:
+            self.current_pris_num=1
+            return
 
     def get_current_pris_num(self):
         return self.current_pris_num

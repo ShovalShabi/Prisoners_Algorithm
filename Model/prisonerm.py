@@ -79,15 +79,15 @@ class PrisonerM:
         """
         if self.trgt_box.get_pos()[0] == self.pos[0] and \
                 self.trgt_box.get_pos()[1] == self.pos[1]:
-            if self.trgt_box.get_nxt_box().get_num == self.prisoner_num:
+            if self.trgt_box.get_nxt_box().get_num() == self.prisoner_num:
                 self.found_number = True
-                print("got the number")
+                print(f"Prisoner number {self.prisoner_num} found his number at box number {self.trgt_box.box_num} at {self.trgt_box.pos}")
                 return False
-            if self.trgt_box.get_nxt_box().get_num in self.visited_boxes.keys():
-                print("disqualified")
+            if self.trgt_box.get_nxt_box().get_num() in self.visited_boxes.keys():
+                print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False
             else:
-                print("searching")
+                print(f"Prisoner number {self.prisoner_num} going to box number {self.trgt_box.box_num}")
                 self.visited_boxes.update({self.trgt_box.get_num: self.trgt_box})
                 self.trgt_box = self.trgt_box.get_nxt_box()
         return True
@@ -113,7 +113,7 @@ class PrisonerM:
             self.updated_pos = True
         self.updated_pos = False
 
-    def check_collision(self, box_width: int, box_height: int) -> None:
+    def navigate(self, box_width: int, box_height: int) -> None:
         """
         This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.\n
         :param box_width: int, represents a box width of an image.
@@ -121,10 +121,8 @@ class PrisonerM:
         :return: None.
         """
         for box_number in self.all_boxes.keys():
-            if self.pos[0] >= self.all_boxes[box_number].get_pos()[0] and self.pos[0] <= \
-                    self.all_boxes[box_number].get_pos()[0] + box_width:  # collison on axis x
+            if self.pos[0] >= self.all_boxes[box_number].get_pos()[0] and self.pos[0] <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
-            if self.pos[1] >= self.all_boxes[box_number].get_pos()[1] and self.pos[1] <= \
-                    self.all_boxes[box_number].get_pos()[1] + box_height:  # collison on axis y
+            if self.pos[1] >= self.all_boxes[box_number].get_pos()[1] and self.pos[1] <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
-            self.move_to_box(blocked=False)
+        self.move_to_box(blocked=False)
