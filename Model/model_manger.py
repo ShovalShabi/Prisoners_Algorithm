@@ -25,7 +25,7 @@ class ModelManger:
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
     """
 
-    def __init__(self,listener:Controller):
+    def __init__(self):
         """
         Initialize ModelManger Object.\n
         :param listener: Controller object, coordinator class between backend and frontend.
@@ -33,11 +33,11 @@ class ModelManger:
         self.dict_rounds={}  #dict of {round_num:list dependencies of boxes}
         self.dict_prisoners={}   #dict of {num_pris:prisoner}
         self.dict_boxes= {}  #dict of {num_box:box}
-        self.listener=listener
         self.current_round = 1
         self.current_prisoner = 1
         self.succeeded=0
         self.prob_handler=None
+        self.listener=None
 
     ############################## MVC Methods ###################################
 
@@ -56,7 +56,8 @@ class ModelManger:
     def ntfy_to_view_get_all_boxes_pos(self):
         return self.listener.ntfy_to_view_get_all_boxes_pos()  #will return dict of {num_box:position}
 
-
+    def set_listener(self,listener):
+        self.listener=listener
 
 
     ###############################################################################
@@ -89,11 +90,12 @@ class ModelManger:
             self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][box_num-1]])  #redirecting each box to current next box
         self.set_all_boxes_pos()
 
-    def set_all_boxes_pos(self,boxes_on_screen) -> None:
+    def set_all_boxes_pos(self) -> None:
         """
         Set method for ll boxes position, the method requests the controller to hand over the box locations on the screen.\n
         :return: None
         """
+        boxes_on_screen=self.ntfy_to_view_get_all_boxes_pos()
         for box_num in self.dict_boxes.keys():
             self.dict_boxes[box_num].set_pos = boxes_on_screen[box_num]
 
@@ -128,7 +130,7 @@ class ModelManger:
             while self.dict_prisoners[self.current_prisoner].is_still_searching():
                 self.pris_request_box()
                 self.dict_prisoners[self.current_prisoner].move_to_box()
-                self.ntfy_pris_pos()
+                self.ntfy_to_view_pris_pos()
 
-            self.ntfy_pris_succeed()
+            #self.ntfy_pris_succeed()
             self.current_prisoner+=1

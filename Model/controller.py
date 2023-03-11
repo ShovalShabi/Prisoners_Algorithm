@@ -48,7 +48,7 @@ class Controller:
         return self.ntfy_to_view_get_all_boxes_locationV()
 
     def ntfy_to_model_start_game(self, num_prisoners, num_round,initial_pos, print_specifically):
-        self.model.model_start_game(num_prisoners,num_round,initial_pos,print_specifically)
+        self.model.run_game(num_prisoners,num_round,initial_pos,print_specifically)
 
     ###################################################################################
     ######################## View related methods #####################################
