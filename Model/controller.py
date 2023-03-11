@@ -14,7 +14,7 @@ class Controller:
     lock: mutex lock for threads -> Lock object.\n
     """
 
-    def __init__(self, model:ModelManger, view:ViewManager):
+    def __init__(self, model: ModelManger, view: ViewManager):
         self.model = model
         self.view = view
         self.tasks = []
@@ -44,19 +44,19 @@ class Controller:
     def model_request_box_dimensions(self):
         return self.ntfy_to_view_get_box_dimension()
 
-    def ntfy_to_view_get_all_boxes_pos(self): #will return dict of {num_box:position}
+    def ntfy_to_view_get_all_boxes_pos(self):  # will return dict of {num_box:position}
         return self.ntfy_to_view_get_all_boxes_locationV()
 
-    def ntfy_to_model_start_game(self, num_prisoners, num_round,initial_pos, print_specifically):
-        self.model.model_start_game(num_prisoners,num_round,initial_pos,print_specifically)
+    def ntfy_to_model_start_game(self, num_prisoners, num_round, initial_pos, print_specifically):
+        self.model.run_game(num_prisoners, num_round, initial_pos, print_specifically)
 
     ###################################################################################
     ######################## View related methods #####################################
 
-    def ntfy_view_on_pris_location(self,pos):
+    def ntfy_view_on_pris_location(self, pos):
         self.view.update_prisoner_location(pos)
 
-    def ntfy_view_handle_box_request(self,box_num):
+    def ntfy_view_handle_box_request(self, box_num):
         self.view.handle_box_request(box_num)
 
     def ntfy_view_to_replace_pris(self, new_pris_num):
@@ -83,4 +83,4 @@ class Controller:
         :param num_of_rounds: The numbers of input rounds
         :param num_of_prisoners: The numbers of input prisoners
         """
-        self.ntfy_to_model_start_game(num_of_prisoners, num_of_rounds,initial_pos,print_specifically)
+        self.ntfy_to_model_start_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)

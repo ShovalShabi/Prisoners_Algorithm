@@ -1,5 +1,4 @@
 from Model.boxm import BoxM
-from Model.controller import Controller
 from Model.prisonerm import PrisonerM
 from Model.probabilities_handler import ProbabilitiesHandler
 
@@ -25,19 +24,19 @@ class ModelManger:
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
     """
 
-    def __init__(self,listener:Controller):
+    def __init__(self):
         """
         Initialize ModelManger Object.\n
         :param listener: Controller object, coordinator class between backend and frontend.
         """
-        self.dict_rounds={}  #dict of {round_num:list dependencies of boxes}
-        self.dict_prisoners={}   #dict of {num_pris:prisoner}
-        self.dict_boxes= {}  #dict of {num_box:box}
-        self.listener=listener
+        self.dict_rounds = {}  # dict of {round_num:list dependencies of boxes}
+        self.dict_prisoners = {}  # dict of {num_pris:prisoner}
+        self.dict_boxes = {}  # dict of {num_box:box}
+        self.listener = None
         self.current_round = 1
         self.current_prisoner = 1
-        self.succeeded=0
-        self.prob_handler=None
+        self.succeeded = 0
+        self.prob_handler = None
 
     ############################## MVC Methods ###################################
 
@@ -54,14 +53,11 @@ class ModelManger:
         return self.listener.model_request_box_dimensions()
 
     def ntfy_to_view_get_all_boxes_pos(self):
-        return self.listener.ntfy_to_view_get_all_boxes_pos()  #will return dict of {num_box:position}
-
-
-
+        return self.listener.ntfy_to_view_get_all_boxes_pos()  # will return dict of {num_box:position}
 
     ###############################################################################
 
-    def init_prisoners(self,num_pris:int,initial_pos:tuple) -> None:
+    def init_prisoners(self, num_pris: int, initial_pos: tuple) -> None:
         """
         Initialization method for creating new PrisonerM objects according the round requirements.\n
         :param num_pris: int, the number o prisoners.
@@ -71,10 +67,11 @@ class ModelManger:
         if self.dict_prisoners:
             self.dict_prisoners = {}
         for index_pris in range(num_pris):
-            self.dict_prisoners[index_pris+1]=PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
-                                                        all_boxes=self.dict_rounds[self.current_round], trgt_box=self.dict_boxes[index_pris + 1])
+            self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
+                                                            all_boxes=self.dict_rounds[self.current_round],
+                                                            trgt_box=self.dict_boxes[index_pris + 1])
 
-    def init_boxes(self,num_pris) -> None:
+    def init_boxes(self, num_pris) -> None:
         """
         Initialization method for creating new BoxM objects according the round requirements and screen placing.\n
         :param num_pris: int, the number o prisoners.
@@ -83,13 +80,14 @@ class ModelManger:
         if self.dict_boxes:
             self.dict_boxes = {}
         for index_box in range(num_pris):
-            box=BoxM(box_num=index_box + 1)
-            self.dict_boxes[index_box+1]=box
-        for box_num in self.dict_boxes.keys():  #box num starts from 1 to n+1
-            self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][box_num-1]])  #redirecting each box to current next box
+            box = BoxM(box_num=index_box + 1)
+            self.dict_boxes[index_box + 1] = box
+        for box_num in self.dict_boxes.keys():  # box num starts from 1 to n+1
+            self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][
+                box_num - 1]])  # redirecting each box to current next box
         self.set_all_boxes_pos()
 
-    def set_all_boxes_pos(self,boxes_on_screen) -> None:
+    def set_all_boxes_pos(self, boxes_on_screen) -> None:
         """
         Set method for ll boxes position, the method requests the controller to hand over the box locations on the screen.\n
         :return: None
@@ -97,7 +95,7 @@ class ModelManger:
         for box_num in self.dict_boxes.keys():
             self.dict_boxes[box_num].set_pos = boxes_on_screen[box_num]
 
-    def run_game(self,num_pris,num_rounds,initial_pos,print_specifically) -> None:
+    def run_game(self, num_pris, num_rounds, initial_pos, print_specifically) -> None:
         """
         The actual method that responsible for the game functionality.\n
         At first the function run the ProbabilityManager calculations and let the prisoners move by its requirements.\n
@@ -107,21 +105,22 @@ class ModelManger:
         :param print_specifically: bool, indication if the user want full description of each prisoner and round
         :return: None
         """
-        self.prob_handler=ProbabilitiesHandler(num_prisoners=num_pris,num_rounds=num_rounds,print_specifically=print_specifically)
-        self.dict_rounds=self.prob_handler.run_probabilities()
+        self.prob_handler = ProbabilitiesHandler(num_prisoners=num_pris, num_rounds=num_rounds,
+                                                 print_specifically=print_specifically)
+        self.dict_rounds = self.prob_handler.run_probabilities()
         self.current_round = 1
         self.init_boxes(num_pris=num_pris)
-        self.init_prisoners(num_pris=num_pris,initial_pos=initial_pos)
+        self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
         while self.current_round < num_rounds:
 
             if self.current_prisoner > num_pris:
-                self.current_prisoner=1
-                self.current_round+=1
-                self.succeeded=0
+                self.current_prisoner = 1
+                self.current_round += 1
+                self.succeeded = 0
                 if self.current_round > num_rounds:
                     return
                 else:
-                    self.current_round+=1
+                    self.current_round += 1
                     self.init_boxes(num_pris=num_pris)
                     self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
 
@@ -131,4 +130,7 @@ class ModelManger:
                 self.ntfy_pris_pos()
 
             self.ntfy_pris_succeed()
-            self.current_prisoner+=1
+            self.current_prisoner += 1
+
+    def set_listener(self, listener):
+        self.listener = listener
