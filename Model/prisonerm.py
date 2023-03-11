@@ -35,7 +35,7 @@ class PrisonerM:
         self.found_number = False
         self.updated_pos = False
 
-    def set_pos(self, position: tuple) -> None:
+    def set_pos(self, position: tuple[int,int]) -> None:
         """
         Set position of the prisoner, tuple of (x,y) of pixels on screen.\n
         :return: None.
@@ -45,7 +45,7 @@ class PrisonerM:
     def get_pos(self) -> tuple:
         """
         Return position of the prisoner image, tuple of (x,y) of pixels on screen.\n
-        :return: tuple, (x,y) of pixels.
+        :return: tuple, position tuple of (x,y) in form -> tuple[int,int].
         """
         return self.pos
 
@@ -92,7 +92,7 @@ class PrisonerM:
                 self.trgt_box = self.trgt_box.get_nxt_box()
         return True
 
-    def move_to_box(self, blocked: bool):
+    def move_to_box(self, blocked: bool) -> None:
         """
         This function check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.\n
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
