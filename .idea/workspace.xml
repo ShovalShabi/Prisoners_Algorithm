@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ce1cea30-8450-4b83-baa7-3863d0d95cf1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/model_manger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/model_manger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/prisonerm.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/prisonerm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/viewmanager.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/viewmanager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,16 +59,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Model/prisonerm.py</url>
-          <line>127</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
