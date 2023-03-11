@@ -127,12 +127,7 @@ class ModelManger:
             while self.dict_prisoners[self.current_prisoner].is_still_searching():
                 self.pris_request_box()
                 self.dict_prisoners[self.current_prisoner].move_to_box()
-                self.ntfy_pris_pos()
-<<<<<<< HEAD
             self.current_prisoner += 1
 
     def set_listener(self, listener):
         self.listener = listener
-=======
-            self.current_prisoner+=1
->>>>>>> model
