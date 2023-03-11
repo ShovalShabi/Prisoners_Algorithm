@@ -1,11 +1,10 @@
 import math
 import sys
 import warnings
-import pygame
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from screen_operator import ScreenOperator
-from Prisoners_Riddle.View.prisoner_view import PrisonerV
-from Prisoners_Riddle.View.settings import *
+from View.prisoner_view import PrisonerV
+from View.settings import *
 from box_view import BoxV
 
 

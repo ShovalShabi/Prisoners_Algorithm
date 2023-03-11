@@ -1,9 +1,9 @@
-from Prisoners_Riddle.View.settings import *
+from View.settings import *
 from pygame import Surface, image, Rect
 from pygame.font import Font
 import os
 
-from Prisoners_Riddle.View.settings import MAX_BOX_WIDTH
+from View.settings import MAX_BOX_WIDTH
 
 
 class BoxV:

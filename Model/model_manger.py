@@ -1,7 +1,7 @@
-from Prisoners_Algorithm.Model.boxm import BoxM
-from Prisoners_Algorithm.Model.controller import Controller
-from Prisoners_Algorithm.Model.prisonerm import PrisonerM
-from Prisoners_Algorithm.Model.probabilities_handler import ProbabilitiesHandler
+from Model.boxm import BoxM
+from Model.controller import Controller
+from Model.prisonerm import PrisonerM
+from Model.probabilities_handler import ProbabilitiesHandler
 
 
 class ModelManger:

@@ -1,4 +1,4 @@
-from Prisoners_Algorithm.Model.boxm import BoxM
+from Model.boxm import BoxM
 
 
 class PrisonerM:
