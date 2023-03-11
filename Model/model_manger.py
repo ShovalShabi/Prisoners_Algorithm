@@ -132,5 +132,4 @@ class ModelManger:
                 self.dict_prisoners[self.current_prisoner].move_to_box()
                 self.ntfy_to_view_pris_pos()
 
-            #self.ntfy_pris_succeed()
             self.current_prisoner+=1
