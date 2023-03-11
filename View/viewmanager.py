@@ -86,20 +86,35 @@ class ViewManager:
 
             if self.state == 'start':
                 # Create and draw the boxes, handle events, and update the button states
-                # self.reset_all()
+                self.reset_all()
                 self.create_boxes()
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds,
-                                                      CELL_SIZE, True)
-
+                self.listener.view_need_to_start_game(self.num_of_prisoners, self.num_of_rounds, CELL_SIZE, True)
             # Update the display
             pygame.display.update()
 
         # Quit the game
         pygame.quit()
         sys.exit()
+
+    # def reset_all(self):
+    #     # Variables
+    #     self.num_of_boxes_view = 0
+    #     self.num_of_prisoners = 0
+    #     self.status = 'Prisoner'
+    #     self.num_of_rounds = 0
+    #     self.actual_num_of_boxes = 0
+    #
+    #     # Objects
+    #     self.prisoner = None
+    #     self.listener = None
+    #     self.boxes_on_screen = {}
+    #     self.boxes_off_screen = {}
+    #
+    #     # Screen Operations
+    #     self.screen_operator = None
 
     def button_events(self) -> None:
         """
@@ -265,3 +280,5 @@ class ViewManager:
     @suppress_warnings
     def get_box_dimensions(self):
         return IMG_BOX_WIDTH, IMG_BOX_HEIGHT
+
+
