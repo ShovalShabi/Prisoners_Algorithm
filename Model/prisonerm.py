@@ -17,7 +17,7 @@ class PrisonerM:
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
     """
 
-    def __init__(self,num_prisoner:int,position:tuple,pace:int,all_boxes:dict,trgt_box:BoxM):
+    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, trgt_box: BoxM):
         """
         Initialize the PrisonerM object.\n
         :param num_prisoner: int , represents prisoner number.
@@ -26,51 +26,51 @@ class PrisonerM:
         :param all_boxes:dict, dictionary of BoxM objects located on screen.
         :param trgt_box:BoxM object, represents the target box.
         """
-        self.prisoner_num=num_prisoner
+        self.prisoner_num = num_prisoner
         self.pos = position
-        self.pace=pace
-        self.visited_boxes=dict()  # dictionary of {number box:value box}
-        self.all_boxes=all_boxes  # dictionary of {number box:value box}
+        self.pace = pace
+        self.visited_boxes = dict()  # dictionary of {number box:value box}
+        self.all_boxes = all_boxes  # dictionary of {number box:value box}
         self.trgt_box = trgt_box
-        self.found_number=False
-        self.updated_pos=False
+        self.found_number = False
+        self.updated_pos = False
 
-    def set_pos(self, position:tuple)->None:
+    def set_pos(self, position: tuple) -> None:
         """
         Set position of the prisoner, tuple of (x,y) of pixels on screen.\n
         :return: None.
         """
-        self.pos=position
+        self.pos = position
 
-    def get_pos(self)->tuple:
+    def get_pos(self) -> tuple:
         """
         Return position of the prisoner image, tuple of (x,y) of pixels on screen.\n
         :return: tuple, (x,y) of pixels.
         """
         return self.pos
 
-    def set_pace(self,pace:int)->None:
+    def set_pace(self, pace: int) -> None:
         """
         Set pace of the prisoner.\n
         :return: None.
         """
-        self.pace=pace
+        self.pace = pace
 
-    def get_pace(self)->int:
+    def get_pace(self) -> int:
         """
         Return prisoner number.\n
         :return: int.
         """
         return self.pace
 
-    def get_num(self)->int:
+    def get_num(self) -> int:
         """
         Return prisoner number.\n
         :return: int.
         """
         return self.prisoner_num
 
-    def is_still_searching(self)->bool:
+    def is_still_searching(self) -> bool:
         """
         This function check if the prisoner is still searching his target box, and replaces it if there is a need.\n
         As long the prisoner is still searching for his number the output of this function will be True otherwise
@@ -89,31 +89,31 @@ class PrisonerM:
             else:
                 print("searching")
                 self.visited_boxes.update({self.trgt_box.get_num: self.trgt_box})
-                self.trgt_box= self.trgt_box.get_nxt_box()
+                self.trgt_box = self.trgt_box.get_nxt_box()
         return True
 
-    def move_to_box(self,blocked:bool):
+    def move_to_box(self, blocked: bool):
         """
         This function check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.\n
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
         :return: bool, is the object moving or not.
         """
         if self.trgt_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:
-            self.set_pos((self.pos[0], self.pos[1] - self.pace))  #moving upwards
+            self.set_pos((self.pos[0], self.pos[1] - self.pace))  # moving upwards
             self.updated_pos = True
-            self.updated_pos=True
-        elif self.trgt_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  #moving downwards
+            self.updated_pos = True
+        elif self.trgt_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards
             self.set_pos((self.pos[0], self.pos[1] + self.pace))
             self.updated_pos = True
-        if self.trgt_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  #moving left
+        if self.trgt_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left
             self.set_pos((self.pos[0] - self.pace, self.pos[1]))
             self.updated_pos = True
-        elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  #moving right
+        elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
-        self.updated_pos=False
+        self.updated_pos = False
 
-    def check_collision(self,box_width:int,box_height:int) -> None:
+    def check_collision(self, box_width: int, box_height: int) -> None:
         """
         This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.\n
         :param box_width: int, represents a box width of an image.
@@ -121,15 +121,10 @@ class PrisonerM:
         :return: None.
         """
         for box_number in self.all_boxes.keys():
-            if self.pos[0] >= self.all_boxes[box_number].get_pos()[0] and self.pos[0] <= self.all_boxes[box_number].get_pos()[0] + box_width:  #collison on axis x
+            if self.pos[0] >= self.all_boxes[box_number].get_pos()[0] and self.pos[0] <= \
+                    self.all_boxes[box_number].get_pos()[0] + box_width:  # collison on axis x
                 self.move_to_box(blocked=True)
-            if self.pos[1] >= self.all_boxes[box_number].get_pos()[1] and self.pos[1] <= self.all_boxes[box_number].get_pos()[1] + box_height:  #collison on axis y
+            if self.pos[1] >= self.all_boxes[box_number].get_pos()[1] and self.pos[1] <= \
+                    self.all_boxes[box_number].get_pos()[1] + box_height:  # collison on axis y
                 self.move_to_box(blocked=True)
             self.move_to_box(blocked=False)
-
-
-
-
-
-
-
