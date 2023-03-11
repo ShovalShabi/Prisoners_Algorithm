@@ -14,17 +14,17 @@ class Controller:
     lock: mutex lock for threads -> Lock object.\n
     """
 
-    def __init__(self,model,view):
-        self.model=model
-        self.view=view
-        self.lock=Lock()
-        self.tasks=[]
+    def __init__(self, model, view):
+        self.model = model
+        self.view = view
+        self.lock = Lock()
+        self.tasks = []
 
     def get_view(self):
         return self.view
 
-    def set_view(self,view):
-        self.view=view
+    def set_view(self, view):
+        self.view = view
 
     def get_model(self):
         return self.model
@@ -32,27 +32,26 @@ class Controller:
     def set_model(self, model):
         self.model = model
 
-
     #################### Model related methods #####################################
-    def prepare_thread_to_trgt(self,trgt_func):
+    def prepare_thread_to_trgt(self, trgt_func):
         pass
 
-    def ntfy_to_view_pris_pos(self,pos:tuple):
+    def ntfy_to_view_pris_pos(self, pos: tuple):
         pass
 
-    def ntfy_to_view_pris_need_box(self,box_num):
+    def ntfy_to_view_pris_need_box(self, box_num):
         pass
 
-    def ntfy_to_view_pris_changed(self,new_pris_num):
+    def ntfy_to_view_pris_changed(self, new_pris_num):
         pass
 
-    def ntfy_to_view_pris_need_boxes_pos(self):#will return dict of {num_box:position}
+    def ntfy_to_view_pris_need_boxes_pos(self):  # will return dict of {num_box:position}
         pass
 
-    def model_start_game(self,num_prisoners,num_round,print_specifically):
+    def model_start_game(self, num_prisoners, num_round, print_specifically):
         pass
 
-    def ntfy_to_view_pris_succeeded(self,num_succeeded):
+    def ntfy_to_view_pris_succeeded(self, num_succeeded):
         pass
 
     ###################################################################################

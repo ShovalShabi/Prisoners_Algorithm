@@ -1,5 +1,5 @@
-from Prisoners_Algorithm.View.box_view import BoxV
-from Prisoners_Algorithm.View.prisoner_view import PrisonerV
+from Prisoners_Riddle.View.box_view import BoxV
+from Prisoners_Riddle.View.prisoner_view import PrisonerV
 from settings import *
 import pygame
 

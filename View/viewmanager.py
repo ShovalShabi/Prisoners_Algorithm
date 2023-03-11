@@ -4,8 +4,8 @@ import warnings
 import pygame
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from screen_operator import ScreenOperator
-from Prisoners_Algorithm.View.prisoner_view import PrisonerV
-from Prisoners_Algorithm.View.settings import *
+from Prisoners_Riddle.View.prisoner_view import PrisonerV
+from Prisoners_Riddle.View.settings import *
 from box_view import BoxV
 
 
@@ -38,8 +38,8 @@ class ViewManager:
         # Objects
         self.prisoner = None
         self.listener = None
-        self.boxes_on_screen={}
-        self.boxes_off_screen={}
+        self.boxes_on_screen = {}
+        self.boxes_off_screen = {}
 
         # Screen Operations
         self.screen_operator = None
@@ -88,6 +88,15 @@ class ViewManager:
         """
         self.prisoner.update_prisoner_location(location)
 
+    def send_start_game(self, num_of_prisoners, num_of_rounds) -> None:
+        """
+        Send the input data to listener object.
+
+        :param num_of_rounds: The numbers of input rounds
+        :param num_of_prisoners: The numbers of input prisoners
+        """
+        self.listener.send_start_game(num_of_prisoners, num_of_rounds)
+
     # Game functions
     def run(self) -> None:
         """
@@ -97,15 +106,18 @@ class ViewManager:
         self.pygame_setup()
         while self.running:
 
-            # Create and draw the boxes, handle events, and update the button states
-            self.create_boxes()
             self.screen_operator.draw_objects(self.boxes_on_screen)
             self.listen_to_events()
             self.button_events()
 
-            # Handle the 'begin' state
-            if self.state == 'begin':
+            if self.state == 'start':
+                # Create and draw the boxes, handle events, and update the button states
+                # self.reset_all()
                 self.create_boxes()
+
+            # Occurs when start button is clicked
+            if self.state == 'begin':
+                self.send_start_game(self.num_of_prisoners, self.num_of_rounds)
 
             # Update the display
             pygame.display.update()
@@ -224,9 +236,9 @@ class ViewManager:
                 box = BoxV(self.screen_operator.screen, rows * MAX_BOX_WIDTH + rem + 1)
                 self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, rows)
         if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
-            for box_index in range(MAX_NO_PRISONER_BOX+1,self.actual_num_of_boxes+1):
+            for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
                 box = BoxV(self.screen_operator.screen, box_index)
-                self.boxes_off_screen[box.box_number]=box
+                self.boxes_off_screen[box.box_number] = box
 
     @suppress_warnings
     def generate_box_location(self, box_index: int, inc: int) -> tuple:
@@ -249,6 +261,6 @@ class ViewManager:
         """
         self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.screen)
 
-    def replace_randomly_from_screen(self,trgt_box_num):
-        #trgt box num is the designated box that will replace the other box
+    def replace_randomly_from_screen(self, trgt_box_num):
+        # trgt box num is the designated box that will replace the other box
         pass
