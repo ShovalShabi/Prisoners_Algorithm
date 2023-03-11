@@ -41,23 +41,23 @@ class ModelManger:
 
     ############################## MVC Methods ###################################
 
-    def ntfy_pris_pos(self):
+    def ntfy_to_view_pris_pos(self):
         self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_prisoner].get_pos())
 
-    def ntfy_pris_need_box(self):
-        self.listener.ntfy_to_view_pris_need_box(self.dict_prisoners[self.current_prisoner].trgt_box.box_num)
+    def pris_request_box(self):
+        self.listener.model_need_box(self.dict_prisoners[self.current_prisoner].trgt_box.box_num)
 
-    def ntfy_pris_replaced(self):
-        self.listener.ntfy_to_view_pris_changed(self.current_prisoner.get_num())
+    def ntfy_view_to_replace_pris(self):
+        self.listener.ntfy_view_to_replace_pris(self.current_prisoner.get_num())
 
-    def ntfy_pris_need_boxes_pos(self):
-        return self.listener.ntfy_to_view_pris_need_boxes_pos()  #will return dict of {num_box:position}
+    def model_request_box_dimensions(self):
+        return self.listener.model_request_box_dimensions()
 
-    def model_start_game(self,num_pris,num_rounds,initial_pos,print_specifically):
-        self.run_game(num_pris=num_pris,num_rounds=num_rounds,initial_pos=initial_pos,print_specifically=print_specifically)
+    def ntfy_to_view_get_all_boxes_pos(self):
+        return self.listener.ntfy_to_view_get_all_boxes_pos()  #will return dict of {num_box:position}
 
-    def ntfy_pris_succeed(self):
-        return self.listener.ntfy_to_view_pris_succeeded(self.succeeded)
+
+
 
     ###############################################################################
 
@@ -89,14 +89,13 @@ class ModelManger:
             self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][box_num-1]])  #redirecting each box to current next box
         self.set_all_boxes_pos()
 
-    def set_all_boxes_pos(self) -> None:
+    def set_all_boxes_pos(self,boxes_on_screen) -> None:
         """
         Set method for ll boxes position, the method requests the controller to hand over the box locations on the screen.\n
         :return: None
         """
-        positions = self.ntfy_pris_need_boxes_pos()
         for box_num in self.dict_boxes.keys():
-            self.dict_boxes[box_num].set_pos = positions[box_num]
+            self.dict_boxes[box_num].set_pos = boxes_on_screen[box_num]
 
     def run_game(self,num_pris,num_rounds,initial_pos,print_specifically) -> None:
         """
@@ -127,7 +126,7 @@ class ModelManger:
                     self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
 
             while self.dict_prisoners[self.current_prisoner].is_still_searching():
-                self.ntfy_pris_need_box()
+                self.pris_request_box()
                 self.dict_prisoners[self.current_prisoner].move_to_box()
                 self.ntfy_pris_pos()
 

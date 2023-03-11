@@ -1,3 +1,7 @@
+from Model.model_manger import ModelManger
+from View.viewmanager import ViewManager
+
+
 class Controller:
     """
     A class representing the connection between the backend and the frontend, is trusted of the connecting both sub-systems messages.\n
@@ -10,7 +14,7 @@ class Controller:
     lock: mutex lock for threads -> Lock object.\n
     """
 
-    def __init__(self, model, view):
+    def __init__(self, model:ModelManger, view:ViewManager):
         self.model = model
         self.view = view
         self.tasks = []
@@ -29,44 +33,54 @@ class Controller:
 
     #################### Model related methods #####################################
     def ntfy_to_view_pris_pos(self, pos: tuple):
-        pass
+        self.ntfy_view_on_pris_location(pos)
 
-    def ntfy_to_view_pris_need_box(self, box_num):
-        pass
+    def model_need_box(self, box_num):
+        self.ntfy_view_handle_box_request(box_num)
 
     def ntfy_to_view_pris_changed(self, new_pris_num):
-        pass
+        self.ntfy_view_to_replace_pris(new_pris_num)
 
-    def ntfy_to_view_pris_need_boxes_pos(self):  # will return dict of {num_box:position}
-        pass
+    def model_request_box_dimensions(self):
+        return self.ntfy_to_view_get_box_dimension()
 
-    def model_start_game(self, num_prisoners, num_round, print_specifically):
-        pass
+    def ntfy_to_view_get_all_boxes_pos(self): #will return dict of {num_box:position}
+        return self.ntfy_to_view_get_all_boxes_locationV()
 
-    def ntfy_to_view_pris_succeeded(self, num_succeeded):
-        pass
+    def ntfy_to_model_start_game(self, num_prisoners, num_round,initial_pos, print_specifically):
+        self.model.model_start_game(num_prisoners,num_round,initial_pos,print_specifically)
 
     ###################################################################################
+    ######################## View related methods #####################################
 
-    ######################## View related methods ####################################
+    def ntfy_view_on_pris_location(self,pos):
+        self.view.update_prisoner_location(pos)
 
-    def ntfy_to_model_boxes_locationV(self,boxes_on_screen:dict) -> None:
-        """
-        Sends the current locations of all the boxes to the listener.
-        """
-        self.listener.send_boxes_locationV(boxes_on_screen)
+    def ntfy_view_handle_box_request(self,box_num):
+        self.view.handle_box_request(box_num)
 
-    def ntfy_to_model_box_dimension(self,box_width:int,box_height:int) -> None:
+    def ntfy_view_to_replace_pris(self, new_pris_num):
+        self.view.replace_prisoner(new_pris_num)
+
+    def ntfy_to_view_get_box_dimension(self) -> None:
         """
         Sends the dimensions of the box image to the listener.
         """
-        self.listener.send_box_dimension(box_width, box_height)
+        return self.view.get_box_dimensions()
 
-    def ntfy_to_model_send_start_game(self, num_of_prisoners, num_of_rounds) -> None:
+    def ntfy_to_view_get_all_boxes_locationV(self) -> None:
+        """
+        Sends the current locations of all the boxes to the listener.
+        """
+        return self.view.get_boxes_locations()
+
+    def view_need_to_start_game(self, num_of_prisoners, num_of_rounds, initial_pos, print_specifically) -> None:
         """
         Send the input data to model object.
 
+        :param print_specifically:
+        :param initial_pos:
         :param num_of_rounds: The numbers of input rounds
         :param num_of_prisoners: The numbers of input prisoners
         """
-        self.model_start_game(num_of_prisoners, num_of_rounds,True)
+        self.ntfy_to_model_start_game(num_of_prisoners, num_of_rounds,initial_pos,print_specifically)
