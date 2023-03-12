@@ -1,5 +1,4 @@
 from Model.boxm import BoxM
-from Model.controller import Controller
 from Model.prisonerm import PrisonerM
 from Model.probabilities_handler import ProbabilitiesHandler
 
@@ -78,7 +77,7 @@ class ModelManger:
         """
         return self.listener.ntfy_view_get_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
 
-    def set_listener(self, listener:Controller) -> None:
+    def set_listener(self, listener) -> None:
         """
         Method that sets Listener to model.\n
         :param listener: Controller, a controller Object.
@@ -170,9 +169,8 @@ class ModelManger:
                 self.init_boxes(self.total_pris)
                 self.succeeded=0
         else:
-            self.current_pris_num=1
-            self.succeeded=0
-            return
+            self.current_pris_num = 1
+            self.succeeded = 0
 
     def get_current_pris_num(self) -> int:
         """

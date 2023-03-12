@@ -1,4 +1,5 @@
 from Model.boxm import BoxM
+from View.settings import screen_width, screen_height
 
 
 class PrisonerM:
@@ -98,20 +99,20 @@ class PrisonerM:
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
         :return: bool, is the object moving or not.
         """
-        if self.trgt_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:
+        if self.trgt_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:  #and self.pos[1] - self.pace >= 0
             self.set_pos((self.pos[0], self.pos[1] - self.pace))  # moving upwards
             self.updated_pos = True
-            self.updated_pos = True
-        elif self.trgt_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards
+        elif self.trgt_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards   #and self.pos[1] + self.pace <= screen_height -150
             self.set_pos((self.pos[0], self.pos[1] + self.pace))
             self.updated_pos = True
-        if self.trgt_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left
+        if self.trgt_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left   # and self.pos[0] - self.pace >= 0
             self.set_pos((self.pos[0] - self.pace, self.pos[1]))
             self.updated_pos = True
-        elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right
+        elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right  #and self.pos[0] +self .pace <= screen_width -200
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
         self.updated_pos = False
+        # print(self.pos)
 
     def navigate(self, box_width: int, box_height: int) -> None:
         """
