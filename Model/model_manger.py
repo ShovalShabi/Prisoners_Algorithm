@@ -27,7 +27,6 @@ class ModelManger:
     def __init__(self):
         """
         Initialize ModelManger Object.\n
-        :param listener: Controller object, coordinator class between backend and frontend.
         """
         self.dict_rounds = {}  # dict of {round_num:list dependencies of boxes}
         self.dict_prisoners = {}  # dict of {num_pris:prisoner}
@@ -43,32 +42,57 @@ class ModelManger:
 
     ############################## MVC Methods ###################################
 
-    def ntfy_to_view_pris_pos(self):
+    def ntfy_to_view_pris_pos(self) -> None:
+        """
+        Method for notifying the view on current prisoner location.\n
+        :return: None.
+        """
         self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_pris_num].get_pos())
 
-    def pris_request_box(self):
+    def pris_request_box(self) -> None:
+        """
+        Method for notifying the view to prepare the relevant box image on screen.\n
+        :return: None.
+        """
         self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].trgt_box.box_num)
 
-    def ntfy_view_to_replace_pris(self):
+    def ntfy_view_to_replace_pris(self) -> None:
+        """
+        Method for notifying the view to replace the current prisoner image.\n
+        :return: None.
+        """
         self.listener.ntfy_view_to_replace_pris(self.current_pris_num.get_num())
 
-    def model_request_box_dimensions(self):
+    def model_request_box_dimensions(self) -> tuple[int,int]:
+        """
+        Method that fetch box image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
+        :return: a position tuple in form -> tuple[int,int].
+        """
         return self.listener.model_need_box_dimensions()
 
-    def ntfy_to_view_get_all_boxes_pos(self):
+    def ntfy_to_view_get_all_boxes_pos(self) -> dict:
+        """
+        Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
+        :return: dict in form ->  dict[int:tuple[int,int]].
+        """
         return self.listener.ntfy_view_get_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
 
-    def set_listener(self, listener):
+    def set_listener(self, listener) -> None:
+        """
+        Method that sets Listener to model.\n
+        :param listener: Controller, a controller Object.
+        :return: None.
+        """
         self.listener = listener
 
     ###############################################################################
 
     def init_prisoners(self, num_pris: int, initial_pos: tuple) -> None:
         """
-        Initialization method for creating new PrisonerM objects according the round requirements.\n
+        Initialization method for creating new PrisonerM objects according the round boxes dependencies.\n
         :param num_pris: int, the number o prisoners.
-        :param initial_pos: tuple, initial position of the prisoner on screen (x,y)
-        :return: None
+        :param initial_pos: tuple, position tuple of (x,y) in form -> tuple[int,int].
+        :return: None.
         """
         if self.dict_prisoners:
             self.dict_prisoners = {}
@@ -77,11 +101,11 @@ class ModelManger:
                                                             all_boxes=self.dict_boxes,
                                                             trgt_box=self.dict_boxes[index_pris + 1])
 
-    def init_boxes(self, num_pris) -> None:
+    def init_boxes(self, num_pris:int) -> None:
         """
-        Initialization method for creating new BoxM objects according the round requirements and screen placing.\n
-        :param num_pris: int, the number o prisoners.
-        :return: None
+        Initialization method for creating new BoxM objects according the round boxes dependencies and screen placing.\n
+        :param num_pris: int, the number of prisoners.
+        :return: None.
         """
         if self.dict_boxes:
             self.dict_boxes = {}
@@ -95,14 +119,22 @@ class ModelManger:
 
     def set_all_boxes_pos(self) -> None:
         """
-        Set method for ll boxes position, the method requests the controller to hand over the box locations on the screen.\n
-        :return: None
+        Set method for all boxes positions on screen, the method sets the positions by the information that the controller hand over from the view.\n
+        :return: None.
         """
         boxes_on_screen = self.ntfy_to_view_get_all_boxes_pos()
         for box_num in self.dict_boxes.keys():
             self.dict_boxes[box_num].set_pos(boxes_on_screen[box_num])
 
-    def setup_game(self, num_pris, num_rounds, initial_pos, print_specifically):
+    def setup_game(self, num_pris:int, num_rounds:int, initial_pos:tuple[int,int], print_specifically:bool) -> None:
+        """
+        The method that initialize all  calculations by ProbabilitiesHandler and organize all the prisoner and boxes objects.\n
+        :param num_pris: int, the total number of prisoners.
+        :param num_rounds: int, the total number of rounds.
+        :param initial_pos: tuple, the position tuple of (x,y) in form -> tuple[int,int].
+        :param print_specifically: bool ,the indication for specification in the PrisonersResults.txt.
+        :return:None.
+        """
         self.prob_handler = ProbabilitiesHandler(num_prisoners=num_pris, num_rounds=num_rounds,
                                                  print_specifically=print_specifically)
         self.dict_rounds = self.prob_handler.run_probabilities()
@@ -115,31 +147,41 @@ class ModelManger:
 
     def run_game(self) -> None:
         """
-        The actual method that responsible for the game functionality.\n
-        At first the function run the ProbabilityManager calculations and let the prisoners move by its requirements.\n
-        :return: None
+        The actual method that responsible for the game functionality, the method is operated by the view run loop which is infinite.\n
+        All the prisoners are searching their number by ProbabilityManager calculations.\n
+        :return: None.
         """
         if self.current_round <= self.total_rounds:
             if self.current_pris_num <= self.total_pris:
                 if self.dict_prisoners[self.current_pris_num].is_still_searching():
-                    self.pris_request_box()
-                    dimensions= self.model_request_box_dimensions()
+                    self.pris_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
+                    dimensions= self.model_request_box_dimensions()  # Getting the dimensions of box image
                     self.dict_prisoners[self.current_pris_num].navigate(box_width=dimensions[0],box_height=dimensions[1])
+                # Switching a prisoner and updating the succeeding counter
                 else:
                     if self.dict_prisoners[self.current_pris_num].found_number:
                         self.succeeded += 1
                     self.current_pris_num += 1
+            #Intializing new Round
             else:
                 self.current_pris_num = 1
                 self.current_round += 1
                 self.init_boxes(self.total_pris)
                 self.succeeded=0
         else:
-            self.current_pris_num=1
-            return
+            self.current_pris_num = 1
+            self.succeeded = 0
 
-    def get_current_pris_num(self):
+    def get_current_pris_num(self) -> int:
+        """
+        Method for fetching the current prisoner number.\n
+        :return: int.
+        """
         return self.current_pris_num
 
-    def get_current_pris_pos(self):
+    def get_current_pris_pos(self) -> tuple[int,int]:
+        """
+        Method for fetching the current prisoner position.\n
+        :return: a position tuple of (x,y) in form -> tuple[int,int].
+        """
         return self.dict_prisoners[self.current_pris_num].get_pos()

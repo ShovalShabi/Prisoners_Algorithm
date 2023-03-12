@@ -91,8 +91,8 @@ class ProbabilitiesHandler:
     def run_all_probs(self, print_route) -> None:
         """
         Method that runs the search route of all prisoners of each round.\n
-        :param print_route: bool, indication of details specification "PrisonerResults.txt"
-        :return: None
+        :param print_route: bool, indication of details specification "PrisonerResults.txt".
+        :return: None.
         """
         self.open_file()
         if not isinstance(self.num_prisoners, int):
@@ -140,14 +140,14 @@ class ProbabilitiesHandler:
 
     def open_file(self) -> None:
         """
-        Method for opening file for specification.
+        Method for opening file for specification.\n
         :return: None.
         """
         self.file=open(self.filename,"w")
 
     def close_file(self) -> None:
         """
-        Method for closing file for specification.
+        Method for closing file for specification.\n
         :return: None.
         """
         self.file.close()
@@ -156,7 +156,7 @@ class ProbabilitiesHandler:
         """
         Method that run the probability calculation concurrently by threads and afterwards return the relation between each round and its
         dependencies list of boxes.\n
-        :return: dict, each round has a dependencies for the boxes, dictionary of {round number:list of box number dependencies}
+        :return: dict, each round has a dependencies for the boxes, dictionary of {round number:list of box number dependencies}.
         """
         threads=[]
         for i in range((int(self.num_rounds/2))+1):  #this number could be bigger
