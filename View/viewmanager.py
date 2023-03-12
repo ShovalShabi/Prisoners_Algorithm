@@ -115,15 +115,19 @@ class ViewManager:
             if self.state == "running":
                 self.view_request_run_game()
                 pris_num = self.view_request_pris_num()
-                if pris_num != self.prisoner.num:
-                    self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                if pris_num <= self.num_of_prisoners:
+                    if pris_num != self.prisoner.num:
+                        self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                    else:
+                        pos = self.view_request_pris_pos()
+                        self.prisoner.update_prisoner_location(location=pos)
+                    self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
                 else:
-                    pos = self.view_request_pris_pos()
-                    self.prisoner.update_prisoner_location(location=pos)
-                self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
+                    self.view_request_run_game()
+                    self.state='reset'
 
             # Update the display
-            self.clock.tick(25)
+            self.clock.tick(500)
             pygame.display.update()
 
         # Quit the game

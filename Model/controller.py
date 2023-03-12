@@ -42,7 +42,7 @@ class Controller:
         self.ntfy_view_handle_box_request(box_num)
 
     def ntfy_to_view_pris_changed(self):
-        self.model.get_current_pris_num()
+        return self.model.get_current_pris_num()
 
     def model_need_box_dimensions(self):
         return self.ntfy_to_view_get_box_dimension()

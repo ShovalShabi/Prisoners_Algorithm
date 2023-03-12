@@ -164,9 +164,11 @@ class ModelManger:
                     self.current_pris_num += 1
             #Intializing new Round
             else:
+                print("here")
                 self.current_pris_num = 1
                 self.current_round += 1
-                self.init_boxes(self.total_pris)
+                if self.current_round <= self.total_rounds:
+                    self.init_boxes(self.total_pris)
                 self.succeeded=0
         else:
             self.current_pris_num = 1
