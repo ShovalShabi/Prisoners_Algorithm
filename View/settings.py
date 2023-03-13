@@ -11,18 +11,19 @@ YELLOW = (255, 255, 0)
 
 # Screen and button
 screen_width = 1100
-screen_height = 880
+screen_height = 850
 button_width = 100
 button_height = 50
 BUTTON_COLOR = WHITE
+button_x = 50
+button_y = 770
 
 # FONT
 FONT_SIZE = 20
 
 
 # PRISONER
-
-NUMBER_POSITION_ON_PRIS = (15, 35)
+NUMBER_POSITION_ON_PRIS = (11, 34)
 
 # BOX
 CELL_SIZE = 80
