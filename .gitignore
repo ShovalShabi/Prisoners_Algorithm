@@ -2,6 +2,9 @@
 PrisonersResults.txt
 
 #ignoring pycache files
+__pycache__
+
+#ignoring suffix .pyc
 *.pyc
 
 #ignoring .idea directory
