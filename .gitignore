@@ -4,3 +4,6 @@ PrisonersResults.txt
 
 #ignoring pycache
 *.pyc
+
+#ignoring cache
+.idea
