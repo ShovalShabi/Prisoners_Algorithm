@@ -14,9 +14,13 @@ class PrisonerV:
         """
         self.location = start_location
         self.num = num
+<<<<<<< HEAD
         self.image = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png')).convert_alpha()
         self.img_prisoner = pygame.transform.scale(self.image, (self.image.get_width()+10, self.image.get_height()+20))
 
+=======
+        self.img_prisoner = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
+>>>>>>> model
         self.screen = screen
 
     def draw_prisoner(self, font: Font) -> None:
