@@ -4,10 +4,10 @@ import warnings
 
 import pygame.time
 from pygame.locals import KEYDOWN, K_BACKSPACE
-from screen_operator import ScreenOperator
+from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
-from box_view import BoxV
+from View.box_view import BoxV
 from pygame.time import Clock
 
 
