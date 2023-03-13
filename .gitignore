@@ -1,3 +1,6 @@
 
 #ignoring PrisonersResults
 PrisonersResults.txt
+
+#ignoring pycache
+*.pyc
