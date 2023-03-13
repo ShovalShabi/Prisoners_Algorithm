@@ -25,7 +25,7 @@ class BoxV:
         """
         Loads the image resources needed for the BoxV object.
         """
-        self.closed_chest_image = image.load(os.path.join('Resources', 'chest_closed.png'))
+        self.closed_chest_image = image.load(os.path.join('View/Resources/chest_closed.png'))
 
     def draw_box(self, box_index: int, increment: int, font: Font) -> tuple[int, int]:
         """

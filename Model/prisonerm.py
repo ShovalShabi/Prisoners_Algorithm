@@ -1,5 +1,4 @@
 from Model.boxm import BoxM
-from View.settings import screen_width, screen_height
 
 
 class PrisonerM:
@@ -18,21 +17,21 @@ class PrisonerM:
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
     """
 
-    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, trgt_box: BoxM):
+    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM):
         """
         Initialize the PrisonerM object.\n
         :param num_prisoner: int , represents prisoner number.
         :param position: tuple of (x,y) according to place of.
         :param pace:int , pace of the prisoner on the screen.
         :param all_boxes:dict, dictionary of BoxM objects located on screen.
-        :param trgt_box:BoxM object, represents the target box.
+        :param target_box:BoxM object, represents the target box.
         """
         self.prisoner_num = num_prisoner
         self.pos = position
         self.pace = pace
         self.visited_boxes = dict()  # dictionary of {number box:value box}
         self.all_boxes = all_boxes  # dictionary of {number box:value box}
-        self.trgt_box = trgt_box
+        self.target_box = target_box
         self.found_number = False
         self.updated_pos = False
 
@@ -78,19 +77,19 @@ class PrisonerM:
         if the prisoner got disqualified or won the game, the function will return False.\n
         :return: bool, indication of relevance participant.
         """
-        if self.trgt_box.get_pos()[0] == self.pos[0] and \
-                self.trgt_box.get_pos()[1] == self.pos[1]:
-            if self.trgt_box.get_nxt_box().get_num() == self.prisoner_num:
+        if self.target_box.get_pos()[0] == self.pos[0] and \
+                self.target_box.get_pos()[1] == self.pos[1]:
+            if self.target_box.get_nxt_box().get_num() == self.prisoner_num:
                 self.found_number = True
-                print(f"Prisoner number {self.prisoner_num} found his number at box number {self.trgt_box.box_num} at {self.trgt_box.pos}")
+                print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
                 return False
-            if self.trgt_box.get_nxt_box().get_num() in self.visited_boxes.keys():
+            if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
                 print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False
             else:
-                print(f"Prisoner number {self.prisoner_num} going to box number {self.trgt_box.box_num}")
-                self.visited_boxes.update({self.trgt_box.get_num: self.trgt_box})
-                self.trgt_box = self.trgt_box.get_nxt_box()
+                print(f"Prisoner number {self.prisoner_num} going to box number {self.target_box.box_num}")
+                self.visited_boxes.update({self.target_box.get_num: self.target_box})
+                self.target_box = self.target_box.get_nxt_box()
         return True
 
     def move_to_box(self, blocked: bool) -> None:
@@ -99,20 +98,20 @@ class PrisonerM:
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
         :return: bool, is the object moving or not.
         """
-        if self.trgt_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:  #and self.pos[1] - self.pace >= 0
+        if self.target_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:  #and self.pos[1] - self.pace >= 0
             self.set_pos((self.pos[0], self.pos[1] - self.pace))  # moving upwards
             self.updated_pos = True
-        elif self.trgt_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards   #and self.pos[1] + self.pace <= screen_height -150
+        elif self.target_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards   #and self.pos[1] + self.pace <= screen_height -150
             self.set_pos((self.pos[0], self.pos[1] + self.pace))
             self.updated_pos = True
-        if self.trgt_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left   # and self.pos[0] - self.pace >= 0
+        if self.target_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left   # and self.pos[0] - self.pace >= 0
             self.set_pos((self.pos[0] - self.pace, self.pos[1]))
             self.updated_pos = True
-        elif self.trgt_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right  #and self.pos[0] +self .pace <= screen_width -200
+        elif self.target_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right  #and self.pos[0] +self .pace <= screen_width -200
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
         self.updated_pos = False
-        # print(self.pos)
+        print(self.pos, self.prisoner_num)
 
     def navigate(self, box_width: int, box_height: int) -> None:
         """
@@ -122,8 +121,10 @@ class PrisonerM:
         :return: None.
         """
         for box_number in self.all_boxes.keys():
-            if self.pos[0] >= self.all_boxes[box_number].get_pos()[0] and self.pos[0] <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
+            if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] <= \
+                    self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
-            if self.pos[1] >= self.all_boxes[box_number].get_pos()[1] and self.pos[1] <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
+            if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] <= \
+                    self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)

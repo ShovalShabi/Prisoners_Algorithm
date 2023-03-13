@@ -1,5 +1,6 @@
-import pygame
-import os
+import pygame.transform
+from pygame.font import Font
+from View.settings import *
 
 
 class PrisonerV:
@@ -13,13 +14,18 @@ class PrisonerV:
         """
         self.location = start_location
         self.num = num
-        self.img_prisoner = pygame.image.load(os.path.join('Resources', 'SP1_front.png'))
+        self.image = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png')).convert_alpha()
+        self.img_prisoner = pygame.transform.scale(self.image, (self.image.get_width()+20, self.image.get_height()+30))
+
         self.screen = screen
 
-    def draw_prisoner(self) -> None:
+    def draw_prisoner(self, font: Font) -> None:
         """
         Draws the prisoner on the pygame surface.
         """
+        text_surface = font.render(str(self.num), True, BLACK)
+        text_rect = NUMBER_POSITION_ON_PRIS
+        self.img_prisoner.blit(text_surface, text_rect)
         self.screen.blit(self.img_prisoner, self.location)
 
     def rotate_prisoner(self) -> None:

@@ -1,4 +1,4 @@
-from threading import Lock,Thread
+from threading import Lock, Thread
 
 from Model.model_manger import ModelManger
 from View.viewmanager import ViewManager
@@ -19,7 +19,7 @@ class Controller:
     def __init__(self, model: ModelManger, view: ViewManager):
         self.model = model
         self.view = view
-        self.lock=Lock()
+        self.lock = Lock()
         self.tasks = []
 
     def get_view(self):
@@ -97,8 +97,6 @@ class Controller:
     def view_need_pris_num(self):
         return self.ntfy_to_view_pris_changed()
 
-    def view_request_method(self,trgt_func):
-        thread = Thread(trgt_func)
+    def view_request_method(self, target_func):
+        thread = Thread(target_func)
         thread.start()
-
-

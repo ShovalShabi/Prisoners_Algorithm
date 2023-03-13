@@ -4,10 +4,10 @@ import warnings
 
 import pygame.time
 from pygame.locals import KEYDOWN, K_BACKSPACE
-from screen_operator import ScreenOperator
+from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
-from box_view import BoxV
+from View.box_view import BoxV
 from pygame.time import Clock
 
 
@@ -45,7 +45,7 @@ class ViewManager:
 
         # Screen Operations
         self.screen_operator = None
-        self.clock=Clock()
+        self.clock = Clock()
 
     @suppress_warnings
     def pygame_setup(self):
@@ -109,7 +109,7 @@ class ViewManager:
             if self.state == 'begin':
                 self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, True)
                 pris_num = self.view_request_pris_num()
-                self.prisoner=PrisonerV(start_location=DOOR_WAY,num=pris_num,screen=self.screen_operator.screen)
+                self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
                 self.state = "running"
 
             if self.state == "running":
@@ -117,17 +117,18 @@ class ViewManager:
                 pris_num = self.view_request_pris_num()
                 if pris_num <= self.num_of_prisoners:
                     if pris_num != self.prisoner.num:
-                        self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                        self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num,
+                                                  screen=self.screen_operator.screen)
                     else:
                         pos = self.view_request_pris_pos()
                         self.prisoner.update_prisoner_location(location=pos)
-                    self.screen_operator.draw_objects(self.boxes_on_screen,self.prisoner)
+                    self.screen_operator.draw_objects(self.boxes_on_screen, self.prisoner)
                 else:
                     self.view_request_run_game()
-                    self.state='reset'
+                    self.state = 'reset'
 
             # Update the display
-            self.clock.tick(500)
+            self.clock.tick(25)
             pygame.display.update()
 
         # Quit the game
@@ -222,7 +223,7 @@ class ViewManager:
         Converts the text input for the number of prisoners to an integer.
         """
         if self.screen_operator.text_input_n != "" and str.isdigit(self.screen_operator.text_input_n):
-            num = int(self.screen_operator.text_input_n)
+            num = int(self.screen_operator.text_input_n) * 2
             if num <= MAX_NO_PRISONER_BOX:
                 self.num_of_boxes_view = num
             else:
@@ -308,8 +309,8 @@ class ViewManager:
     def handle_box_request(self, box_number):
         pass
 
-    def replace_randomly_from_screen(self, trgt_box_num):
-        # trgt box num is the designated box that will replace the other box
+    def replace_randomly_from_screen(self, target_box_num):
+        # target box num is the designated box that will replace the other box
         pass
 
     def get_boxes_locations(self):

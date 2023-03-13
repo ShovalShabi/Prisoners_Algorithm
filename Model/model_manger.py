@@ -34,9 +34,9 @@ class ModelManger:
         self.current_round = 1
         self.current_pris_num = 1
         self.succeeded = 0
-        self.total_pris=0
-        self.total_rounds=1
-        self.initial_pos=None
+        self.total_pris = 0
+        self.total_rounds = 1
+        self.initial_pos = None
         self.prob_handler = None
         self.listener = None
 
@@ -54,7 +54,7 @@ class ModelManger:
         Method for notifying the view to prepare the relevant box image on screen.\n
         :return: None.
         """
-        self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].trgt_box.box_num)
+        self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].target_box.box_num)
 
     def ntfy_view_to_replace_pris(self) -> None:
         """
@@ -63,7 +63,7 @@ class ModelManger:
         """
         self.listener.ntfy_view_to_replace_pris(self.current_pris_num.get_num())
 
-    def model_request_box_dimensions(self) -> tuple[int,int]:
+    def model_request_box_dimensions(self) -> tuple[int, int]:
         """
         Method that fetch box image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
         :return: a position tuple in form -> tuple[int,int].
@@ -99,9 +99,9 @@ class ModelManger:
         for index_pris in range(num_pris):
             self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
                                                             all_boxes=self.dict_boxes,
-                                                            trgt_box=self.dict_boxes[index_pris + 1])
+                                                            target_box=self.dict_boxes[index_pris + 1])
 
-    def init_boxes(self, num_pris:int) -> None:
+    def init_boxes(self, num_pris: int) -> None:
         """
         Initialization method for creating new BoxM objects according the round boxes dependencies and screen placing.\n
         :param num_pris: int, the number of prisoners.
@@ -126,7 +126,8 @@ class ModelManger:
         for box_num in self.dict_boxes.keys():
             self.dict_boxes[box_num].set_pos(boxes_on_screen[box_num])
 
-    def setup_game(self, num_pris:int, num_rounds:int, initial_pos:tuple[int,int], print_specifically:bool) -> None:
+    def setup_game(self, num_pris: int, num_rounds: int, initial_pos: tuple[int, int],
+                   print_specifically: bool) -> None:
         """
         The method that initialize all  calculations by ProbabilitiesHandler and organize all the prisoner and boxes objects.\n
         :param num_pris: int, the total number of prisoners.
@@ -139,9 +140,9 @@ class ModelManger:
                                                  print_specifically=print_specifically)
         self.dict_rounds = self.prob_handler.run_probabilities()
         self.current_round = 1
-        self.total_rounds=num_rounds
-        self.total_pris=num_pris
-        self.initial_pos=initial_pos
+        self.total_rounds = num_rounds
+        self.total_pris = num_pris
+        self.initial_pos = initial_pos
         self.init_boxes(num_pris=num_pris)
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
 
@@ -155,21 +156,22 @@ class ModelManger:
             if self.current_pris_num <= self.total_pris:
                 if self.dict_prisoners[self.current_pris_num].is_still_searching():
                     self.pris_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
-                    dimensions= self.model_request_box_dimensions()  # Getting the dimensions of box image
-                    self.dict_prisoners[self.current_pris_num].navigate(box_width=dimensions[0],box_height=dimensions[1])
+                    dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
+                    self.dict_prisoners[self.current_pris_num].navigate(box_width=dimensions[0],
+                                                                        box_height=dimensions[1])
                 # Switching a prisoner and updating the succeeding counter
                 else:
                     if self.dict_prisoners[self.current_pris_num].found_number:
                         self.succeeded += 1
                     self.current_pris_num += 1
-            #Intializing new Round
+            # Intializing new Round
             else:
                 print("here")
                 self.current_pris_num = 1
                 self.current_round += 1
                 if self.current_round <= self.total_rounds:
                     self.init_boxes(self.total_pris)
-                self.succeeded=0
+                self.succeeded = 0
         else:
             self.current_pris_num = 1
             self.succeeded = 0
@@ -181,7 +183,7 @@ class ModelManger:
         """
         return self.current_pris_num
 
-    def get_current_pris_pos(self) -> tuple[int,int]:
+    def get_current_pris_pos(self) -> tuple[int, int]:
         """
         Method for fetching the current prisoner position.\n
         :return: a position tuple of (x,y) in form -> tuple[int,int].

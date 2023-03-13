@@ -17,7 +17,12 @@ button_height = 50
 BUTTON_COLOR = WHITE
 
 # FONT
-FONT_SIZE = 17
+FONT_SIZE = 20
+
+
+# PRISONER
+
+NUMBER_POSITION_ON_PRIS = (15, 35)
 
 # BOX
 CELL_SIZE = 80
@@ -28,9 +33,9 @@ DOOR_WAY = (120, 400)
 BOX_START_X = 150
 BOX_START_Y = 80
 
-IMG_BOX = pygame.image.load(os.path.join('Resources', 'chest_closed.png'))
-IMG_PRIS = pygame.image.load(os.path.join('Resources', 'SP1_front.png'))
+IMG_BOX = pygame.image.load(os.path.join('View/Resources', 'chest_closed.png'))
+IMG_PRIS = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
 IMG_BOX_WIDTH = IMG_BOX.get_width()
 IMG_BOX_HEIGHT = IMG_BOX.get_height()
 
-IMG_BACKGROUND = pygame.image.load(os.path.join('Resources', 'Lunetic_Room.jpg'))
+IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunetic_Room.jpg'))

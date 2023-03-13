@@ -1,6 +1,6 @@
 from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
-from settings import *
+from View.settings import *
 import pygame
 
 
@@ -33,7 +33,7 @@ class ScreenOperator:
         """
         Draws the prisoner on the screen.
         """
-        prisoner.draw_prisoner()
+        prisoner.draw_prisoner(self.font)
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
