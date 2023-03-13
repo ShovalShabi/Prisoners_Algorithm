@@ -22,18 +22,18 @@ class ScreenOperator:
         self.background_image = pygame.transform.scale(self.image_background, (screen_width, screen_height))
 
         # Buttons
-        self.start_rect = pygame.Rect(button_x, button_y, button_width, button_height)
-        self.start_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+        self.start_rect = pygame.Rect(50, 800, button_width, button_height)
+        self.start_hover_rect = pygame.Rect(50, 800, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
+        self.reset_rect = pygame.Rect(200, 800, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(200, 800, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
         Draws the prisoner on the screen.
         """
-        prisoner.draw_prisoner(self.font)
+        prisoner.draw_prisoner()
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
@@ -81,10 +81,10 @@ class ScreenOperator:
         Draws the menu on the screen.
         """
         # Draw the input text
-        self.draw_label(self.p_color, 350, 770, 'Number of prisoners:')
-        self.draw_label(RED, 350, 790, self.text_input_n)
-        self.draw_label(self.r_color, 600, 770, 'Number of rounds:')
-        self.draw_label(RED, 600, 790, self.text_input_k)
+        self.draw_label(self.p_color, 350, 800, 'Number of prisoners:')
+        self.draw_label(RED, 350, 820, self.text_input_n)
+        self.draw_label(self.r_color, 600, 800, 'Number of rounds:')
+        self.draw_label(RED, 600, 820, self.text_input_k)
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
