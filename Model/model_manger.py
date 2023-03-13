@@ -109,7 +109,7 @@ class ModelManger:
         """
         if self.dict_boxes:
             self.dict_boxes = {}
-        for index_box in range(num_pris):
+        for index_box in range(num_pris * 2):  #Calculations with number of boxes twice the size of prisoners
             box = BoxM(box_num=index_box + 1)
             self.dict_boxes[index_box + 1] = box
         for box_num in self.dict_boxes.keys():  # box num starts from 1 to n+1
@@ -140,10 +140,17 @@ class ModelManger:
                                                  print_specifically=print_specifically)
         self.dict_rounds = self.prob_handler.run_probabilities()
         self.current_round = 1
+<<<<<<< HEAD
         self.total_rounds = num_rounds
         self.total_pris = num_pris
         self.initial_pos = initial_pos
         self.init_boxes(num_pris=num_pris)
+=======
+        self.total_rounds=num_rounds
+        self.total_pris=num_pris
+        self.initial_pos=initial_pos
+        self.init_boxes(num_pris=num_pris)  #increasing the number of boxes to twice the size of the number of prisoners
+>>>>>>> model
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
 
     def run_game(self) -> None:
