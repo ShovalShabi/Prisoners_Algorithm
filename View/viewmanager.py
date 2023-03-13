@@ -223,18 +223,12 @@ class ViewManager:
         Converts the text input for the number of prisoners to an integer.
         """
         if self.screen_operator.text_input_n != "" and str.isdigit(self.screen_operator.text_input_n):
-<<<<<<< HEAD
-            num = int(self.screen_operator.text_input_n) * 2
+            num = int(self.screen_operator.text_input_n)
             if num <= MAX_NO_PRISONER_BOX:
                 self.num_of_boxes_view = num
-=======
-            num = int(self.screen_operator.text_input_n)
-            if num * 2 <= MAX_NO_BOX:
-                self.num_of_boxes_view = num * 2  #For  increasing thr number of box twice the size of prisoners
->>>>>>> model
             else:
-                self.num_of_boxes_view = MAX_NO_BOX
-            self.actual_num_of_boxes = num * 2  #For  increasing thr number of box twice the size of prisoners
+                self.num_of_boxes_view = MAX_NO_PRISONER_BOX
+            self.actual_num_of_boxes = num
             self.num_of_prisoners = num
         else:
             self.screen_operator.text_input_n = ""
@@ -278,8 +272,8 @@ class ViewManager:
             for rem in range(remainder):
                 box = BoxV(self.screen_operator.screen, rows * MAX_BOX_WIDTH + rem + 1)
                 self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, rows)
-        if self.actual_num_of_boxes - MAX_NO_BOX > 0:
-            for box_index in range(MAX_NO_BOX + 1, self.actual_num_of_boxes + 1):
+        if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
+            for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
                 box = BoxV(self.screen_operator.screen, box_index)
                 self.boxes_off_screen[box.box_number] = box
 

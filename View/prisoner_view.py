@@ -15,7 +15,7 @@ class PrisonerV:
         self.location = start_location
         self.num = num
         self.image = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png')).convert_alpha()
-        self.img_prisoner = pygame.transform.scale(self.image, (self.image.get_width()+20, self.image.get_height()+30))
+        self.img_prisoner = pygame.transform.scale(self.image, (self.image.get_width()+10, self.image.get_height()+20))
 
         self.screen = screen
 
