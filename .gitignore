@@ -1,6 +1,8 @@
-
 #ignoring PrisonersResults
 PrisonersResults.txt
 
-#ignoring pycache
+#ignoring pycache files
 *.pyc
+
+#ignoring .idea directory
+.idea
