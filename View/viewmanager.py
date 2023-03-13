@@ -223,7 +223,7 @@ class ViewManager:
         Converts the text input for the number of prisoners to an integer.
         """
         if self.screen_operator.text_input_n != "" and str.isdigit(self.screen_operator.text_input_n):
-            num = int(self.screen_operator.text_input_n) * 2
+            num = int(self.screen_operator.text_input_n)
             if num <= MAX_NO_PRISONER_BOX:
                 self.num_of_boxes_view = num
             else:

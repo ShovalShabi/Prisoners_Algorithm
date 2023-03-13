@@ -111,7 +111,7 @@ class PrisonerM:
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
         self.updated_pos = False
-        print(self.pos, self.prisoner_num)
+        # print(self.pos, self.prisoner_num)
 
     def navigate(self, box_width: int, box_height: int) -> None:
         """
