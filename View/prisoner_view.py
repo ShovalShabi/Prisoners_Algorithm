@@ -13,7 +13,7 @@ class PrisonerV:
         """
         self.location = start_location
         self.num = num
-        self.img_prisoner = pygame.image.load(os.path.join('Resources', 'SP1_front.png'))
+        self.img_prisoner = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
         self.screen = screen
 
     def draw_prisoner(self) -> None:
