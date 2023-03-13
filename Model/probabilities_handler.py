@@ -44,7 +44,7 @@ class ProbabilitiesHandler:
         """
         number_of_boxes = len(list_of_boxes)
         list_of_success = number_of_boxes * [0]
-        for j in range(int(number_of_boxes / 2)):  #Dividing by 2 because the number of prisoner is half at its time from the number of boxes
+        for j in range(number_of_boxes):
             if print_route:
                 print("Iteration number", j + 1,file=self.file)
             visited_boxes = []
@@ -111,21 +111,21 @@ class ProbabilitiesHandler:
         for i in range(self.num_rounds):
             if print_route:
                 print("round number:", (i + 1),file=self.file)
-            list_of_boxes = self.num_prisoners * 2 * [0]  #Calculations with number of boxes twice the size of prisoners
-            for j in range(self.num_prisoners * 2):
+            list_of_boxes = self.num_prisoners * [0]
+            for j in range(self.num_prisoners):
                 list_of_boxes[j] = j
 
             self.lock_shuffle.acquire()  #lock shuffling list area
             if i + 1 not in general_lists.keys():
                 random.shuffle(list_of_boxes)
-                general_lists[i + 1] = list_of_boxes
+                general_lists[i + 1] = list_of_boxes  #### need to fix the pointing value of each box to another from 1 to n+1
                 self.dict_rounds[i + 1] = deepcopy(general_lists[i + 1])  # matching dependencies of each box to another for each round
                 self.dict_rounds[i + 1] = [box_i + 1 for box_i in self.dict_rounds[i + 1]]  ## making renumbering boxes from 1 to n+1
             else:
                 continue
             self.lock_shuffle.release()  #release shuffling list area
 
-            if self.run_route(general_lists[i+1], print_route):
+            if self.run_route(general_lists[i+1], print_route):  ## fix this for one calculation
                 s += 1
 
         print("The number of prisoners is", self.num_prisoners, ",the number of rounds is", self.num_rounds, ",s = ", s,
