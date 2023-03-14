@@ -1,6 +1,11 @@
-
 #ignoring PrisonersResults
 PrisonersResults.txt
 
-#ignoring pycache
+#ignoring pycache files
+__pycache__
+
+#ignoring suffix .pyc
 *.pyc
+
+#ignoring .idea directory
+.idea
