@@ -5,6 +5,10 @@ import pygame
 
 
 class ScreenOperator:
+    """
+    A class that designated for handling blitting to screen and draw the objects of the frontend part of the game.
+    """
+
     def __init__(self) -> None:
         # Font
         self.font = pygame.font.SysFont('monospace', FONT_SIZE, bold=True)
@@ -25,9 +29,10 @@ class ScreenOperator:
         self.start_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.start_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
+        self.reset_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
+        self.selected_specify_result = False
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
@@ -39,7 +44,7 @@ class ScreenOperator:
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
                     color: tuple[int, int, int], state: str, type_button: str) -> str:
         """
-        Draw a button and handle mouse hover and click events.
+        Draw a button and handle mouse hover and click events.\n
 
         :param type_button: A type of which button was pressed.
         :param state: A state representing the state of event.
@@ -69,7 +74,7 @@ class ScreenOperator:
                                         rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
-    def draw_objects(self, boxes,prisoner) -> None:
+    def draw_objects(self, boxes, prisoner) -> None:
         """
         Function that draws the game elements on the screen.
         """
@@ -81,10 +86,31 @@ class ScreenOperator:
         Draws the menu on the screen.
         """
         # Draw the input text
-        self.draw_label(self.p_color, 350, 770, 'Number of prisoners:')
-        self.draw_label(RED, 350, 790, self.text_input_n)
-        self.draw_label(self.r_color, 600, 770, 'Number of rounds:')
-        self.draw_label(RED, 600, 790, self.text_input_k)
+        self.draw_label(self.p_color, 320, 770, 'Number of prisoners:')
+        self.draw_label(RED, 320, 790, self.text_input_n)
+        self.draw_label(self.r_color, 590, 770, 'Number of rounds:')
+        self.draw_label(RED, 590, 790, self.text_input_k)
+        self.draw_label(PURPLE, 820, 770, 'Specified result:')
+
+    def draw_check_box(self, mouse_pos, mouse_click) -> bool:
+        select_box = pygame.Rect(1030, 770, 20, 20)
+        if self.selected_specify_result:
+            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+            text = 'X'
+        else:
+            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+            text = ''
+        text_surface = self.font.render(text, True, BLACK)
+        self.screen.blit(text_surface, (1034, 770))
+
+        if select_box.collidepoint(mouse_pos) and mouse_click[0]:
+            # If the mouse is within the select box and the left mouse button is pressed, select the box
+            self.selected_specify_result = True
+        elif not select_box.collidepoint(mouse_pos) and mouse_click[0]:
+            # If the mouse is not within the select box and the left mouse button is pressed, deselect the box
+            self.selected_specify_result = False
+
+        return self.selected_specify_result
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
@@ -104,12 +130,11 @@ class ScreenOperator:
         """
 
         num_of_boxes_view = len(boxes)
-        # print(boxes)
 
         if num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index, location in enumerate(boxes):
                 box = BoxV(self.screen, box_index)
-                box.location = box.draw_box(box.box_number, 0, self.font)
+                box.pos = box.draw_box(box.box_num, 0, self.font)
 
         else:
             rows = num_of_boxes_view // MAX_BOX_WIDTH
@@ -118,14 +143,12 @@ class ScreenOperator:
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
                     box = BoxV(self.screen, row * MAX_BOX_WIDTH + box_index)
-                    box.location = box.draw_box(box_index, row, self.font)
+                    box.pos = box.draw_box(box_index, row, self.font)
 
             for rem in range(remainder):
                 box = BoxV(self.screen, rows * MAX_BOX_WIDTH + rem)
-                box.location = box.draw_box(rem, rows, self.font)
+                box.pos = box.draw_box(rem, rows, self.font)
 
     def draw_screen(self):
         self.screen.blit(self.background_image, (0, 0))
         self.draw_menu()
-
-
