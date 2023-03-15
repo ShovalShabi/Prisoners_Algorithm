@@ -1,6 +1,6 @@
 from threading import Lock, Thread
 
-from Model.model_manger import ModelManger
+from Model.modelmanager import ModelManger
 from View.viewmanager import ViewManager
 
 

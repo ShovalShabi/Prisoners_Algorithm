@@ -9,7 +9,7 @@ class BoxM:
     pos: the position tuple of (x,y) in form -> tuple[int,int].\n
     next_box: the pointer to the next target box -> BoxM object.\n
     """
-    def __init__(self, box_num:int):
+    def __init__(self, box_num:int) -> None:
         """
         Initialize the PrisonerM object.\n
         :param box_num:int, the number of the box

@@ -1,5 +1,5 @@
 from Model.controller import Controller
-from Model.model_manger import ModelManger
+from Model.modelmanager import ModelManger
 from View.viewmanager import ViewManager
 
 if __name__ == '__main__':

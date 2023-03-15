@@ -5,6 +5,9 @@ import pygame
 
 
 class ScreenOperator:
+    """
+    A class that designated for handling blitting to screen and draw the objects of the frontend part of the game.
+    """
     def __init__(self) -> None:
         # Font
         self.font = pygame.font.SysFont('monospace', FONT_SIZE, bold=True)
@@ -39,7 +42,7 @@ class ScreenOperator:
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
                     color: tuple[int, int, int], state: str, type_button: str) -> str:
         """
-        Draw a button and handle mouse hover and click events.
+        Draw a button and handle mouse hover and click events.\n
 
         :param type_button: A type of which button was pressed.
         :param state: A state representing the state of event.
@@ -104,12 +107,11 @@ class ScreenOperator:
         """
 
         num_of_boxes_view = len(boxes)
-        # print(boxes)
 
         if num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index, location in enumerate(boxes):
                 box = BoxV(self.screen, box_index)
-                box.location = box.draw_box(box.box_number, 0, self.font)
+                box.pos = box.draw_box(box.box_num, 0, self.font)
 
         else:
             rows = num_of_boxes_view // MAX_BOX_WIDTH
@@ -118,11 +120,11 @@ class ScreenOperator:
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
                     box = BoxV(self.screen, row * MAX_BOX_WIDTH + box_index)
-                    box.location = box.draw_box(box_index, row, self.font)
+                    box.pos = box.draw_box(box_index, row, self.font)
 
             for rem in range(remainder):
                 box = BoxV(self.screen, rows * MAX_BOX_WIDTH + rem)
-                box.location = box.draw_box(rem, rows, self.font)
+                box.pos = box.draw_box(rem, rows, self.font)
 
     def draw_screen(self):
         self.screen.blit(self.background_image, (0, 0))
