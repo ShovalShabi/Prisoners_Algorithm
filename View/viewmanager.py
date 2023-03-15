@@ -12,6 +12,8 @@ from View.settings import *
 from View.box_view import BoxV
 from pygame.time import Clock
 
+import tkinter as tk
+
 
 def suppress_warnings(func):
     def wrapper(*args, **kwargs):
@@ -61,6 +63,7 @@ class ViewManager:
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
+        self.exist = False
 
         # Objects
         self.prisoner = None
@@ -150,17 +153,19 @@ class ViewManager:
             if self.state == 'reset':
                 self.reset_input_view()
 
-            if self.state == 'not running':
+            if self.state == 'not running' and not self.exist:
                 # Create and draw the boxes, handle events, and update the button states
                 # self.create_boxes()
                 self.create_boxes_test()
+
+                self.set_scondary_window()
 
             # Occurs when start button is clicked
             if self.state == 'begin':
                 self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,
                                                      self.print_specify)
                 pris_num = self.view_request_pris_num()
-                self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num, screen=self.screen_operator.main_screen)
                 self.state = "running"
 
             if self.state == "running":
@@ -169,7 +174,7 @@ class ViewManager:
                 if pris_num <= self.num_of_prisoners:
                     if pris_num != self.prisoner.pris_num:
                         self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num,
-                                                  screen=self.screen_operator.screen)
+                                                  screen=self.screen_operator.main_screen)
                     else:
                         pos = self.view_request_pris_pos()
                         self.prisoner.set_pris_pos(pos=pos)
@@ -185,6 +190,18 @@ class ViewManager:
         # Quit the game
         pygame.quit()
         sys.exit()
+
+    def set_scondary_window(self):
+        root = tk.Tk()
+        root.geometry('300x300')
+        txt = 'KEY USE:' + '\n' + 'LEFT ARROW: Prisoner text input' + \
+              '\n' + 'DOWN ARROW: Round text input' + \
+              '\n' + 'RIGHT ARROW: Specify print check box' + \
+              '\n' + 'SPACE - Select/Unselect check box'
+        label = tk.Label(root, text=txt)
+        label.pack()
+        root.update()
+        self.exist = True
 
     def reset_input_view(self) -> None:
         """
@@ -247,7 +264,6 @@ class ViewManager:
                 if self.status == 'Specify':
                     if event.key == pygame.K_SPACE:
                         self.print_specify = not self.print_specify
-
 
     def decide_input_type(self, event: Event) -> None:
         """
@@ -340,7 +356,7 @@ class ViewManager:
         remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
         for row in range(rows):
             for col in range(MAX_BOX_WIDTH):
-                box = BoxV(screen=self.screen_operator.screen, box_num=row * MAX_BOX_WIDTH + col + 1)
+                box = BoxV(screen=self.screen_operator.main_screen, box_num=row * MAX_BOX_WIDTH + col + 1)
                 box.set_pos(new_pos=(BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
                 self.boxes_on_screen_obj[box.box_num] = box  # Mappinhg objects of BoxV by their number
                 self.boxes_on_screen_pos[
@@ -352,7 +368,7 @@ class ViewManager:
 
         if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
             for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
-                box = BoxV(screen=self.screen_operator.screen, box_num=box_index)
+                box = BoxV(screen=self.screen_operator.main_screen, box_num=box_index)
                 self.boxes_off_screen_obj[box.box_num] = box
 
     def create_prisoner(self, num_prisoner: int) -> None:
@@ -362,7 +378,7 @@ class ViewManager:
         :param num_prisoner: An integer representing the number of the prisoner.
         :return: None.
         """
-        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.screen)
+        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.main_screen)
 
     def replace_prisoner(self, prisoner_num: int) -> None:
         """
