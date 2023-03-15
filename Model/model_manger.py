@@ -164,9 +164,8 @@ class ModelManger:
                     if self.dict_prisoners[self.current_pris_num].found_number:
                         self.succeeded += 1
                     self.current_pris_num += 1
-            # Intializing new Round
+            # Initializing new Round
             else:
-                print("here")
                 self.current_pris_num = 1
                 self.current_round += 1
                 if self.current_round <= self.total_rounds:

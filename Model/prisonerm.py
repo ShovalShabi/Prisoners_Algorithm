@@ -1,4 +1,5 @@
 from Model.boxm import BoxM
+from View.settings import screen_width,screen_height,IMG_PRIS
 
 
 class PrisonerM:
@@ -111,7 +112,10 @@ class PrisonerM:
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
         self.updated_pos = False
-        # print(self.pos, self.prisoner_num)
+        if self.pos[0] > screen_width:
+            print("crossed width")
+        if self.pos[1] > screen_width:
+            print("crossed width")
 
     def navigate(self, box_width: int, box_height: int) -> None:
         """
@@ -127,4 +131,7 @@ class PrisonerM:
             if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] <= \
                     self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
+        if (self.pos[0] + self.pace > screen_width - 400 - IMG_PRIS.get_rect().width)\
+                or(self.pos[1] + self.pace > screen_height - 150 - IMG_PRIS.get_rect().height):
+            self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)
