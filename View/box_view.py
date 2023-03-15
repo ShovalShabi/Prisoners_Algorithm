@@ -47,6 +47,12 @@ class BoxV:
         self.screen.blit(self.closed_chest_image, rect)
         return x, y
 
+    def set_location(self,new_location):
+        self.location=new_location
+
+    def get_location(self):
+        return self.location
+
     def replace_box(self) -> None:
         """
         Replaces the current box with the next one.
