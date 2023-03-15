@@ -4,7 +4,7 @@ import warnings
 
 import pygame.time
 from pygame.event import Event
-from pygame.locals import KEYDOWN, K_BACKSPACE
+from pygame.locals import KEYDOWN, K_BACKSPACE, K_SPACE
 
 from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
@@ -157,7 +157,8 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, True)
+                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,
+                                                     self.print_specify)
                 pris_num = self.view_request_pris_num()
                 self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
                 self.state = "running"
@@ -214,7 +215,7 @@ class ViewManager:
         """
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
-        self.print_specify = self.screen_operator.draw_check_box(mouse_pos, mouse_click)
+        self.screen_operator.draw_check_box(self.print_specify)
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                       self.screen_operator.start_hover_rect,
                                                       self.screen_operator.text_surface_start,
@@ -234,6 +235,7 @@ class ViewManager:
                 self.running = False
 
             if event.type == KEYDOWN and self.state != 'begin':
+
                 self.decide_input_type(event)
 
                 if self.status == 'Round':  # rounds
@@ -242,6 +244,10 @@ class ViewManager:
                 if self.status == 'Prisoner':  # prisoner
                     self.screen_operator.text_input_n = self.handle_input(event, self.screen_operator.text_input_n)
                     self.convert_input_prisoner_to_num()
+                if self.status == 'Specify':
+                    if event.key == pygame.K_SPACE:
+                        self.print_specify = not self.print_specify
+
 
     def decide_input_type(self, event: Event) -> None:
         """
@@ -253,10 +259,17 @@ class ViewManager:
             self.status = 'Prisoner'
             self.screen_operator.p_color = RED
             self.screen_operator.r_color = BLACK
-        if event.key == pygame.K_RIGHT:
+            self.screen_operator.s_color = BLACK
+        if event.key == pygame.K_DOWN:
             self.status = 'Round'
             self.screen_operator.p_color = BLACK
             self.screen_operator.r_color = RED
+            self.screen_operator.s_color = BLACK
+        if event.key == pygame.K_RIGHT:
+            self.status = 'Specify'
+            self.screen_operator.p_color = BLACK
+            self.screen_operator.r_color = BLACK
+            self.screen_operator.s_color = RED
 
     def convert_input_round_to_num(self) -> None:
         """

@@ -1,3 +1,5 @@
+import tkinter
+
 from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
@@ -16,6 +18,7 @@ class ScreenOperator:
         # Variables
         self.p_color = RED
         self.r_color = BLACK
+        self.s_color = BLACK
         self.text_input_n = ""
         self.text_input_k = ""
 
@@ -32,7 +35,6 @@ class ScreenOperator:
         self.reset_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.reset_hover_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
-        self.selected_specify_result = False
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
@@ -90,27 +92,17 @@ class ScreenOperator:
         self.draw_label(RED, 320, 790, self.text_input_n)
         self.draw_label(self.r_color, 590, 770, 'Number of rounds:')
         self.draw_label(RED, 590, 790, self.text_input_k)
-        self.draw_label(PURPLE, 820, 770, 'Specified result:')
+        self.draw_label(self.s_color, 820, 770, 'Specified result:')
 
-    def draw_check_box(self, mouse_pos, mouse_click) -> bool:
+    def draw_check_box(self, print_specify) -> None:
         select_box = pygame.Rect(1030, 770, 20, 20)
-        if self.selected_specify_result:
-            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+        if print_specify:
             text = 'X'
         else:
-            pygame.draw.rect(self.screen, BLACK, select_box, 2)
             text = ''
-        text_surface = self.font.render(text, True, BLACK)
+        pygame.draw.rect(self.screen, RED, select_box, 2)
+        text_surface = self.font.render(text, True, RED)
         self.screen.blit(text_surface, (1034, 770))
-
-        if select_box.collidepoint(mouse_pos) and mouse_click[0]:
-            # If the mouse is within the select box and the left mouse button is pressed, select the box
-            self.selected_specify_result = True
-        elif not select_box.collidepoint(mouse_pos) and mouse_click[0]:
-            # If the mouse is not within the select box and the left mouse button is pressed, deselect the box
-            self.selected_specify_result = False
-
-        return self.selected_specify_result
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
