@@ -26,7 +26,7 @@ class PrisonerV:
         self.pos = start_pos
         self.pris_num = num
         self.img = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png')).convert_alpha()
-        self.img_prisoner = pygame.transform.scale(self.img, (self.img.get_width() + 10, self.img.get_height() + 20))
+        self.img_prisoner = pygame.transform.scale(self.img, (self.img.get_width() + 27, self.img.get_height() + 25))
 
         self.screen = screen
 
@@ -38,7 +38,10 @@ class PrisonerV:
         :return: None.
         """
         text_surface = font.render(str(self.pris_num), True, BLACK)
-        text_rect = NUMBER_POSITION_ON_PRIS
+        if self.pris_num > 9:
+            text_rect = NUMBER_POSITION_ON_PRIS_ABOVE_9
+        else:
+            text_rect = NUMBER_POSITION_ON_PRIS_BELOW_9
         self.img_prisoner.blit(text_surface, text_rect)
         self.screen.blit(self.img_prisoner, self.pos)
 

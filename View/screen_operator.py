@@ -8,6 +8,7 @@ class ScreenOperator:
     """
     A class that designated for handling blitting to screen and draw the objects of the frontend part of the game.
     """
+
     def __init__(self) -> None:
         # Font
         self.font = pygame.font.SysFont('monospace', FONT_SIZE, bold=True)
@@ -28,9 +29,10 @@ class ScreenOperator:
         self.start_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.start_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x+150, button_y, button_width, button_height)
+        self.reset_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
+        self.selected_specify_result = False
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
@@ -72,7 +74,7 @@ class ScreenOperator:
                                         rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
-    def draw_objects(self, boxes,prisoner) -> None:
+    def draw_objects(self, boxes, prisoner) -> None:
         """
         Function that draws the game elements on the screen.
         """
@@ -84,10 +86,31 @@ class ScreenOperator:
         Draws the menu on the screen.
         """
         # Draw the input text
-        self.draw_label(self.p_color, 350, 770, 'Number of prisoners:')
-        self.draw_label(RED, 350, 790, self.text_input_n)
-        self.draw_label(self.r_color, 600, 770, 'Number of rounds:')
-        self.draw_label(RED, 600, 790, self.text_input_k)
+        self.draw_label(self.p_color, 320, 770, 'Number of prisoners:')
+        self.draw_label(RED, 320, 790, self.text_input_n)
+        self.draw_label(self.r_color, 590, 770, 'Number of rounds:')
+        self.draw_label(RED, 590, 790, self.text_input_k)
+        self.draw_label(PURPLE, 820, 770, 'Specified result:')
+
+    def draw_check_box(self, mouse_pos, mouse_click) -> bool:
+        select_box = pygame.Rect(1030, 770, 20, 20)
+        if self.selected_specify_result:
+            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+            text = 'X'
+        else:
+            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+            text = ''
+        text_surface = self.font.render(text, True, BLACK)
+        self.screen.blit(text_surface, (1034, 770))
+
+        if select_box.collidepoint(mouse_pos) and mouse_click[0]:
+            # If the mouse is within the select box and the left mouse button is pressed, select the box
+            self.selected_specify_result = True
+        elif not select_box.collidepoint(mouse_pos) and mouse_click[0]:
+            # If the mouse is not within the select box and the left mouse button is pressed, deselect the box
+            self.selected_specify_result = False
+
+        return self.selected_specify_result
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
@@ -129,5 +152,3 @@ class ScreenOperator:
     def draw_screen(self):
         self.screen.blit(self.background_image, (0, 0))
         self.draw_menu()
-
-

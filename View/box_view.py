@@ -17,6 +17,7 @@ class BoxV:
     closed_chest_img: image of closed chest -> Surface object.\n
     open_chest_img: image of open chest -> Surface object.\n
     """
+
     def __init__(self, screen: Surface, box_num: int) -> None:
         """
         Initializes a BoxV object.\n
@@ -26,15 +27,23 @@ class BoxV:
         self.box_num = box_num
         self.pos = None
         self.screen = screen
-        self.closed_chest_img = None
-        self.open_chest_img = None
-        self.load_images()
+        self.chest_img = None
+        self.load_images('chest_closed.png')
 
-    def load_images(self) -> None:
+    def replace_box_image(self, new_name_img, next_num, font) -> None:
+        self.load_images(new_name_img)
+        rect = Rect(self.pos[0], self.pos[1], CELL_SIZE, CELL_SIZE)
+        text_surface = font.render(str(next_num), True, YELLOW)
+        text_rect = text_surface.get_rect()
+        text_rect.center = self.chest_img.get_rect().center
+        self.chest_img.blit(text_surface, text_rect)
+        self.screen.blit(self.chest_img, rect)
+
+    def load_images(self, new_name_img) -> None:
         """
         Loads the image resources needed for the BoxV object.\n
         """
-        self.closed_chest_img = image.load(os.path.join('View/Resources/chest_closed.png'))
+        self.chest_img = image.load(os.path.join('View/Resources/' + new_name_img))
 
     def draw_box(self, box_index: int, increment: int, font: Font) -> tuple[int, int]:
         """
@@ -48,23 +57,26 @@ class BoxV:
         """
         x = BOX_START_X + box_index * CELL_SIZE
         y = BOX_START_Y + increment * CELL_SIZE
-        rect = Rect(x, y, CELL_SIZE, CELL_SIZE)
-        text_surface = font.render(str(box_index + 1 + increment * MAX_BOX_WIDTH), True, YELLOW)
-        text_rect = text_surface.get_rect()
-        text_rect.center = self.closed_chest_img.get_rect().center
-        self.closed_chest_img.blit(text_surface, text_rect)
-        self.screen.blit(self.closed_chest_img, rect)
-        return x, y
+        self.set_pos((x, y))
+        self.box_num = box_index + 1 + increment * MAX_BOX_WIDTH
 
-    def set_pos(self, new_pos:tuple[int, int]) -> None:
+        rect = Rect(x, y, CELL_SIZE, CELL_SIZE)
+        text_surface = font.render(str(self.box_num), True, YELLOW)
+        text_rect = text_surface.get_rect()
+        text_rect.center = self.chest_img.get_rect().center
+        self.chest_img.blit(text_surface, text_rect)
+        self.screen.blit(self.chest_img, rect)
+        return self.get_pos()
+
+    def set_pos(self, new_pos: tuple[int, int]) -> None:
         """
         Method for setting new position of the box.\n
         :param new_pos: A tuple containing the x and y coordinates of the box -> tuple of (x,y).
         :return: None.
         """
-        self.pos=new_pos
+        self.pos = new_pos
 
-    def get_pos(self) -> tuple[int,int]:
+    def get_pos(self) -> tuple[int, int]:
         """
         Method for getting new position of the box.\n
         :return: A tuple containing the x and y coordinates of the box -> tuple of (x,y).
