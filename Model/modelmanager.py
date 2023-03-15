@@ -70,6 +70,13 @@ class ModelManger:
         """
         return self.listener.model_need_box_dimensions()
 
+    def model_request_pris_dimensions(self) -> tuple[int, int]:
+        """
+        Method that fetch prisoner image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
+        :return: a position tuple in form -> tuple[int,int].
+        """
+        return self.listener.model_need_pris_dimensions()
+
     def ntfy_to_view_get_all_boxes_pos(self) -> dict:
         """
         Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
@@ -156,9 +163,12 @@ class ModelManger:
             if self.current_pris_num <= self.total_pris:
                 if self.dict_prisoners[self.current_pris_num].is_still_searching():
                     self.pris_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
-                    dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
-                    self.dict_prisoners[self.current_pris_num].navigate(box_width=dimensions[0],
-                                                                        box_height=dimensions[1])
+                    box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
+                    pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
+                    self.dict_prisoners[self.current_pris_num].navigate(box_width=box_dimensions[0],
+                                                                        box_height=box_dimensions[1],
+                                                                        pris_width=pris_dimensions[0],
+                                                                        pris_height=pris_dimensions[1])
                 # Switching a prisoner and updating the succeeding counter
                 else:
                     if self.dict_prisoners[self.current_pris_num].found_number:

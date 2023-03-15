@@ -409,3 +409,6 @@ class ViewManager:
     @suppress_warnings
     def get_box_dimensions(self):
         return IMG_BOX_WIDTH, IMG_BOX_HEIGHT
+
+    def get_pris_dimensions(self):
+        return self.prisoner.img_prisoner.get_rect().width,self.prisoner.img_prisoner.get_rect().height
