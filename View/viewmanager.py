@@ -40,8 +40,9 @@ class ViewManager:
         # Objects
         self.prisoner = None
         self.listener = None
-        self.boxes_on_screen = {}
-        self.boxes_off_screen = {}
+        self.boxes_on_screen_obj = {}
+        self.boxes_on_screen_pos = {}
+        self.boxes_off_screen_obj = {}
 
         # Screen Operations
         self.screen_operator = None
@@ -94,7 +95,7 @@ class ViewManager:
         self.pygame_setup()
         while self.running:
             self.screen_operator.draw_screen()
-            self.screen_operator.draw_boxes(self.boxes_on_screen)
+            self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
             self.listen_to_events()
             self.button_events()
 
@@ -103,13 +104,15 @@ class ViewManager:
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
-                self.create_boxes()
+                # self.create_boxes()
+                self.create_boxes_test()
 
             # Occurs when start button is clicked
             if self.state == 'begin':
                 self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, True)
                 pris_num = self.view_request_pris_num()
                 self.prisoner = PrisonerV(start_location=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
+                print(self.boxes_on_screen_pos)
                 self.state = "running"
 
             if self.state == "running":
@@ -122,7 +125,7 @@ class ViewManager:
                     else:
                         pos = self.view_request_pris_pos()
                         self.prisoner.update_prisoner_location(location=pos)
-                    self.screen_operator.draw_objects(self.boxes_on_screen, self.prisoner)
+                    self.screen_operator.draw_objects(self.boxes_on_screen_pos, self.prisoner)
                 else:
                     self.view_request_run_game()
                     self.state = 'reset'
@@ -144,8 +147,8 @@ class ViewManager:
         self.actual_num_of_boxes = 0
 
         # Objects
-        self.boxes_on_screen = {}
-        self.boxes_off_screen = {}
+        self.boxes_on_screen_pos = {}
+        self.boxes_off_screen_obj = {}
 
         # Screen
         self.screen_operator.text_input_n = ""
@@ -256,26 +259,47 @@ class ViewManager:
         Creates box objects and adds their locations to the boxes_on_screen dictionary.\n
         The rest of the boxes that cannot fit the screen are inserted to boxes_off_screen dictionary.
         """
-        self.boxes_on_screen.clear()
-        self.boxes_off_screen.clear()
+        self.boxes_on_screen_pos.clear()
+        self.boxes_off_screen_obj.clear()
         if self.num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index in range(self.num_of_boxes_view):
                 box = BoxV(self.screen_operator.screen, box_index + 1)
-                self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, 0)
+                self.boxes_on_screen_pos[box.box_number] = self.generate_box_location(box.box_number, 0)
         else:
             rows = int(math.floor(self.num_of_boxes_view / MAX_BOX_WIDTH))
             remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
                     box = BoxV(self.screen_operator.screen, box_index + 1 + row * MAX_BOX_WIDTH)
-                    self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, row)
+                    self.boxes_on_screen_pos[box.box_number] = self.generate_box_location(box.box_number, row)
             for rem in range(remainder):
                 box = BoxV(self.screen_operator.screen, rows * MAX_BOX_WIDTH + rem + 1)
-                self.boxes_on_screen[box.box_number] = self.generate_box_location(box.box_number, rows)
+                self.boxes_on_screen_pos[box.box_number] = self.generate_box_location(box.box_number, rows)
         if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
             for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
                 box = BoxV(self.screen_operator.screen, box_index)
-                self.boxes_off_screen[box.box_number] = box
+                self.boxes_off_screen_obj[box.box_number] = box
+
+    def create_boxes_test(self):
+        self.boxes_on_screen_pos.clear()
+        self.boxes_off_screen_obj.clear()
+        rows = int(math.floor(self.num_of_boxes_view / MAX_BOX_WIDTH))
+        remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
+        for row in range(rows):
+            for col in range(MAX_BOX_WIDTH):
+                box = BoxV(self.screen_operator.screen, row*MAX_BOX_WIDTH+col+1)
+                box.set_location((BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
+                self.boxes_on_screen_obj[box.box_number]=box  #Mappinhg objects of BoxV by their number
+                self.boxes_on_screen_pos[box.box_number]=box.get_location()  #Mapping positions of BoxV objects by their number
+        for rem in range(remainder):
+            box=BoxV(self.screen_operator,rows*MAX_BOX_WIDTH + rem +1)
+            box.set_location((BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
+            self.boxes_on_screen_pos[box.box_number] = box.get_location()
+
+        if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
+            for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
+                box = BoxV(self.screen_operator.screen, box_index)
+                self.boxes_off_screen_obj[box.box_number] = box
 
     @suppress_warnings
     def generate_box_location(self, box_index: int, inc: int) -> tuple:
@@ -314,7 +338,7 @@ class ViewManager:
         pass
 
     def get_boxes_locations(self):
-        return self.boxes_on_screen
+        return self.boxes_on_screen_pos
 
     @suppress_warnings
     def get_box_dimensions(self):
