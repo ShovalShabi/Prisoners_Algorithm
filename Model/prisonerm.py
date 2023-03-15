@@ -82,13 +82,13 @@ class PrisonerM:
                 self.target_box.get_pos()[1] == self.pos[1]:
             if self.target_box.get_nxt_box().get_num() == self.prisoner_num:
                 self.found_number = True
-                print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
+                # print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
                 return False
             if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
-                print(f"Prisoner number {self.prisoner_num} got disqualified!")
+                # print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False
             else:
-                print(f"Prisoner number {self.prisoner_num} going to box number {self.target_box.box_num}")
+                # print(f"Prisoner number {self.prisoner_num} going to box number {self.target_box.box_num}")
                 self.visited_boxes.update({self.target_box.get_num: self.target_box})
                 self.target_box = self.target_box.get_nxt_box()
         return True
@@ -113,21 +113,21 @@ class PrisonerM:
             self.updated_pos = True
         self.updated_pos = False
 
-    def navigate(self, box_width: int, box_height: int) -> None:
+    def navigate(self, box_width: int, box_height: int, pris_width:int, pris_height:int) -> None:
         """
         This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.\n
         :param box_width: int, represents a box width of an image.
         :param box_height: int, represents a box height of an image.
+        :param pris_width: int, represents a prisoner width of an image.
+        :param pris_height: int, represents a prisoner height of an image.
         :return: None.
         """
         for box_number in self.all_boxes.keys():
-            if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] <= \
-                    self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
+            # print(f" box number {box_number} is at ({self.all_boxes[box_number].get_pos()[0]},{self.all_boxes[box_number].get_pos()[0]+box_width}) on axis x "
+            #       f"and ({self.all_boxes[box_number].get_pos()[1]},{self.all_boxes[box_number].get_pos()[1] + box_height}) on axis y")
+            # print(f" prisoner {self.prisoner_num} is at ({self.pos[0]},{self.pos[0]+pris_width}) on axis x and ({self.pos[1]},{self.pos[1]+pris_height}) on axis y")
+            if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] + pris_width <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
-            if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] <= \
-                    self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
+            if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1]+pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
-        # if (self.pos[0] + self.pace > screen_width - 400 - IMG_PRIS.get_rect().width)\
-        #         or(self.pos[1] + self.pace > screen_height - 150 - IMG_PRIS.get_rect().height):
-        #     self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)

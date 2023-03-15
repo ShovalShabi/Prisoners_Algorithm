@@ -47,6 +47,9 @@ class Controller:
     def model_need_box_dimensions(self):
         return self.ntfy_to_view_get_box_dimension()
 
+    def model_need_pris_dimensions(self):
+        return self.ntfy_to_view_get_pris_dimension()
+
     def ntfy_view_get_all_boxes_on_screen_pos(self):  # will return dict of {num_box:position}
         return self.ntfy_to_view_get_all_boxes_locationV()
 
@@ -73,6 +76,12 @@ class Controller:
         Sends the dimensions of the box image to the listener.
         """
         return self.view.get_box_dimensions()
+
+    def ntfy_to_view_get_pris_dimension(self) -> None:
+        """
+        Sends the dimensions of the prisoner image to the listener.
+        """
+        return self.view.get_pris_dimensions()
 
     def ntfy_to_view_get_all_boxes_locationV(self) -> None:
         """

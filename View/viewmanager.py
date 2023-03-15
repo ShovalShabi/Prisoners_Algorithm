@@ -351,18 +351,18 @@ class ViewManager:
         remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
         for row in range(rows):
             for col in range(MAX_BOX_WIDTH):
-                box = BoxV(self.screen_operator.screen, row*MAX_BOX_WIDTH+col+1)
-                box.set_pos((BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
+                box = BoxV(screen=self.screen_operator.screen, box_num=row*MAX_BOX_WIDTH+col+1)
+                box.set_pos(new_pos=(BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
                 self.boxes_on_screen_obj[box.box_num]=box  #Mappinhg objects of BoxV by their number
                 self.boxes_on_screen_pos[box.box_num]=box.get_pos()  #Mapping positions of BoxV objects by their number
         for rem in range(remainder):
-            box=BoxV(self.screen_operator,rows*MAX_BOX_WIDTH + rem +1)
-            box.set_pos((BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
+            box=BoxV(screen=self.screen_operator,box_num=rows*MAX_BOX_WIDTH + rem +1)
+            box.set_pos(new_pos=(BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
             self.boxes_on_screen_pos[box.box_num] = box.get_pos()
 
         if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
             for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
-                box = BoxV(self.screen_operator.screen, box_index)
+                box = BoxV(screen=self.screen_operator.screen, box_num=box_index)
                 self.boxes_off_screen_obj[box.box_num] = box
 
     @suppress_warnings
@@ -409,3 +409,6 @@ class ViewManager:
     @suppress_warnings
     def get_box_dimensions(self):
         return IMG_BOX_WIDTH, IMG_BOX_HEIGHT
+
+    def get_pris_dimensions(self):
+        return self.prisoner.img_prisoner.get_rect().width,self.prisoner.img_prisoner.get_rect().height
