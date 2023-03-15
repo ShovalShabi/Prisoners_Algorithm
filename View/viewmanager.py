@@ -1,11 +1,10 @@
 import math
 import sys
 import warnings
-
 import pygame.time
+
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
-
 from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
