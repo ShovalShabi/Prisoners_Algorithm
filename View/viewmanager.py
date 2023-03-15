@@ -6,7 +6,6 @@ import pygame.time
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
 
-from Model.controller import Controller
 from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
@@ -121,7 +120,7 @@ class ViewManager:
         """
         self.listener.view_need_to_run_game()
 
-    def set_listener(self, listener:Controller) -> None:
+    def set_listener(self, listener) -> None:
         """
         Sets the listener for the ViewManager object.\n
 
