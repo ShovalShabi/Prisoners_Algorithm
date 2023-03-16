@@ -8,6 +8,7 @@ BLACK = (0, 0, 0)
 PURPLE = (255, 0, 255)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
+ORANGE = (255,165,0)
 
 # Screen and button
 screen_width = 1100
@@ -15,8 +16,8 @@ screen_height = 850
 button_width = 100
 button_height = 50
 BUTTON_COLOR = WHITE
-button_x = 50
-button_y = 770
+button_x = 38
+button_y = 550
 
 # FONT
 FONT_SIZE = 20

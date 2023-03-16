@@ -34,9 +34,12 @@ class ScreenOperator:
         self.start_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.start_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
+        self.reset_rect = pygame.Rect(button_x, button_y+150, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(button_x, button_y+150, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
+        self.stats_rect = pygame.Rect(button_x, button_y+75, button_width, button_height)
+        self.stats_hover_rect = pygame.Rect(button_x, button_y+75, button_width, button_height)
+        self.text_surface_stats = self.font.render("PROBS", True, BLACK)
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
@@ -90,21 +93,21 @@ class ScreenOperator:
         Draws the menu on the screen.
         """
         # Draw the input text
-        self.draw_label(self.p_color, 320, 770, 'Number of prisoners:')
-        self.draw_label(RED, 320, 790, self.text_input_n)
-        self.draw_label(self.r_color, 590, 770, 'Number of rounds:')
-        self.draw_label(RED, 590, 790, self.text_input_k)
-        self.draw_label(self.s_color, 820, 770, 'Specified result:')
+        self.draw_label(self.p_color, 150, 770, 'Number of prisoners:')
+        self.draw_label(RED, 150, 790, self.text_input_n)
+        self.draw_label(self.r_color, 430, 770, 'Number of rounds:')
+        self.draw_label(RED, 430, 790, self.text_input_k)
+        self.draw_label(self.s_color, 680, 770, 'Specified result:')
 
     def draw_check_box(self, print_specify) -> None:
-        select_box = pygame.Rect(1030, 770, 20, 20)
+        select_box = pygame.Rect(900, 770, 20, 20)
         if print_specify:
             text = 'X'
         else:
             text = ''
         pygame.draw.rect(self.main_screen, RED, select_box, 2)
         text_surface = self.font.render(text, True, RED)
-        self.main_screen.blit(text_surface, (1034, 770))
+        self.main_screen.blit(text_surface, (904, 770))
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """

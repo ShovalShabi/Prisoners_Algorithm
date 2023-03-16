@@ -233,10 +233,15 @@ class ViewManager:
                                                       self.screen_operator.start_hover_rect,
                                                       self.screen_operator.text_surface_start,
                                                       GREEN, self.state, 'start_button')
+        self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.stats_rect,
+                                                      self.screen_operator.stats_hover_rect,
+                                                      self.screen_operator.text_surface_stats,
+                                                      ORANGE, self.state, 'stats_button')
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
                                                       RED, self.state, 'reset_button')
+
 
     def listen_to_events(self) -> None:
         """
