@@ -1,5 +1,3 @@
-import tkinter
-
 from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
@@ -24,22 +22,18 @@ class ScreenOperator:
 
         # Screen and background
         self.size_main_screen = (screen_width, screen_height)
-        self.size_second_screen = (200, 200)
         self.main_screen = pygame.display.set_mode(self.size_main_screen)
 
         self.image_background = IMG_BACKGROUND
         self.background_image = pygame.transform.scale(self.image_background, (screen_width, screen_height))
 
         # Buttons
-        self.start_rect = pygame.Rect(button_x, button_y, button_width, button_height)
-        self.start_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+        self.start_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
+        self.start_hover_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x, button_y+150, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x, button_y+150, button_width, button_height)
+        self.reset_rect = pygame.Rect(button_x, button_y + 150, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(button_x, button_y + 150, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
-        self.stats_rect = pygame.Rect(button_x, button_y+75, button_width, button_height)
-        self.stats_hover_rect = pygame.Rect(button_x, button_y+75, button_width, button_height)
-        self.text_surface_stats = self.font.render("PROBS", True, BLACK)
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
