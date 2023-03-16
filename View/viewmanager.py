@@ -13,8 +13,6 @@ from View.box_view import BoxV
 from pygame.time import Clock
 
 
-
-
 def suppress_warnings(func):
     def wrapper(*args, **kwargs):
         with warnings.catch_warnings():
@@ -63,7 +61,6 @@ class ViewManager:
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
-        self.exist = False
 
         # Objects
         self.prisoner = None
@@ -73,6 +70,7 @@ class ViewManager:
         self.boxes_off_screen_obj = {}
 
         # Screen Operations
+        self.root = None
         self.screen_operator = None
         self.clock = Clock()
 
@@ -144,6 +142,7 @@ class ViewManager:
         """
         # Initialize the game
         self.pygame_setup()
+        self.set_secondary_window()
         while self.running:
             self.screen_operator.draw_screen()
             self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
@@ -153,12 +152,9 @@ class ViewManager:
             if self.state == 'reset':
                 self.reset_input_view()
 
-            if self.state == 'not running' and not self.exist:
+            if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
-                # self.create_boxes()
-                self.create_boxes_test()
-
-                self.set_scondary_window()
+                self.create_boxes()
 
             # Occurs when start button is clicked
             if self.state == 'begin':
@@ -186,22 +182,22 @@ class ViewManager:
 
             # Update the display
             pygame.display.update()
+            self.root.update()
 
         # Quit the game
         pygame.quit()
+        self.root.quit()
         sys.exit()
 
-    def set_scondary_window(self):
-        root = tk.Tk()
-        root.geometry('300x300')
+    def set_secondary_window(self):
+        self.root = tk.Tk()
+        self.root.geometry('300x300')
         txt = 'KEY USE:' + '\n' + 'LEFT ARROW: Prisoner text input' + \
               '\n' + 'DOWN ARROW: Round text input' + \
               '\n' + 'RIGHT ARROW: Specify print check box' + \
-              '\n' + 'SPACE - Select/Unselect check box'
-        label = tk.Label(root, text=txt)
+              '\n' + 'X - Select/Unselect check box'
+        label = tk.Label(self.root, text=txt)
         label.pack()
-        root.update()
-        self.exist = True
 
     def reset_input_view(self) -> None:
         """
@@ -261,7 +257,7 @@ class ViewManager:
                 if self.status == 'Prisoner':  # prisoner
                     self.screen_operator.text_input_n = self.handle_input(event, self.screen_operator.text_input_n)
                     self.convert_input_prisoner_to_num()
-                if self.status == 'Specify':
+                if self.status == 'X_pressed':
                     if event.key == pygame.K_SPACE:
                         self.print_specify = not self.print_specify
 
@@ -276,16 +272,17 @@ class ViewManager:
             self.screen_operator.p_color = RED
             self.screen_operator.r_color = BLACK
             self.screen_operator.s_color = BLACK
-        if event.key == pygame.K_DOWN:
+        if event.key == pygame.K_RIGHT:
             self.status = 'Round'
             self.screen_operator.p_color = BLACK
             self.screen_operator.r_color = RED
             self.screen_operator.s_color = BLACK
-        if event.key == pygame.K_RIGHT:
-            self.status = 'Specify'
+        if event.key == pygame.K_x:
+            self.status = 'X_pressed'
             self.screen_operator.p_color = BLACK
             self.screen_operator.r_color = BLACK
             self.screen_operator.s_color = RED
+            self.print_specify = not self.print_specify
 
     def convert_input_round_to_num(self) -> None:
         """
@@ -344,7 +341,7 @@ class ViewManager:
             text += event_input.unicode
         return text
 
-    def create_boxes_test(self) -> None:
+    def create_boxes(self) -> None:
         """
         Method that creates boxes on screen and determines which boxes are on screen in case of overflow and also in charge of
         the position of each box.\n
