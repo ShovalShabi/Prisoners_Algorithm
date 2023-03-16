@@ -75,6 +75,22 @@ class ViewManager:
         self.screen_operator = None
         self.clock = Clock()
 
+        # Results
+        self.scrollbar = None
+        self.text = None
+
+    def config_text_window(self):
+
+        # Create a Text widget and pack it in the window
+        # create scrollbar
+        self.scrollbar = tk.Scrollbar(self.root)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        # create text widget
+        self.text = tk.Text(self.root, yscrollcommand=self.scrollbar.set)
+        self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # configure scrollbar to scroll with text widget
+        self.scrollbar.config(command=self.text.yview)
+
     @suppress_warnings
     def pygame_setup(self) -> None:
         """
@@ -135,6 +151,12 @@ class ViewManager:
 
     ########################################################################################################
 
+    @suppress_warnings
+    def read_from_file(self):
+        file = open("PrisonersResults.txt", "r")
+        content = file.read()
+        return content
+
     # Game functions
     def run(self) -> None:
         """
@@ -142,9 +164,13 @@ class ViewManager:
         :returns: None.
         """
         # Initialize the game
-        self.set_secondary_window()
         self.pygame_setup()
+        self.set_secondary_window()
+        self.config_text_window()
+        self.write_text_on_secondary_screen(USER_GUIDE)
+
         while self.running:
+            result = self.read_from_file()
             self.screen_operator.draw_screen()
             self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
             self.listen_to_events()
@@ -166,6 +192,9 @@ class ViewManager:
                 self.state = "running"
 
             if self.state == "running":
+                # prints results
+                self.write_text_on_secondary_screen(result)
+
                 self.view_request_run_game()
                 pris_num = self.view_request_pris_num()
                 if pris_num <= self.num_of_prisoners:
@@ -192,13 +221,11 @@ class ViewManager:
 
     def set_secondary_window(self):
         self.root = tk.Tk()
-        self.root.geometry('300x300')
-        txt = 'KEY USE:' + '\n' + 'LEFT ARROW: Prisoner text input' + \
-              '\n' + 'DOWN ARROW: Round text input' + \
-              '\n' + 'RIGHT ARROW: Specify print check box' + \
-              '\n' + 'X - Select/Unselect check box'
-        label = tk.Label(self.root, text=txt)
-        label.pack()
+        self.root.geometry('400x450')
+
+    def write_text_on_secondary_screen(self, txt):
+        self.text.delete("1.0", tk.END)  # delete all text from the widget
+        self.text.insert(tk.END, txt)
 
     def reset_input_view(self) -> None:
         """
@@ -220,7 +247,12 @@ class ViewManager:
         # Screen
         self.screen_operator.text_input_n = ""
         self.screen_operator.text_input_k = ""
+        self.print_specify = False
 
+        # Reset
+        self.write_text_on_secondary_screen(USER_GUIDE)
+
+        # State
         self.state = 'not running'
 
     def button_events(self) -> None:
@@ -285,6 +317,7 @@ class ViewManager:
             self.screen_operator.r_color = BLACK
             self.screen_operator.s_color = RED
             self.print_specify = not self.print_specify
+            print(self.print_specify)
 
     def convert_input_round_to_num(self) -> None:
         """

@@ -1,4 +1,5 @@
 import pygame
+
 import os
 
 # Color
@@ -8,6 +9,7 @@ BLACK = (0, 0, 0)
 PURPLE = (255, 0, 255)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
+ORANGE = (255, 165, 0)
 
 # Screen and button
 screen_width = 1100
@@ -15,12 +17,11 @@ screen_height = 850
 button_width = 100
 button_height = 50
 BUTTON_COLOR = WHITE
-button_x = 50
-button_y = 770
+button_x = 38
+button_y = 550
 
 # FONT
 FONT_SIZE = 20
-
 
 # PRISONER
 NUMBER_POSITION_ON_PRIS_ABOVE_9 = (13, 35)
@@ -41,3 +42,17 @@ IMG_BOX_WIDTH = IMG_BOX.get_width()
 IMG_BOX_HEIGHT = IMG_BOX.get_height()
 
 IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunetic_Room.jpg'))
+
+# USER GUIDE TEXT
+USER_GUIDE = 'USER GUIDE:\n' + \
+             '------------------------------' + \
+             '\n\n' + 'LEFT ARROW: Select prisoner text input' + \
+             '\n' + 'RIGHT ARROW: Select specify print check box' + \
+             '\n' + 'X - Select/Unselect check box' + '\n\n' + \
+             '------------------------------' + \
+             '\n' + 'Press START to run the game after' + '\n' + 'picking parameters' + '\n' + \
+             '------------------------------' + \
+             '\n' + 'Press RESULTS to see the further' + '\n' + 'calculations' + '\n' + \
+             '------------------------------' + \
+             '\n' + 'Press RESET to clear the screen'
+
