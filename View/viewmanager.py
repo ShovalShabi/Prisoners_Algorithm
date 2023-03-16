@@ -151,12 +151,12 @@ class ViewManager:
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
-                # self.create_boxes()
-                self.create_boxes_test()
+                self.create_boxes()
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, True)
+                print(self.print_specify)
+                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, self.print_specify)
                 pris_num = self.view_request_pris_num()
                 self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num, screen=self.screen_operator.screen)
                 self.state = "running"
@@ -314,7 +314,7 @@ class ViewManager:
             text += event_input.unicode
         return text
 
-    def create_boxes_test(self) -> None:
+    def create_boxes(self) -> None:
         """
         Method that creates boxes on screen and determines which boxes are on screen in case of overflow and also in charge of
         the position of each box.\n
