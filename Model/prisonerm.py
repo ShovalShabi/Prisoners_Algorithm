@@ -1,6 +1,4 @@
 from Model.boxm import BoxM
-from View.settings import screen_width,screen_height,IMG_PRIS
-
 
 class PrisonerM:
     """

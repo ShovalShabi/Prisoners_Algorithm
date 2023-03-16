@@ -169,7 +169,6 @@ class ModelManger:
                                                                         box_height=box_dimensions[1],
                                                                         pris_width=pris_dimensions[0],
                                                                         pris_height=pris_dimensions[1])
-                # Switching a prisoner and updating the succeeding counter
                 else:
                     if self.dict_prisoners[self.current_pris_num].found_number:
                         self.succeeded += 1

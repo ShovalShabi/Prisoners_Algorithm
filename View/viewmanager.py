@@ -142,8 +142,8 @@ class ViewManager:
         :returns: None.
         """
         # Initialize the game
-        self.pygame_setup()
         self.set_secondary_window()
+        self.pygame_setup()
         while self.running:
             self.screen_operator.draw_screen()
             self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
