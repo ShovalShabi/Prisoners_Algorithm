@@ -1,3 +1,5 @@
+import tkinter
+
 from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
@@ -16,12 +18,15 @@ class ScreenOperator:
         # Variables
         self.p_color = RED
         self.r_color = BLACK
+        self.s_color = BLACK
         self.text_input_n = ""
         self.text_input_k = ""
 
         # Screen and background
-        self.size = (screen_width, screen_height)
-        self.screen = pygame.display.set_mode(self.size)
+        self.size_main_screen = (screen_width, screen_height)
+        self.size_second_screen = (200, 200)
+        self.main_screen = pygame.display.set_mode(self.size_main_screen)
+
         self.image_background = IMG_BACKGROUND
         self.background_image = pygame.transform.scale(self.image_background, (screen_width, screen_height))
 
@@ -32,7 +37,6 @@ class ScreenOperator:
         self.reset_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.reset_hover_rect = pygame.Rect(button_x + 150, button_y, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
-        self.selected_specify_result = False
 
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
@@ -57,7 +61,7 @@ class ScreenOperator:
         """
         if rect.collidepoint(mouse_pos):
             # Draw the hover rect if the mouse is over the button
-            pygame.draw.rect(self.screen, color, hover)
+            pygame.draw.rect(self.main_screen, color, hover)
             if mouse_click[0] == 1:
                 if type_button == 'start_button':
                     state = 'begin'
@@ -67,11 +71,11 @@ class ScreenOperator:
                     print("Reset button clicked!")
         else:
             # Draw the normal state if the mouse is not over the button
-            pygame.draw.rect(self.screen, WHITE, rect)
+            pygame.draw.rect(self.main_screen, WHITE, rect)
 
         # Draw the text surface in the center of the button
-        self.screen.blit(text_surface, (rect.x + rect.width // 2 - text_surface.get_width() // 2,
-                                        rect.y + rect.height // 2 - text_surface.get_height() // 2))
+        self.main_screen.blit(text_surface, (rect.x + rect.width // 2 - text_surface.get_width() // 2,
+                                             rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
     def draw_objects(self, boxes, prisoner) -> None:
@@ -90,27 +94,17 @@ class ScreenOperator:
         self.draw_label(RED, 320, 790, self.text_input_n)
         self.draw_label(self.r_color, 590, 770, 'Number of rounds:')
         self.draw_label(RED, 590, 790, self.text_input_k)
-        self.draw_label(PURPLE, 820, 770, 'Specified result:')
+        self.draw_label(self.s_color, 820, 770, 'Specified result:')
 
-    def draw_check_box(self, mouse_pos, mouse_click) -> bool:
+    def draw_check_box(self, print_specify) -> None:
         select_box = pygame.Rect(1030, 770, 20, 20)
-        if self.selected_specify_result:
-            pygame.draw.rect(self.screen, BLACK, select_box, 2)
+        if print_specify:
             text = 'X'
         else:
-            pygame.draw.rect(self.screen, BLACK, select_box, 2)
             text = ''
-        text_surface = self.font.render(text, True, BLACK)
-        self.screen.blit(text_surface, (1034, 770))
-
-        if select_box.collidepoint(mouse_pos) and mouse_click[0]:
-            # If the mouse is within the select box and the left mouse button is pressed, select the box
-            self.selected_specify_result = True
-        elif not select_box.collidepoint(mouse_pos) and mouse_click[0]:
-            # If the mouse is not within the select box and the left mouse button is pressed, deselect the box
-            self.selected_specify_result = False
-
-        return self.selected_specify_result
+        pygame.draw.rect(self.main_screen, RED, select_box, 2)
+        text_surface = self.font.render(text, True, RED)
+        self.main_screen.blit(text_surface, (1034, 770))
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
@@ -122,7 +116,7 @@ class ScreenOperator:
         :param text: The text to be displayed in the label. Defaults to an empty string.
         """
         text_surface = self.font.render(text, True, color)
-        self.screen.blit(text_surface, (pos_x, pos_y))
+        self.main_screen.blit(text_surface, (pos_x, pos_y))
 
     def draw_boxes(self, boxes) -> None:
         """
@@ -133,7 +127,7 @@ class ScreenOperator:
 
         if num_of_boxes_view <= MAX_BOX_WIDTH:
             for box_index, location in enumerate(boxes):
-                box = BoxV(self.screen, box_index)
+                box = BoxV(self.main_screen, box_index)
                 box.pos = box.draw_box(box.box_num, 0, self.font)
 
         else:
@@ -142,13 +136,13 @@ class ScreenOperator:
 
             for row in range(rows):
                 for box_index in range(MAX_BOX_WIDTH):
-                    box = BoxV(self.screen, row * MAX_BOX_WIDTH + box_index)
+                    box = BoxV(self.main_screen, row * MAX_BOX_WIDTH + box_index)
                     box.pos = box.draw_box(box_index, row, self.font)
 
             for rem in range(remainder):
-                box = BoxV(self.screen, rows * MAX_BOX_WIDTH + rem)
+                box = BoxV(self.main_screen, rows * MAX_BOX_WIDTH + rem)
                 box.pos = box.draw_box(rem, rows, self.font)
 
     def draw_screen(self):
-        self.screen.blit(self.background_image, (0, 0))
+        self.main_screen.blit(self.background_image, (0, 0))
         self.draw_menu()
