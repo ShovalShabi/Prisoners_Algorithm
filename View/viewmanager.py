@@ -211,6 +211,7 @@ class ViewManager:
         self.status = 'Prisoner'
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
+        self.print_specify=False
 
         # Objects
         self.boxes_on_screen_pos = {}
