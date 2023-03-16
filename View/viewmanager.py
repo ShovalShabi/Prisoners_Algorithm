@@ -1,18 +1,18 @@
 import math
 import sys
 import warnings
-
 import pygame.time
-from pygame.event import Event
-from pygame.locals import KEYDOWN, K_BACKSPACE, K_SPACE
+import tkinter as tk
 
+from pygame.event import Event
+from pygame.locals import KEYDOWN, K_BACKSPACE
 from View.screen_operator import ScreenOperator
 from View.prisoner_view import PrisonerV
 from View.settings import *
 from View.box_view import BoxV
 from pygame.time import Clock
 
-import tkinter as tk
+
 
 
 def suppress_warnings(func):
