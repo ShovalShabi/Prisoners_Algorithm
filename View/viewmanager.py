@@ -61,6 +61,7 @@ class ViewManager:
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
+        self.exit_tk = False
 
         # Objects
         self.prisoner = None
