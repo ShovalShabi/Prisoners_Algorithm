@@ -19,6 +19,8 @@ class ScreenOperator:
         self.s_color = BLACK
         self.text_input_n = ""
         self.text_input_k = ""
+        self.pris_succeed = None
+        self.current_round = -1
 
         # Screen and background
         self.size_main_screen = (screen_width, screen_height)
@@ -35,11 +37,15 @@ class ScreenOperator:
         self.reset_hover_rect = pygame.Rect(button_x, button_y + 150, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
 
+        # Results
+        self.scrollbar = None
+        self.text = None
+
     def draw_prisoner(self, prisoner: PrisonerV) -> None:
         """
         Draws the prisoner on the screen.
         """
-        prisoner.draw_prisoner(self.font)
+        prisoner.draw_prisoner(self.font, self.pris_succeed)
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
@@ -62,10 +68,8 @@ class ScreenOperator:
             if mouse_click[0] == 1:
                 if type_button == 'start_button':
                     state = 'begin'
-                    print("Start button clicked!")
                 if type_button == 'reset_button':
                     state = 'reset'
-                    print("Reset button clicked!")
         else:
             # Draw the normal state if the mouse is not over the button
             pygame.draw.rect(self.main_screen, WHITE, rect)
@@ -81,6 +85,29 @@ class ScreenOperator:
         """
         self.draw_boxes(boxes)
         self.draw_prisoner(prisoner)
+        self.draw_round_num()
+
+    def draw_round_num(self):
+        txt = 'Current round : ' + str(self.current_round)
+        text_surface_round = self.font.render(txt, True, BLACK)
+        text_pos_round = (screen_width // 3 + 50, 20)
+        self.main_screen.blit(text_surface_round, text_pos_round)
+
+    def config_text_window(self, tk, root):
+
+        # Create a Text widget and pack it in the window
+        # create scrollbar
+        self.scrollbar = tk.Scrollbar(root)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        # create text widget
+        self.text = tk.Text(root, yscrollcommand=self.scrollbar.set)
+        self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # configure scrollbar to scroll with text widget
+        self.scrollbar.config(command=self.text.yview)
+
+    def write_text_on_secondary_screen(self, txt, tk):
+        self.text.delete("1.0", tk.END)  # delete all text from the widget
+        self.text.insert(tk.END, txt)
 
     def draw_menu(self) -> None:
         """

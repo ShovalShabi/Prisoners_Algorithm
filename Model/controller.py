@@ -44,6 +44,9 @@ class Controller:
     def ntfy_to_view_pris_changed(self):
         return self.model.get_current_pris_num()
 
+    def ntfy_to_view_round_num(self):
+        return self.model.current_round
+
     def model_need_box_dimensions(self):
         return self.ntfy_to_view_get_box_dimension()
 
@@ -105,6 +108,9 @@ class Controller:
 
     def view_need_pris_num(self):
         return self.ntfy_to_view_pris_changed()
+
+    def view_need_round_num(self):
+        return self.ntfy_to_view_round_num()
 
     def view_request_method(self, target_func):
         thread = Thread(target_func)

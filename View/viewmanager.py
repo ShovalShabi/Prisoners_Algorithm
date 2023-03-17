@@ -75,22 +75,6 @@ class ViewManager:
         self.screen_operator = None
         self.clock = Clock()
 
-        # Results
-        self.scrollbar = None
-        self.text = None
-
-    def config_text_window(self):
-
-        # Create a Text widget and pack it in the window
-        # create scrollbar
-        self.scrollbar = tk.Scrollbar(self.root)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        # create text widget
-        self.text = tk.Text(self.root, yscrollcommand=self.scrollbar.set)
-        self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        # configure scrollbar to scroll with text widget
-        self.scrollbar.config(command=self.text.yview)
-
     @suppress_warnings
     def pygame_setup(self) -> None:
         """
@@ -102,7 +86,6 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
-    #################################################Listener methods##########################################
     def view_request_to_start_game(self, num_of_prisoners: int, num_of_rounds: int, initial_pos: tuple[int, int],
                                    print_specifically: bool) -> None:
         """
@@ -115,6 +98,14 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_to_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+
+    def view_request_round_num(self) -> int:
+        """
+        Method that requests from the model the current prisoner number.\n
+
+        :return: the number of prisoner -> int.
+        """
+        return self.listener.view_need_round_num()
 
     def view_request_pris_num(self) -> int:
         """
@@ -166,11 +157,11 @@ class ViewManager:
         # Initialize the game
         self.pygame_setup()
         self.set_secondary_window()
-        self.config_text_window()
-        self.write_text_on_secondary_screen(USER_GUIDE)
+        self.screen_operator.config_text_window(tk, self.root)
+        self.screen_operator.write_text_on_secondary_screen(USER_GUIDE, tk)
 
         while self.running:
-            result = self.read_from_file()
+
             self.screen_operator.draw_screen()
             self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
             self.listen_to_events()
@@ -192,11 +183,17 @@ class ViewManager:
                 self.state = "running"
 
             if self.state == "running":
-                # prints results
-                self.write_text_on_secondary_screen(result)
+                # get current round
+                self.screen_operator.current_round = self.view_request_round_num()
 
+                # prints results
+                result = self.read_from_file()
+                self.screen_operator.write_text_on_secondary_screen(result, tk)
                 self.view_request_run_game()
+
                 pris_num = self.view_request_pris_num()
+                self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
+
                 if pris_num <= self.num_of_prisoners:
                     if pris_num != self.prisoner.pris_num:
                         self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num,
@@ -206,8 +203,8 @@ class ViewManager:
                         self.prisoner.set_pris_pos(pos=pos)
                     self.screen_operator.draw_objects(self.boxes_on_screen_pos, self.prisoner)
                 else:
-                    self.view_request_run_game()
-                    self.state = 'reset'
+                    if self.screen_operator.current_round > self.num_of_rounds:
+                        self.state = 'reset'
                 self.clock.tick(25)
 
             # Update the display
@@ -219,13 +216,20 @@ class ViewManager:
         self.root.quit()
         sys.exit()
 
+    def get_succeed_pris_for_file(self, pris_num):
+        content = self.read_from_file()
+        data = str(content)
+        string = 'Prisoner number ' + str(pris_num) + ' has been'
+        length = len(string)
+        location = data.find(string)
+        status = data[location + length + 1]
+        if status == 's':
+            return True
+        return False
+
     def set_secondary_window(self):
         self.root = tk.Tk()
         self.root.geometry('400x450')
-
-    def write_text_on_secondary_screen(self, txt):
-        self.text.delete("1.0", tk.END)  # delete all text from the widget
-        self.text.insert(tk.END, txt)
 
     def reset_input_view(self) -> None:
         """
@@ -238,7 +242,7 @@ class ViewManager:
         self.status = 'Prisoner'
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
-        self.print_specify=False
+        self.print_specify = False
 
         # Objects
         self.boxes_on_screen_pos = {}
@@ -250,7 +254,7 @@ class ViewManager:
         self.print_specify = False
 
         # Reset
-        self.write_text_on_secondary_screen(USER_GUIDE)
+        self.screen_operator.write_text_on_secondary_screen(USER_GUIDE, tk)
 
         # State
         self.state = 'not running'
@@ -317,7 +321,6 @@ class ViewManager:
             self.screen_operator.r_color = BLACK
             self.screen_operator.s_color = RED
             self.print_specify = not self.print_specify
-            print(self.print_specify)
 
     def convert_input_round_to_num(self) -> None:
         """
