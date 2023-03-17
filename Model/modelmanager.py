@@ -36,32 +36,19 @@ class ModelManger:
         self.succeeded = 0
         self.total_pris = 0
         self.total_rounds = 1
+        self.is_running_game = False
         self.initial_pos = None
         self.prob_handler = None
         self.listener = None
 
     ############################## MVC Methods ###################################
 
-    def ntfy_to_view_pris_pos(self) -> None:
-        """
-        Method for notifying the view on current prisoner location.\n
-        :return: None.
-        """
-        self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_pris_num].get_pos())
-
-    def pris_request_box(self) -> None:
+    def model_request_box(self) -> None:
         """
         Method for notifying the view to prepare the relevant box image on screen.\n
         :return: None.
         """
         self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].target_box.box_num)
-
-    def ntfy_view_to_replace_pris(self) -> None:
-        """
-        Method for notifying the view to replace the current prisoner image.\n
-        :return: None.
-        """
-        self.listener.ntfy_view_to_replace_pris(self.current_pris_num.get_num())
 
     def model_request_box_dimensions(self) -> tuple[int, int]:
         """
@@ -83,6 +70,13 @@ class ModelManger:
         :return: dict in form ->  dict[int:tuple[int,int]].
         """
         return self.listener.ntfy_view_get_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
+
+    def ntfy_to_view_pris_pos(self) -> None:
+        """
+        Method for notifying the view on current prisoner location.\n
+        :return: None.
+        """
+        self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_pris_num].get_pos())
 
     def set_listener(self, listener) -> None:
         """
@@ -152,6 +146,7 @@ class ModelManger:
         self.initial_pos = initial_pos
         self.init_boxes(num_pris=num_pris)
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
+        self.is_running_game = True
 
     def run_game(self) -> None:
         """
@@ -159,32 +154,36 @@ class ModelManger:
         All the prisoners are searching their number by ProbabilityManager calculations.\n
         :return: None.
         """
-        if self.current_round <= self.total_rounds:
-            if self.current_pris_num <= self.total_pris:
-                if self.dict_prisoners[self.current_pris_num].is_still_searching():
-                    self.pris_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
-                    box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
-                    pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
-                    self.dict_prisoners[self.current_pris_num].navigate(box_width=box_dimensions[0],
-                                                                        box_height=box_dimensions[1],
-                                                                        pris_width=pris_dimensions[0],
-                                                                        pris_height=pris_dimensions[1])
-                else:
-                    if self.dict_prisoners[self.current_pris_num].found_number:
-                        self.succeeded += 1
-                    self.current_pris_num += 1
-            # Initializing new Round
-            else:
+        if self.dict_prisoners[self.current_pris_num].is_still_searching():
+            self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
+            box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
+            pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
+            self.dict_prisoners[self.current_pris_num].navigate(box_width=box_dimensions[0],
+                                                                box_height=box_dimensions[1],
+                                                                pris_width=pris_dimensions[0],
+                                                                pris_height=pris_dimensions[1])
+        else:
+            # Replacing Prisoner
+            if self.dict_prisoners[self.current_pris_num].found_number:
+                self.succeeded += 1
+            self.current_pris_num += 1
+
+            # Replacing Round
+            if self.current_pris_num > self.total_pris:
                 self.current_pris_num = 1
                 self.current_round += 1
-                if self.current_round <= self.total_rounds:
-                    self.init_boxes(self.total_pris)
+                print(f"replaced round to {self.current_round}")
                 self.succeeded = 0
-                print(self.current_round)
-        else:
-            self.current_pris_num = 1
-            self.current_round = 1
-            self.succeeded = 0
+
+                # In case there are more rounds to go
+                if self.current_round <= self.total_rounds:
+                    self.init_boxes(num_pris=self.total_pris)
+                    self.init_prisoners(num_pris=self.total_pris,initial_pos=self.initial_pos)
+                else:
+                    self.current_pris_num = 1
+                    self.current_round = 1
+                    self.succeeded = 0
+                    self.is_running_game = False
 
     def get_current_pris_num(self) -> int:
         """
@@ -199,3 +198,7 @@ class ModelManger:
         :return: a position tuple of (x,y) in form -> tuple[int,int].
         """
         return self.dict_prisoners[self.current_pris_num].get_pos()
+
+    def get_game_status(self):
+        return self.is_running_game
+

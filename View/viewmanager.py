@@ -58,6 +58,7 @@ class ViewManager:
         self.num_of_boxes_view = 0
         self.num_of_prisoners = 0
         self.status = 'Prisoner'
+        self.current_round=0
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
@@ -131,6 +132,12 @@ class ViewManager:
         """
         self.listener.view_need_to_run_game()
 
+    def view_request_is_running_game(self):
+        return self.listener.view_need_know_game_status()
+
+    def ntfy_to_model_stop_running(self,flag):
+        self.listener.view_need_model_stop_running(flag=flag)
+
     def set_listener(self, listener) -> None:
         """
         Sets the listener for the ViewManager object.\n
@@ -169,6 +176,7 @@ class ViewManager:
 
             if self.state == 'reset':
                 self.reset_input_view()
+                self.ntfy_to_model_stop_running(flag=False)
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
@@ -176,35 +184,32 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin':
-                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,
-                                                     self.print_specify)
+                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,self.print_specify)
+
+                # prints result to tk
+                result = self.read_from_file()
+                self.screen_operator.write_text_on_secondary_screen(result, tk)
                 pris_num = self.view_request_pris_num()
-                self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num, screen=self.screen_operator.main_screen)
+                self.create_prisoner(pris_num)
                 self.state = "running"
 
             if self.state == "running":
-                # get current round
-                self.screen_operator.current_round = self.view_request_round_num()
-
-                # prints results
-                result = self.read_from_file()
-                self.screen_operator.write_text_on_secondary_screen(result, tk)
-                self.view_request_run_game()
-
                 pris_num = self.view_request_pris_num()
+                self.current_round=self.view_request_round_num()
+
+                if pris_num != self.prisoner.pris_num:
+                    self.replace_prisoner(prisoner_num=pris_num)
+
+                self.screen_operator.current_round=self.current_round
                 self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
 
-                if pris_num <= self.num_of_prisoners:
-                    if pris_num != self.prisoner.pris_num:
-                        self.prisoner = PrisonerV(start_pos=DOOR_WAY, num=pris_num,
-                                                  screen=self.screen_operator.main_screen)
-                    else:
-                        pos = self.view_request_pris_pos()
-                        self.prisoner.set_pris_pos(pos=pos)
+                if self.view_request_is_running_game():
+                    self.view_request_run_game()
+                    pos = self.view_request_pris_pos()
+                    self.prisoner.set_pris_pos(pos=pos)
                     self.screen_operator.draw_objects(self.boxes_on_screen_pos, self.prisoner)
                 else:
-                    if self.screen_operator.current_round > self.num_of_rounds:
-                        self.state = 'reset'
+                    self.state = 'reset'
                 self.clock.tick(25)
 
             # Update the display

@@ -1,5 +1,3 @@
-from threading import Lock, Thread
-
 from Model.modelmanager import ModelManger
 from View.viewmanager import ViewManager
 
@@ -19,7 +17,6 @@ class Controller:
     def __init__(self, model: ModelManger, view: ViewManager):
         self.model = model
         self.view = view
-        self.lock = Lock()
         self.tasks = []
 
     def get_view(self):
@@ -59,6 +56,12 @@ class Controller:
     def ntfy_to_model_init_game(self, num_prisoners, num_round, initial_pos, print_specifically):
         self.model.setup_game(num_prisoners, num_round, initial_pos, print_specifically)
 
+    def get_from_model_game_status(self):
+        return self.model.get_game_status()
+
+    def ntfy_to_model_stop_game(self,flag):
+        self.model.is_running_game = flag
+
     def ntfy_to_model_run_game(self):
         self.model.run_game()
 
@@ -70,9 +73,6 @@ class Controller:
 
     def ntfy_view_handle_box_request(self, box_num):
         self.view.handle_box_request(box_num)
-
-    def ntfy_view_to_replace_pris(self, new_pris_num):
-        self.view.replace_prisoner(new_pris_num)
 
     def ntfy_to_view_get_box_dimension(self) -> None:
         """
@@ -103,15 +103,17 @@ class Controller:
         """
         self.ntfy_to_model_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
 
+    def view_need_model_stop_running(self,flag):
+        self.ntfy_to_model_stop_game(flag=flag)
+
     def view_need_to_run_game(self):
         self.ntfy_to_model_run_game()
+
+    def view_need_know_game_status(self):
+        return self.get_from_model_game_status()
 
     def view_need_pris_num(self):
         return self.ntfy_to_view_pris_changed()
 
     def view_need_round_num(self):
         return self.ntfy_to_view_round_num()
-
-    def view_request_method(self, target_func):
-        thread = Thread(target_func)
-        thread.start()
