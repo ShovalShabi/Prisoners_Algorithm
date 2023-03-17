@@ -86,7 +86,7 @@ class PrisonerM:
                 print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False
             else:
-                print(f"Prisoner number {self.prisoner_num} going to box number {self.target_box.box_num}")
+                print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
                 self.visited_boxes.update({self.target_box.get_num: self.target_box})
                 self.target_box = self.target_box.get_nxt_box()
         return True
@@ -121,6 +121,8 @@ class PrisonerM:
         :return: None.
         """
         for box_number in self.all_boxes.keys():
+            if not self.all_boxes[box_number].get_pos():
+                continue  # There are might more boxes on screen up ahead
             if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] + pris_width <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
             if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1]+pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y

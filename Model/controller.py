@@ -60,6 +60,9 @@ class Controller:
     def cnt_ntfy_to_view_round_num(self):
         return self.model.current_round
 
+    def cnt_update_boxes_pos(self):
+        self.model.set_all_boxes_pos()
+
     def get_from_model_game_status(self):
         return self.model.get_game_status()
 
@@ -86,6 +89,9 @@ class Controller:
 
     def view_need_model_stop_running(self,flag):
         self.cnt_ntfy_to_model_stop_game(flag=flag)
+
+    def view_need_update_boxes_pos(self):
+        self.cnt_update_boxes_pos()
 
     def cnt_ntfy_view_handle_box_req(self, box_num):
         self.view.handle_box_request(box_num)

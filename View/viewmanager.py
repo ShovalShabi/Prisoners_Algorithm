@@ -4,6 +4,7 @@ import warnings
 import pygame.time
 import tkinter as tk
 
+from random import randint
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
 from View.screen_operator import ScreenOperator
@@ -137,6 +138,9 @@ class ViewManager:
     def view_request_is_running_game(self):
         return self.listener.view_need_know_game_status()
 
+    def view_request_update_boxes_pos(self):
+        self.listener.view_need_update_boxes_pos()
+
     def ntfy_to_model_stop_running(self,flag):
         self.listener.view_need_model_stop_running(flag=flag)
 
@@ -204,7 +208,6 @@ class ViewManager:
 
                 self.screen_operator.current_round=self.current_round
                 self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
-
                 if self.view_request_is_running_game():
                     self.view_request_run_game()
                     pos = self.view_request_pris_pos()
@@ -400,9 +403,8 @@ class ViewManager:
             for col in range(MAX_BOX_WIDTH):
                 box = BoxV(screen=self.screen_operator.main_screen, box_num=row * MAX_BOX_WIDTH + col + 1)
                 box.set_pos(new_pos=(BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
-                self.boxes_on_screen_obj[box.box_num] = box  # Mappinhg objects of BoxV by their number
-                self.boxes_on_screen_pos[
-                    box.box_num] = box.get_pos()  # Mapping positions of BoxV objects by their number
+                self.boxes_on_screen_obj[box.box_num] = box  # Mapping objects of BoxV by their number
+                self.boxes_on_screen_pos[box.box_num] = box.get_pos()  # Mapping positions of BoxV objects by their number
         for rem in range(remainder):
             box = BoxV(screen=self.screen_operator, box_num=rows * MAX_BOX_WIDTH + rem + 1)
             box.set_pos(new_pos=(BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
@@ -412,6 +414,7 @@ class ViewManager:
             for box_index in range(MAX_NO_PRISONER_BOX + 1, self.actual_num_of_boxes + 1):
                 box = BoxV(screen=self.screen_operator.main_screen, box_num=box_index)
                 self.boxes_off_screen_obj[box.box_num] = box
+        self.view_request_update_boxes_pos()
 
     def create_prisoner(self, num_prisoner: int) -> None:
         """
@@ -432,11 +435,26 @@ class ViewManager:
         self.create_prisoner(prisoner_num)
 
     def handle_box_request(self, box_number):
-        pass
+        if box_number in self.boxes_on_screen_pos.keys():
+            return
+        else:
+            replaced_num_box=0
+            while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
+                replaced_num_box = randint(1,self.num_of_prisoners)
+            print(f"replaced {replaced_num_box} with box {box_number}")
+            pos=self.boxes_on_screen_pos.pop(replaced_num_box)  # The value position of the replaced box is moved to a local variable
+            self.boxes_on_screen_obj.pop(replaced_num_box)
 
-    def replace_randomly_from_screen(self, target_box_num):
-        # target box num is the designated box that will replace the other box
-        pass
+            # Putting the new box on the other bo position on screen
+            self.boxes_off_screen_obj.pop(box_number)  # Removing the target box from self.boxes_off_screen_obj
+            trgt_box=BoxV(screen=self.screen_operator,box_num=box_number)
+            self.boxes_on_screen_pos.update({box_number:pos})
+            self.boxes_on_screen_obj.update({box_number:trgt_box})
+
+            # Putting the replaced box in self.boxes_off_screen_obj
+            replaced_box = BoxV(screen=self.screen_operator, box_num=replaced_num_box)  # Creating new object of the replaced box
+            self.boxes_off_screen_obj.update({replaced_num_box:replaced_box})
+            self.view_request_update_boxes_pos()
 
     def get_boxes_locations(self):
         return self.boxes_on_screen_pos

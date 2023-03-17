@@ -118,6 +118,8 @@ class ModelManger:
         """
         boxes_on_screen = self.ntfy_to_view_get_all_boxes_pos()
         for box_num in self.dict_boxes.keys():
+            if box_num not in boxes_on_screen.keys():
+                continue  # There are might more boxes on screen up ahead
             self.dict_boxes[box_num].set_pos(boxes_on_screen[box_num])
 
     def setup_game(self, num_pris: int, num_rounds: int, initial_pos: tuple[int, int],
