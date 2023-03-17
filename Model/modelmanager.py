@@ -180,8 +180,10 @@ class ModelManger:
                 if self.current_round <= self.total_rounds:
                     self.init_boxes(self.total_pris)
                 self.succeeded = 0
+                print(self.current_round)
         else:
             self.current_pris_num = 1
+            self.current_round = 1
             self.succeeded = 0
 
     def get_current_pris_num(self) -> int:

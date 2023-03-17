@@ -97,16 +97,16 @@ class PrisonerM:
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
         :return: bool, is the object moving or not.
         """
-        if self.target_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:  #and self.pos[1] - self.pace >= 0
-            self.set_pos((self.pos[0], self.pos[1] - self.pace))  # moving upwards
+        if self.target_box.get_pos()[1] < self.pos[1] and not self.updated_pos and not blocked:  # moving upwards
+            self.set_pos((self.pos[0], self.pos[1] - self.pace))
             self.updated_pos = True
-        elif self.target_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards   #and self.pos[1] + self.pace <= screen_height -150
+        elif self.target_box.get_pos()[1] > self.pos[1] and not self.updated_pos and not blocked:  # moving downwards
             self.set_pos((self.pos[0], self.pos[1] + self.pace))
             self.updated_pos = True
-        if self.target_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left   # and self.pos[0] - self.pace >= 0
+        if self.target_box.get_pos()[0] < self.pos[0] and not self.updated_pos and not blocked:  # moving left
             self.set_pos((self.pos[0] - self.pace, self.pos[1]))
             self.updated_pos = True
-        elif self.target_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right  #and self.pos[0] +self .pace <= screen_width -200
+        elif self.target_box.get_pos()[0] > self.pos[0] and not self.updated_pos and not blocked:  # moving right
             self.set_pos((self.pos[0] + self.pace, self.pos[1]))
             self.updated_pos = True
         self.updated_pos = False
@@ -121,9 +121,6 @@ class PrisonerM:
         :return: None.
         """
         for box_number in self.all_boxes.keys():
-            # print(f" box number {box_number} is at ({self.all_boxes[box_number].get_pos()[0]},{self.all_boxes[box_number].get_pos()[0]+box_width}) on axis x "
-            #       f"and ({self.all_boxes[box_number].get_pos()[1]},{self.all_boxes[box_number].get_pos()[1] + box_height}) on axis y")
-            # print(f" prisoner {self.prisoner_num} is at ({self.pos[0]},{self.pos[0]+pris_width}) on axis x and ({self.pos[1]},{self.pos[1]+pris_height}) on axis y")
             if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] + pris_width <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
             if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1]+pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
