@@ -41,7 +41,7 @@ class ModelManger:
         self.prob_handler = None
         self.listener = None
 
-    ############################## MVC Methods ###################################
+    #************************* MVC Methods ******************************************#
 
     def model_request_box(self) -> None:
         """
@@ -69,14 +69,7 @@ class ModelManger:
         Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
         :return: dict in form ->  dict[int:tuple[int,int]].
         """
-        return self.listener.ntfy_view_get_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
-
-    def ntfy_to_view_pris_pos(self) -> None:
-        """
-        Method for notifying the view on current prisoner location.\n
-        :return: None.
-        """
-        self.listener.ntfy_to_view_pris_pos(self.dict_prisoners[self.current_pris_num].get_pos())
+        return self.listener.model_need_all_boxes_on_screen_pos()  # will return dict of {num_box:position}
 
     def set_listener(self, listener) -> None:
         """
@@ -86,7 +79,7 @@ class ModelManger:
         """
         self.listener = listener
 
-    ###############################################################################
+    #********************************************************************************#
 
     def init_prisoners(self, num_pris: int, initial_pos: tuple) -> None:
         """
@@ -172,13 +165,14 @@ class ModelManger:
             if self.current_pris_num > self.total_pris:
                 self.current_pris_num = 1
                 self.current_round += 1
-                print(f"replaced round to {self.current_round}")
                 self.succeeded = 0
 
                 # In case there are more rounds to go
                 if self.current_round <= self.total_rounds:
                     self.init_boxes(num_pris=self.total_pris)
                     self.init_prisoners(num_pris=self.total_pris,initial_pos=self.initial_pos)
+
+                #Intializing parameters of ModelManger
                 else:
                     self.current_pris_num = 1
                     self.current_round = 1

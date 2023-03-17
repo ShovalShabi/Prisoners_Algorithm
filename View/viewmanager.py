@@ -87,6 +87,16 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
+    #*******************************************MVC Methods******************************************************#
+
+    def view_request_pris_pos(self) -> tuple[int, int]:
+        """
+        Method that requests from the model the current prisoner position.\n
+
+        :return: the position of prisoner -> tuple (x,y).
+        """
+        return self.listener.view_need_pris_pos()
+
     def view_request_to_start_game(self, num_of_prisoners: int, num_of_rounds: int, initial_pos: tuple[int, int],
                                    print_specifically: bool) -> None:
         """
@@ -115,14 +125,6 @@ class ViewManager:
         :return: the number of prisoner -> int.
         """
         return self.listener.view_need_pris_num()
-
-    def view_request_pris_pos(self) -> tuple[int, int]:
-        """
-        Method that requests from the model the current prisoner position.\n
-
-        :return: the position of prisoner -> tuple (x,y).
-        """
-        return self.listener.view_need_pris_pos()
 
     def view_request_run_game(self) -> None:
         """
