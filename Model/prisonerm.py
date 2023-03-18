@@ -1,4 +1,6 @@
 from Model.boxm import BoxM
+from View.settings import EXIT_POINT
+
 
 class PrisonerM:
     """
@@ -14,6 +16,8 @@ class PrisonerM:
     trgt_box: the current target box of the prisoner -> BoxM object.\n
     found_number: indicator if the prisoner has found his number -> bool.\n
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
+    all_prisoners:int, represents the number of all prisoners.\n
+    on_exit: bool, indicator if the prisoner is on it's to exit point.\n
     """
 
     def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM,all_prisoners:int):
@@ -33,6 +37,7 @@ class PrisonerM:
         self.all_boxes = all_boxes  # dictionary of {number box:value box}
         self.target_box = target_box
         self.found_number = False
+        self.on_exit = False
         self.updated_pos = False
         self.total_pris_count=all_prisoners
 
@@ -82,10 +87,18 @@ class PrisonerM:
                 self.target_box.get_pos()[1] == self.pos[1]:
             self.visited_boxes.update({self.target_box.get_num(): self.target_box})
             temp_box_num = self.target_box.get_num()
+
+            if self.on_exit:
+                self.found_number= True
+                return False, self.prisoner_num
+
             if self.target_box.get_nxt_box().get_num() == self.prisoner_num and len(self.visited_boxes) <= self.total_pris_count//2:
-                self.found_number = True
-                print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
-                return False,self.prisoner_num
+                self.on_exit = True
+                fake_box=BoxM(-1)
+                fake_box.set_pos(EXIT_POINT)
+                self.target_box=fake_box
+                print(f"Prisoner number {self.prisoner_num} found his number at box number {temp_box_num} at {self.target_box.pos}")
+                return True,temp_box_num
             if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
                 print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False,self.target_box.get_num()

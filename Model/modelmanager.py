@@ -167,7 +167,8 @@ class ModelManger:
         if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
         if status[0]:
-            self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
+            if not self.dict_prisoners[self.current_pris_num].on_exit:  #-1 is the exit point
+                self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
             box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
             pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
             self.dict_prisoners[self.current_pris_num].navigate(box_width=box_dimensions[0],
@@ -178,11 +179,10 @@ class ModelManger:
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
                 self.succeeded += 1
-                self.model_request_to_open_box(self.current_pris_num)
                 self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
             else:
                 self.model_request_failure_prisoner(self.current_pris_num)  # Reporting to view on failures
-                self.model_request_to_open_box(status[1])
+                # self.model_request_to_open_box(status[1])
             self.current_pris_num += 1
 
             # Replacing Round
