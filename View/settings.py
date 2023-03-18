@@ -43,6 +43,14 @@ IMG_BOX_HEIGHT = IMG_BOX.get_height()
 
 IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunetic_Room.jpg'))
 
+# Sound
+pygame.mixer.init()
+OPEN_CHEST_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'open_chest_sound.mp3'))
+SUCCESS_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'success_sound.mp3'))
+SUCCESS_SOUND.set_volume(0.2)
+FAILURE_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'failure_sound.mp3'))
+FAILURE_SOUND.set_volume(0.2)
+
 # USER GUIDE TEXT
 USER_GUIDE = 'USER GUIDE:\n' + \
              '------------------------------' + \
@@ -55,4 +63,3 @@ USER_GUIDE = 'USER GUIDE:\n' + \
              '\n' + 'Press RESULTS to see the further' + '\n' + 'calculations' + '\n' + \
              '------------------------------' + \
              '\n' + 'Press RESET to clear the screen'
-
