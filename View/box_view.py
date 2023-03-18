@@ -22,20 +22,27 @@ class BoxV:
         :param screen: The pygame surface to draw the box on -> Surface object.
         :param box_num: The number of the box -> int.
         """
+        self.text_surface = None
         self.box_num = box_num
+        self.print_num = self.box_num
         self.pos = None
         self.screen = screen
         self.chest_img = None
         self.load_images('chest_closed.png')
+        self.color_num = YELLOW
 
-    def replace_box_image(self, new_name_img, next_num, font) -> None:
+    def clear_image(self, next_num):
+        self.print_num = next_num
+        self.text_surface = None
+
+    def close_box(self, num):
+        self.print_num = num
+        self.replace_box_image('chest_closed.png', YELLOW)
+
+    def replace_box_image(self, new_name_img, color) -> None:
         self.load_images(new_name_img)
-        rect = Rect(self.pos[0], self.pos[1], CELL_SIZE, CELL_SIZE)
-        text_surface = font.render(str(next_num), True, YELLOW)
-        text_rect = text_surface.get_rect()
-        text_rect.center = self.chest_img.get_rect().center
-        self.chest_img.blit(text_surface, text_rect)
-        self.screen.blit(self.chest_img, rect)
+        self.color_num = color
+        self.draw_box()
 
     def load_images(self, new_name_img) -> None:
         """
@@ -46,10 +53,10 @@ class BoxV:
     def draw_box(self):
         font = SysFont('monospace', FONT_SIZE, bold=True)
         rect = Rect(self.pos[0], self.pos[1], CELL_SIZE, CELL_SIZE)
-        text_surface = font.render(str(self.box_num), True, YELLOW)
-        text_rect = text_surface.get_rect()
+        self.text_surface = font.render(str(self.print_num), True, self.color_num)
+        text_rect = self.text_surface.get_rect()
         text_rect.center = self.chest_img.get_rect().center
-        self.chest_img.blit(text_surface, text_rect)
+        self.chest_img.blit(self.text_surface, text_rect)
         self.screen.blit(self.chest_img, rect)
 
     def set_pos(self, new_pos: tuple[int, int]) -> None:
