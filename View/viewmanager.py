@@ -458,8 +458,7 @@ class ViewManager:
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
                 replaced_num_box = randint(1, self.num_of_prisoners)
             print(f"replaced {replaced_num_box} with box {box_number}")
-            pos = self.boxes_on_screen_pos.pop(
-                replaced_num_box)  # The value position of the replaced box is moved to a local variable
+            pos = self.boxes_on_screen_pos.pop(replaced_num_box)  # The value position of the replaced box is moved to a local variable
             self.boxes_on_screen_obj.pop(replaced_num_box)
 
             # Putting the new box on the other bo position on screen
@@ -469,8 +468,7 @@ class ViewManager:
             self.boxes_on_screen_obj.update({box_number: trgt_box})
 
             # Putting the replaced box in self.boxes_off_screen_obj
-            replaced_box = BoxV(screen=self.screen_operator.main_screen,
-                                box_num=replaced_num_box)  # Creating new object of the replaced box
+            replaced_box = BoxV(screen=self.screen_operator.main_screen,box_num=replaced_num_box)  # Creating new object of the replaced box
             self.boxes_off_screen_obj.update({replaced_num_box: replaced_box})
             self.view_request_update_boxes_pos()
 

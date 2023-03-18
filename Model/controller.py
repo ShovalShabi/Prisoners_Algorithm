@@ -45,6 +45,12 @@ class Controller:
     def model_need_to_open_box(self,current_box_num):
         self.cnt_ntfy_view_open_box(current_box_num)
 
+    def model_need_to_report_success(self,current_pris_num,num_succeeded):
+        self.cnt_ntfy_view_on_success(current_pris_num,num_succeeded)
+
+    def model_need_to_report_failure(self,current_pris_num):
+        self.cnt_ntfy_view_on_failure(current_pris_num)
+
     def cnt_ntfy_to_view_pris_pos(self):
         return self.model.get_current_pris_pos()
 
@@ -119,3 +125,9 @@ class Controller:
 
     def cnt_ntfy_view_open_box(self,current_box_num):
         self.view.open_box(current_box_num)
+
+    def cnt_ntfy_view_on_success(self,current_pris_num,num_succeeded):
+        self.view_handle_with_success(current_pris_num,num_succeeded)
+
+    def cnt_ntfy_view_on_failure(self,current_pris_num):
+        self.view_handle_with_failure(current_pris_num)
