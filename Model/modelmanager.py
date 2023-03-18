@@ -67,6 +67,12 @@ class ModelManger:
     def model_request_to_open_box(self, current_box_num):
         self.listener.model_need_to_open_box(current_box_num)
 
+    def model_request_success_prisoner(self,current_pris_num,num_succeeded):
+        self.listener.model_need_to_report_success(current_pris_num,num_succeeded)
+
+    def model_request_failure_prisoner(self,current_pris_num):
+        self.listener.model_need_to_report_failure(current_pris_num)
+
     def ntfy_to_view_get_all_boxes_pos(self) -> dict:
         """
         Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
@@ -154,8 +160,7 @@ class ModelManger:
         :return: None.
         """
         status = self.dict_prisoners[self.current_pris_num].is_still_searching()  # status[0] is indication of search, search[1] is the current box num
-        if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # if the prisoner reached the current target box
-            print(f"open box number {status[1]}")
+        if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
         if status[0]:
             self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
@@ -169,6 +174,9 @@ class ModelManger:
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
                 self.succeeded += 1
+                self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
+            else:
+                self.model_request_failure_prisoner(self.current_pris_num)  # Reporting to view on failures
             self.current_pris_num += 1
 
             # Replacing Round
