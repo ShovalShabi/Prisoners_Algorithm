@@ -16,7 +16,7 @@ class PrisonerM:
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
     """
 
-    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM):
+    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM,all_prisoners:int):
         """
         Initialize the PrisonerM object.\n
         :param num_prisoner: int , represents prisoner number.
@@ -24,6 +24,7 @@ class PrisonerM:
         :param pace:int , pace of the prisoner on the screen.
         :param all_boxes:dict, dictionary of BoxM objects located on screen.
         :param target_box:BoxM object, represents the target box.
+        :param all_prisoners:int, represents the number of all prisoners.
         """
         self.prisoner_num = num_prisoner
         self.pos = position
@@ -33,6 +34,7 @@ class PrisonerM:
         self.target_box = target_box
         self.found_number = False
         self.updated_pos = False
+        self.total_pris_count=all_prisoners
 
     def set_pos(self, position: tuple[int,int]) -> None:
         """
@@ -78,7 +80,9 @@ class PrisonerM:
         """
         if self.target_box.get_pos()[0] == self.pos[0] and \
                 self.target_box.get_pos()[1] == self.pos[1]:
-            if self.target_box.get_nxt_box().get_num() == self.prisoner_num:
+            self.visited_boxes.update({self.target_box.get_num(): self.target_box})
+            temp_box_num = self.target_box.get_num()
+            if self.target_box.get_nxt_box().get_num() == self.prisoner_num and len(self.visited_boxes) <= self.total_pris_count//2:
                 self.found_number = True
                 print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
                 return False,self.prisoner_num
@@ -87,8 +91,6 @@ class PrisonerM:
                 return False,self.target_box.get_num()
             else:
                 print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
-                self.visited_boxes.update({self.target_box.get_num(): self.target_box})
-                temp_box_num=self.target_box.get_num()
                 self.target_box = self.target_box.get_nxt_box()
                 return True, temp_box_num
         return True,self.target_box.get_num()

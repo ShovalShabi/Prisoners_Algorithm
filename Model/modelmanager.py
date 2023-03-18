@@ -101,9 +101,12 @@ class ModelManger:
         if self.dict_prisoners:
             self.dict_prisoners = {}
         for index_pris in range(num_pris):
-            self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1, position=initial_pos, pace=5,
+            self.dict_prisoners[index_pris + 1] = PrisonerM(num_prisoner=index_pris + 1,
+                                                            position=initial_pos,
+                                                            pace=5,
                                                             all_boxes=self.dict_boxes,
-                                                            target_box=self.dict_boxes[index_pris + 1])
+                                                            target_box=self.dict_boxes[index_pris + 1],
+                                                            all_prisoners=self.total_pris)
 
     def init_boxes(self, num_pris: int) -> None:
         """
@@ -175,8 +178,8 @@ class ModelManger:
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
                 self.succeeded += 1
-                self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
                 self.model_request_to_open_box(self.current_pris_num)
+                self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
             else:
                 self.model_request_failure_prisoner(self.current_pris_num)  # Reporting to view on failures
                 self.model_request_to_open_box(status[1])
