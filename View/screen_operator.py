@@ -1,4 +1,3 @@
-from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
 import pygame
