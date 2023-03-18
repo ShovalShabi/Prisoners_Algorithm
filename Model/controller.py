@@ -127,7 +127,8 @@ class Controller:
         self.view.open_box(current_box_num)
 
     def cnt_ntfy_view_on_success(self,current_pris_num,num_succeeded):
-        self.view_handle_with_success(current_pris_num,num_succeeded)
+        self.view.handle_with_success(current_pris_num,num_succeeded)
 
     def cnt_ntfy_view_on_failure(self,current_pris_num):
-        self.view_handle_with_failure(current_pris_num)
+        self.view.handle_with_failure(current_pris_num)
+
