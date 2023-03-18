@@ -42,11 +42,14 @@ class Controller:
     def model_need_all_boxes_on_screen_pos(self):  # will return dict of {num_box:position}
         return self.cnt_ntfy_to_view_get_all_boxes_location()
 
+    def model_need_to_open_box(self,current_box_num):
+        self.cnt_ntfy_view_open_box(current_box_num)
+
     def cnt_ntfy_to_view_pris_pos(self):
         return self.model.get_current_pris_pos()
 
-    def cnt_ntfy_to_model_init_game(self, num_prisoners, num_round, initial_pos, print_specifically):
-        self.model.setup_game(num_prisoners, num_round, initial_pos, print_specifically)
+    def cnt_ntfy_to_model_init_game(self, num_prisoners, num_round, initial_pos, print_specifically) -> dict:
+        return self.model.setup_game(num_prisoners, num_round, initial_pos, print_specifically)
 
     def cnt_ntfy_to_model_run_game(self):
         self.model.run_game()
@@ -60,6 +63,9 @@ class Controller:
     def cnt_ntfy_to_view_round_num(self):
         return self.model.current_round
 
+    def cnt_update_boxes_pos(self):
+        self.model.set_all_boxes_pos()
+
     def get_from_model_game_status(self):
         return self.model.get_game_status()
 
@@ -69,8 +75,8 @@ class Controller:
     def view_need_pris_pos(self):
         return self.cnt_ntfy_to_view_pris_pos()
 
-    def view_need_to_init_game(self, num_of_prisoners, num_of_rounds, initial_pos, print_specifically) -> None:
-        self.cnt_ntfy_to_model_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+    def view_need_to_init_game(self, num_of_prisoners, num_of_rounds, initial_pos, print_specifically) -> dict:
+        return self.cnt_ntfy_to_model_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
 
     def view_need_round_num(self):
         return self.cnt_ntfy_to_view_round_num()
@@ -86,6 +92,9 @@ class Controller:
 
     def view_need_model_stop_running(self,flag):
         self.cnt_ntfy_to_model_stop_game(flag=flag)
+
+    def view_need_update_boxes_pos(self):
+        self.cnt_update_boxes_pos()
 
     def cnt_ntfy_view_handle_box_req(self, box_num):
         self.view.handle_box_request(box_num)
@@ -107,3 +116,6 @@ class Controller:
         Sends the current locations of all the boxes to the listener.
         """
         return self.view.get_boxes_locations()
+
+    def cnt_ntfy_view_open_box(self,current_box_num):
+        self.view.open_box(current_box_num)

@@ -1,6 +1,7 @@
 from View.settings import *
 from pygame import Surface, image, Rect
 from pygame.font import Font
+from pygame.font import SysFont
 import os
 
 from View.settings import MAX_BOX_WIDTH
@@ -67,6 +68,18 @@ class BoxV:
         self.chest_img.blit(text_surface, text_rect)
         self.screen.blit(self.chest_img, rect)
         return self.get_pos()
+
+    # *******************Added This************************#
+    def draw_box_temp(self):
+        font = SysFont('monospace', FONT_SIZE, bold=True)
+        rect = Rect(self.pos[0], self.pos[1], CELL_SIZE, CELL_SIZE)
+        text_surface = font.render(str(self.box_num), True, YELLOW)
+        text_rect = text_surface.get_rect()
+        text_rect.center = self.chest_img.get_rect().center
+        self.chest_img.blit(text_surface, text_rect)
+        self.screen.blit(self.chest_img, rect)
+
+    # ******************************************************#
 
     def set_pos(self, new_pos: tuple[int, int]) -> None:
         """

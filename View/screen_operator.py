@@ -84,11 +84,12 @@ class ScreenOperator:
                                              rect.y + rect.height // 2 - text_surface.get_height() // 2))
         return state
 
-    def draw_objects(self, boxes, prisoner) -> None:
+    def draw_objects(self, boxes_on_screen_obj, prisoner) -> None:
         """
         Function that draws the game elements on the screen.
         """
-        self.draw_boxes(boxes)
+        self.draw_boxes(boxes_on_screen_obj)
+        # self.draw_boxes_temp(boxes_on_screen_obj)  <------- Added this
         self.draw_prisoner(prisoner)
         self.draw_round_num()
 
@@ -171,6 +172,12 @@ class ScreenOperator:
             for rem in range(remainder):
                 box = BoxV(self.main_screen, rows * MAX_BOX_WIDTH + rem)
                 box.pos = box.draw_box(rem, rows, self.font)
+
+    #*******************Added This************************#
+    def draw_boxes_temp(self,boxes_on_screen_obj:dict):
+        for box_num in boxes_on_screen_obj.keys():
+            boxes_on_screen_obj[box_num].draw_box_temp()
+    #*****************************************************#
 
     def draw_screen(self):
         self.main_screen.blit(self.background_image, (0, 0))
