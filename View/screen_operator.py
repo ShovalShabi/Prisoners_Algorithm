@@ -1,3 +1,4 @@
+
 from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
@@ -49,7 +50,7 @@ class ScreenOperator:
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
-                    color: tuple[int, int, int], state: str, type_button: str) -> str:
+                    color: tuple[int, int, int], state: str, type_button: str, check_exist_input) -> str:
         """
         Draw a button and handle mouse hover and click events.\n
 
@@ -61,11 +62,15 @@ class ScreenOperator:
         :param hover: A pygame.Rect object representing the dimensions of the hover rect of the button.
         :param text_surface: A pygame.Surface object representing the text to be displayed on the button.
         :param color: A tuple representing the color of the button.
+
+        Args:
+            check_exist_input:
+            check_exist_input:
         """
         if rect.collidepoint(mouse_pos):
             # Draw the hover rect if the mouse is over the button
             pygame.draw.rect(self.main_screen, color, hover)
-            if mouse_click[0] == 1:
+            if mouse_click[0] == 1 and check_exist_input():
                 if type_button == 'start_button':
                     state = 'begin'
                 if type_button == 'reset_button':

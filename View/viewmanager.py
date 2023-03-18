@@ -58,7 +58,7 @@ class ViewManager:
         self.num_of_boxes_view = 0
         self.num_of_prisoners = 0
         self.status = 'Prisoner'
-        self.current_round=0
+        self.current_round = 0
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
@@ -87,7 +87,7 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
-    #*******************************************MVC Methods******************************************************#
+    # *******************************************MVC Methods******************************************************#
 
     def view_request_pris_pos(self) -> tuple[int, int]:
         """
@@ -137,7 +137,7 @@ class ViewManager:
     def view_request_is_running_game(self):
         return self.listener.view_need_know_game_status()
 
-    def ntfy_to_model_stop_running(self,flag):
+    def ntfy_to_model_stop_running(self, flag):
         self.listener.view_need_model_stop_running(flag=flag)
 
     def set_listener(self, listener) -> None:
@@ -184,9 +184,11 @@ class ViewManager:
                 # Create and draw the boxes, handle events, and update the button states
                 self.create_boxes()
 
+            print(self.state)
             # Occurs when start button is clicked
-            if self.state == 'begin':
-                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,self.print_specify)
+            if self.state == 'begin' and self.check_exist_input():
+                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,
+                                                     self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -197,12 +199,12 @@ class ViewManager:
 
             if self.state == "running":
                 pris_num = self.view_request_pris_num()
-                self.current_round=self.view_request_round_num()
+                self.current_round = self.view_request_round_num()
 
                 if pris_num != self.prisoner.pris_num:
                     self.replace_prisoner(prisoner_num=pris_num)
 
-                self.screen_operator.current_round=self.current_round
+                self.screen_operator.current_round = self.current_round
                 self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
 
                 if self.view_request_is_running_game():
@@ -237,6 +239,12 @@ class ViewManager:
     def set_secondary_window(self):
         self.root = tk.Tk()
         self.root.geometry('400x450')
+
+    def check_exist_input(self):
+        print(self.screen_operator.text_input_k == '', self.screen_operator.text_input_n == '')
+        if self.screen_operator.text_input_k == '' or self.screen_operator.text_input_n == '':
+            return False
+        return True
 
     def reset_input_view(self) -> None:
         """
@@ -277,11 +285,11 @@ class ViewManager:
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                       self.screen_operator.start_hover_rect,
                                                       self.screen_operator.text_surface_start,
-                                                      GREEN, self.state, 'start_button')
+                                                      GREEN, self.state, 'start_button', self.check_exist_input)
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
-                                                      RED, self.state, 'reset_button')
+                                                      RED, self.state, 'reset_button', self.check_exist_input)
 
     def listen_to_events(self) -> None:
         """
