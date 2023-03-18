@@ -1,5 +1,3 @@
-
-from View.box_view import BoxV
 from View.prisoner_view import PrisonerV
 from View.settings import *
 import pygame
@@ -50,7 +48,7 @@ class ScreenOperator:
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
-                    color: tuple[int, int, int], state: str, type_button: str, check_exist_input) -> str:
+                    color: tuple[int, int, int], state: str, type_button: str) -> str:
         """
         Draw a button and handle mouse hover and click events.\n
 
@@ -70,7 +68,7 @@ class ScreenOperator:
         if rect.collidepoint(mouse_pos):
             # Draw the hover rect if the mouse is over the button
             pygame.draw.rect(self.main_screen, color, hover)
-            if mouse_click[0] == 1 and check_exist_input():
+            if mouse_click[0] == 1:
                 if type_button == 'start_button':
                     state = 'begin'
                 if type_button == 'reset_button':
@@ -88,8 +86,8 @@ class ScreenOperator:
         """
         Function that draws the game elements on the screen.
         """
-        self.draw_boxes(boxes_on_screen_obj)
-        # self.draw_boxes_temp(boxes_on_screen_obj)  <------- Added this
+        # self.draw_boxes(boxes_on_screen_obj)
+        self.draw_boxes(boxes_on_screen_obj)  # <------- Added this
         self.draw_prisoner(prisoner)
         self.draw_round_num()
 
@@ -148,36 +146,9 @@ class ScreenOperator:
         text_surface = self.font.render(text, True, color)
         self.main_screen.blit(text_surface, (pos_x, pos_y))
 
-    def draw_boxes(self, boxes) -> None:
-        """
-        Draws the boxes on the screen.
-        """
-
-        num_of_boxes_view = len(boxes)
-
-        if num_of_boxes_view <= MAX_BOX_WIDTH:
-            for box_index, location in enumerate(boxes):
-                box = BoxV(self.main_screen, box_index)
-                box.pos = box.draw_box(box.box_num, 0, self.font)
-
-        else:
-            rows = num_of_boxes_view // MAX_BOX_WIDTH
-            remainder = num_of_boxes_view % MAX_BOX_WIDTH
-
-            for row in range(rows):
-                for box_index in range(MAX_BOX_WIDTH):
-                    box = BoxV(self.main_screen, row * MAX_BOX_WIDTH + box_index)
-                    box.pos = box.draw_box(box_index, row, self.font)
-
-            for rem in range(remainder):
-                box = BoxV(self.main_screen, rows * MAX_BOX_WIDTH + rem)
-                box.pos = box.draw_box(rem, rows, self.font)
-
-    #*******************Added This************************#
-    def draw_boxes_temp(self,boxes_on_screen_obj:dict):
+    def draw_boxes(self, boxes_on_screen_obj: dict):
         for box_num in boxes_on_screen_obj.keys():
-            boxes_on_screen_obj[box_num].draw_box_temp()
-    #*****************************************************#
+            boxes_on_screen_obj[box_num].draw_box()
 
     def draw_screen(self):
         self.main_screen.blit(self.background_image, (0, 0))

@@ -59,7 +59,7 @@ class ViewManager:
         self.num_of_boxes_view = 0
         self.num_of_prisoners = 0
         self.status = 'Prisoner'
-        self.current_round=0
+        self.current_round = 0
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
@@ -71,7 +71,7 @@ class ViewManager:
         self.boxes_on_screen_obj = {}
         self.boxes_on_screen_pos = {}
         self.boxes_off_screen_obj = {}
-        self.list_depend = {}  #Dictionary of {num round : list of dependencies}
+        self.list_depend = {}  # Dictionary of {num round : list of dependencies}
 
         # Screen Operations
         self.root = None
@@ -89,7 +89,7 @@ class ViewManager:
         pygame.display.set_caption("Prisoners Riddle")
         self.screen_operator = ScreenOperator()
 
-    #*******************************************MVC Methods******************************************************#
+    # *******************************************MVC Methods******************************************************#
 
     def view_request_pris_pos(self) -> tuple[int, int]:
         """
@@ -142,7 +142,7 @@ class ViewManager:
     def view_request_update_boxes_pos(self):
         self.listener.view_need_update_boxes_pos()
 
-    def ntfy_to_model_stop_running(self,flag):
+    def ntfy_to_model_stop_running(self, flag):
         self.listener.view_need_model_stop_running(flag=flag)
 
     def set_listener(self, listener) -> None:
@@ -177,10 +177,14 @@ class ViewManager:
         while self.running:
 
             self.screen_operator.draw_screen()
-            self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
-            # self.screen_operator.draw_boxes_temp(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
+            # self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
+            self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
             self.listen_to_events()
             self.button_events()
+
+            if self.actual_num_of_boxes != len(self.boxes_on_screen_obj):
+                self.create_boxes()
+                # self.screen_operator.draw_boxes_temp(self.boxes_on_screen_obj)
 
             if self.state == 'reset':
                 self.reset_input_view()
@@ -192,7 +196,8 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
-                self.list_depend=self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,self.print_specify)
+                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,
+                                                                        DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -203,18 +208,18 @@ class ViewManager:
 
             if self.state == "running":
                 pris_num = self.view_request_pris_num()
-                self.current_round=self.view_request_round_num()
+                self.current_round = self.view_request_round_num()
 
                 if pris_num != self.prisoner.pris_num:
                     self.replace_prisoner(prisoner_num=pris_num)
 
-                self.screen_operator.current_round=self.current_round
+                self.screen_operator.current_round = self.current_round
                 self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
                 if self.view_request_is_running_game():
                     self.view_request_run_game()
                     pos = self.view_request_pris_pos()
                     self.prisoner.set_pris_pos(pos=pos)
-                    self.screen_operator.draw_objects(self.boxes_on_screen_pos, self.prisoner)
+                    self.screen_operator.draw_objects(self.boxes_on_screen_obj, self.prisoner)
                 else:
                     self.state = 'reset'
                 self.clock.tick(25)
@@ -392,6 +397,8 @@ class ViewManager:
         """
         if event_input.key == K_BACKSPACE:
             if len(text) > 0:
+                self.boxes_on_screen_obj.clear()
+                self.boxes_on_screen_pos.clear()
                 text = text[:-1]
         else:
             text += event_input.unicode
@@ -403,16 +410,16 @@ class ViewManager:
         the position of each box.\n
         :return: None
         """
-        self.boxes_on_screen_pos.clear()
-        self.boxes_off_screen_obj.clear()
         rows = int(math.floor(self.num_of_boxes_view / MAX_BOX_WIDTH))
         remainder = self.num_of_boxes_view - rows * MAX_BOX_WIDTH
+
         for row in range(rows):
             for col in range(MAX_BOX_WIDTH):
                 box = BoxV(screen=self.screen_operator.main_screen, box_num=row * MAX_BOX_WIDTH + col + 1)
                 box.set_pos(new_pos=(BOX_START_X + col * CELL_SIZE, BOX_START_Y + row * CELL_SIZE))
                 self.boxes_on_screen_obj[box.box_num] = box  # Mapping objects of BoxV by their number
-                self.boxes_on_screen_pos[box.box_num] = box.get_pos()  # Mapping positions of BoxV objects by their number
+                self.boxes_on_screen_pos[
+                    box.box_num] = box.get_pos()  # Mapping positions of BoxV objects by their number
         for rem in range(remainder):
             box = BoxV(screen=self.screen_operator.main_screen, box_num=rows * MAX_BOX_WIDTH + rem + 1)
             box.set_pos(new_pos=(BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
@@ -447,29 +454,31 @@ class ViewManager:
         if box_number in self.boxes_on_screen_pos.keys():
             return
         else:
-            replaced_num_box=0
+            replaced_num_box = 0
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
-                replaced_num_box = randint(1,self.num_of_prisoners)
+                replaced_num_box = randint(1, self.num_of_prisoners)
             print(f"replaced {replaced_num_box} with box {box_number}")
-            pos=self.boxes_on_screen_pos.pop(replaced_num_box)  # The value position of the replaced box is moved to a local variable
+            pos = self.boxes_on_screen_pos.pop(
+                replaced_num_box)  # The value position of the replaced box is moved to a local variable
             self.boxes_on_screen_obj.pop(replaced_num_box)
 
             # Putting the new box on the other bo position on screen
             self.boxes_off_screen_obj.pop(box_number)  # Removing the target box from self.boxes_off_screen_obj
-            trgt_box=BoxV(screen=self.screen_operator.main_screen,box_num=box_number)
-            self.boxes_on_screen_pos.update({box_number:pos})
-            self.boxes_on_screen_obj.update({box_number:trgt_box})
+            trgt_box = BoxV(screen=self.screen_operator.main_screen, box_num=box_number)
+            self.boxes_on_screen_pos.update({box_number: pos})
+            self.boxes_on_screen_obj.update({box_number: trgt_box})
 
             # Putting the replaced box in self.boxes_off_screen_obj
-            replaced_box = BoxV(screen=self.screen_operator.main_screen, box_num=replaced_num_box)  # Creating new object of the replaced box
-            self.boxes_off_screen_obj.update({replaced_num_box:replaced_box})
+            replaced_box = BoxV(screen=self.screen_operator.main_screen,
+                                box_num=replaced_num_box)  # Creating new object of the replaced box
+            self.boxes_off_screen_obj.update({replaced_num_box: replaced_box})
             self.view_request_update_boxes_pos()
 
-    # *******************Added This************************#
-    def open_box(self,box_num):
-        self.boxes_on_screen_obj[box_num].replace_box_image(new_name_img="chest_open.png",next_num=self.list_depend[self.current_round][box_num-1],font=self.screen_operator.font)  #list of dependencies starting from 0
+    def open_box(self, box_num):
+        self.boxes_on_screen_obj[box_num].replace_box_image(new_name_img="chest_open.png",
+                                                            next_num=self.list_depend[self.current_round][box_num - 1],
+                                                            font=self.screen_operator.font)  # list of dependencies starting from 0
         self.clock.tick(1)
-    # *****************************************************#
 
     def get_boxes_locations(self):
         return self.boxes_on_screen_pos

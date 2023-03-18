@@ -1,10 +1,7 @@
 from View.settings import *
 from pygame import Surface, image, Rect
-from pygame.font import Font
 from pygame.font import SysFont
 import os
-
-from View.settings import MAX_BOX_WIDTH
 
 
 class BoxV:
@@ -46,31 +43,7 @@ class BoxV:
         """
         self.chest_img = image.load(os.path.join('View/Resources/' + new_name_img))
 
-    def draw_box(self, box_index: int, increment: int, font: Font) -> tuple[int, int]:
-        """
-        Draws the box on the pygame surface.\n
-
-        :param box_index: The index of the box -> int.
-        :param increment: The increment value -> int.
-        :param font: The font used to render the box index -> Font object.
-
-        :return: A tuple containing the x and y coordinates of the box -> tuple of (x,y).
-        """
-        x = BOX_START_X + box_index * CELL_SIZE
-        y = BOX_START_Y + increment * CELL_SIZE
-        self.set_pos((x, y))
-        self.box_num = box_index + 1 + increment * MAX_BOX_WIDTH
-
-        rect = Rect(x, y, CELL_SIZE, CELL_SIZE)
-        text_surface = font.render(str(self.box_num), True, YELLOW)
-        text_rect = text_surface.get_rect()
-        text_rect.center = self.chest_img.get_rect().center
-        self.chest_img.blit(text_surface, text_rect)
-        self.screen.blit(self.chest_img, rect)
-        return self.get_pos()
-
-    # *******************Added This************************#
-    def draw_box_temp(self):
+    def draw_box(self):
         font = SysFont('monospace', FONT_SIZE, bold=True)
         rect = Rect(self.pos[0], self.pos[1], CELL_SIZE, CELL_SIZE)
         text_surface = font.render(str(self.box_num), True, YELLOW)
@@ -78,8 +51,6 @@ class BoxV:
         text_rect.center = self.chest_img.get_rect().center
         self.chest_img.blit(text_surface, text_rect)
         self.screen.blit(self.chest_img, rect)
-
-    # ******************************************************#
 
     def set_pos(self, new_pos: tuple[int, int]) -> None:
         """
