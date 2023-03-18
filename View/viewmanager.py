@@ -178,13 +178,12 @@ class ViewManager:
 
             self.screen_operator.draw_screen()
             # self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
-            self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
+            self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)  # <------ Added this
             self.listen_to_events()
             self.button_events()
 
             if self.actual_num_of_boxes != len(self.boxes_on_screen_obj):
                 self.create_boxes()
-                # self.screen_operator.draw_boxes_temp(self.boxes_on_screen_obj)
 
             if self.state == 'reset':
                 self.reset_input_view()
@@ -253,6 +252,7 @@ class ViewManager:
         Method that resets all the view controls and screen.\n
         :return: None.
         """
+
         # Variables
         self.num_of_boxes_view = 0
         self.num_of_prisoners = 0
@@ -262,8 +262,9 @@ class ViewManager:
         self.print_specify = False
 
         # Objects
-        self.boxes_on_screen_pos = {}
-        self.boxes_off_screen_obj = {}
+        self.boxes_on_screen_pos.clear()
+        self.boxes_off_screen_obj.clear()
+        self.boxes_on_screen_obj.clear()
 
         # Screen
         self.screen_operator.text_input_n = ""
@@ -278,6 +279,8 @@ class ViewManager:
 
     def check_exist_input(self):
         if self.screen_operator.text_input_k == '' or self.screen_operator.text_input_n == '':
+            return False
+        elif int(self.screen_operator.text_input_n) < 2:
             return False
         return True
 
@@ -448,6 +451,8 @@ class ViewManager:
         :param prisoner_num: An integer representing the number of the new prisoner.
         :return: None.
         """
+        for box in self.boxes_on_screen_obj.values():
+            box.close_box(box.box_num)
         self.create_prisoner(prisoner_num)
 
     def handle_box_request(self, box_number):
@@ -458,6 +463,7 @@ class ViewManager:
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
                 replaced_num_box = randint(1, self.num_of_prisoners)
             print(f"replaced {replaced_num_box} with box {box_number}")
+
             pos = self.boxes_on_screen_pos.pop(
                 replaced_num_box)  # The value position of the replaced box is moved to a local variable
             self.boxes_on_screen_obj.pop(replaced_num_box)
@@ -475,9 +481,12 @@ class ViewManager:
             self.view_request_update_boxes_pos()
 
     def open_box(self, box_num):
-        self.boxes_on_screen_obj[box_num].replace_box_image(new_name_img="chest_open.png",
-                                                            next_num=self.list_depend[self.current_round][box_num - 1],
-                                                            font=self.screen_operator.font)  # list of dependencies starting from 0
+        # clear the current box image
+        self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
+
+        # replace the image
+        self.boxes_on_screen_obj[box_num]. \
+            replace_box_image(new_name_img="chest_open.png")  # list of dependencies starting from 0
         self.clock.tick(1)
 
     def get_boxes_locations(self):
