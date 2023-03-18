@@ -176,7 +176,8 @@ class ViewManager:
         while self.running:
 
             self.screen_operator.draw_screen()
-            self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
+            # self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
+            self.screen_operator.draw_boxes_temp(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
             self.listen_to_events()
             self.button_events()
 
@@ -406,8 +407,9 @@ class ViewManager:
                 self.boxes_on_screen_obj[box.box_num] = box  # Mapping objects of BoxV by their number
                 self.boxes_on_screen_pos[box.box_num] = box.get_pos()  # Mapping positions of BoxV objects by their number
         for rem in range(remainder):
-            box = BoxV(screen=self.screen_operator, box_num=rows * MAX_BOX_WIDTH + rem + 1)
+            box = BoxV(screen=self.screen_operator.main_screen, box_num=rows * MAX_BOX_WIDTH + rem + 1)
             box.set_pos(new_pos=(BOX_START_X + rem * CELL_SIZE, BOX_START_Y + rows * CELL_SIZE))
+            self.boxes_on_screen_obj[box.box_num] = box
             self.boxes_on_screen_pos[box.box_num] = box.get_pos()
 
         if self.actual_num_of_boxes - MAX_NO_PRISONER_BOX > 0:
@@ -447,14 +449,21 @@ class ViewManager:
 
             # Putting the new box on the other bo position on screen
             self.boxes_off_screen_obj.pop(box_number)  # Removing the target box from self.boxes_off_screen_obj
-            trgt_box=BoxV(screen=self.screen_operator,box_num=box_number)
+            trgt_box=BoxV(screen=self.screen_operator.main_screen,box_num=box_number)
             self.boxes_on_screen_pos.update({box_number:pos})
             self.boxes_on_screen_obj.update({box_number:trgt_box})
 
             # Putting the replaced box in self.boxes_off_screen_obj
-            replaced_box = BoxV(screen=self.screen_operator, box_num=replaced_num_box)  # Creating new object of the replaced box
+            replaced_box = BoxV(screen=self.screen_operator.main_screen, box_num=replaced_num_box)  # Creating new object of the replaced box
             self.boxes_off_screen_obj.update({replaced_num_box:replaced_box})
             self.view_request_update_boxes_pos()
+
+    # *******************Added This************************#
+    def open_box(self,box_num):
+        # self.boxes_on_screen_pos
+        # self.clock.tick(1)
+        pass
+    # *****************************************************#
 
     def get_boxes_locations(self):
         return self.boxes_on_screen_pos
