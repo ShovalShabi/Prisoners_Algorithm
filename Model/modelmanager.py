@@ -64,6 +64,9 @@ class ModelManger:
         """
         return self.listener.model_need_pris_dimensions()
 
+    def model_request_to_open_box(self, current_box_num):
+        self.listener.model_need_to_open_box(current_box_num)
+
     def ntfy_to_view_get_all_boxes_pos(self) -> dict:
         """
         Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
@@ -123,14 +126,14 @@ class ModelManger:
             self.dict_boxes[box_num].set_pos(boxes_on_screen[box_num])
 
     def setup_game(self, num_pris: int, num_rounds: int, initial_pos: tuple[int, int],
-                   print_specifically: bool) -> None:
+                   print_specifically: bool) -> dict:
         """
         The method that initialize all  calculations by ProbabilitiesHandler and organize all the prisoner and boxes objects.\n
         :param num_pris: int, the total number of prisoners.
         :param num_rounds: int, the total number of rounds.
         :param initial_pos: tuple, the position tuple of (x,y) in form -> tuple[int,int].
         :param print_specifically: bool ,the indication for specification in the PrisonersResults.txt.
-        :return:None.
+        :return: the round dict of list dependencies.
         """
         self.prob_handler = ProbabilitiesHandler(num_prisoners=num_pris, num_rounds=num_rounds,
                                                  print_specifically=print_specifically)
@@ -142,6 +145,7 @@ class ModelManger:
         self.init_boxes(num_pris=num_pris)
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
         self.is_running_game = True
+        return self.dict_rounds
 
     def run_game(self) -> None:
         """
@@ -149,7 +153,11 @@ class ModelManger:
         All the prisoners are searching their number by ProbabilityManager calculations.\n
         :return: None.
         """
-        if self.dict_prisoners[self.current_pris_num].is_still_searching():
+        status = self.dict_prisoners[self.current_pris_num].is_still_searching()  # status[0] is indication of search, search[1] is the current box num
+        if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # if the prisoner reached the current target box
+            print(f"open box number {status[1]}")
+            self.model_request_to_open_box(status[1])
+        if status[0]:
             self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
             box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
             pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
@@ -197,4 +205,3 @@ class ModelManger:
 
     def get_game_status(self):
         return self.is_running_game
-

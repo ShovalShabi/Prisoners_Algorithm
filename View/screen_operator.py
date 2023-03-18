@@ -83,8 +83,8 @@ class ScreenOperator:
         """
         Function that draws the game elements on the screen.
         """
-        #self.draw_boxes(boxes_on_screen_obj)
-        self.draw_boxes_temp(boxes_on_screen_obj)
+        self.draw_boxes(boxes_on_screen_obj)
+        # self.draw_boxes_temp(boxes_on_screen_obj)  <------- Added this
         self.draw_prisoner(prisoner)
         self.draw_round_num()
 

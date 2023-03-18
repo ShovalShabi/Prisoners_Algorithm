@@ -71,6 +71,7 @@ class ViewManager:
         self.boxes_on_screen_obj = {}
         self.boxes_on_screen_pos = {}
         self.boxes_off_screen_obj = {}
+        self.list_depend = {}  #Dictionary of {num round : list of dependencies}
 
         # Screen Operations
         self.root = None
@@ -99,7 +100,7 @@ class ViewManager:
         return self.listener.view_need_pris_pos()
 
     def view_request_to_start_game(self, num_of_prisoners: int, num_of_rounds: int, initial_pos: tuple[int, int],
-                                   print_specifically: bool) -> None:
+                                   print_specifically: bool) -> dict:
         """
         Method that send the data to model object.
 
@@ -107,9 +108,9 @@ class ViewManager:
         :param initial_pos: tuple of position on screen -> tuple (x,y).
         :param num_of_rounds: The numbers of input rounds -> int.
         :param num_of_prisoners: The numbers of input prisoners -> int.
-        :return: None.
+        :return: The round dict of list dependencies.
         """
-        self.listener.view_need_to_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
+        return self.listener.view_need_to_init_game(num_of_prisoners, num_of_rounds, initial_pos, print_specifically)
 
     def view_request_round_num(self) -> int:
         """
@@ -176,8 +177,8 @@ class ViewManager:
         while self.running:
 
             self.screen_operator.draw_screen()
-            # self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
-            self.screen_operator.draw_boxes_temp(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
+            self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
+            # self.screen_operator.draw_boxes_temp(boxes_on_screen_obj=self.boxes_on_screen_obj)   # <------ Added this
             self.listen_to_events()
             self.button_events()
 
@@ -190,8 +191,8 @@ class ViewManager:
                 self.create_boxes()
 
             # Occurs when start button is clicked
-            if self.state == 'begin':
-                self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,self.print_specify)
+            if self.state == 'begin' and self.check_exist_input():
+                self.list_depend=self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -270,6 +271,11 @@ class ViewManager:
         # State
         self.state = 'not running'
 
+    def check_exist_input(self):
+        if self.screen_operator.text_input_k == '' or self.screen_operator.text_input_n == '':
+            return False
+        return True
+
     def button_events(self) -> None:
         """
         Method that handles with button events.\n
@@ -278,10 +284,11 @@ class ViewManager:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
-                                                      self.screen_operator.start_hover_rect,
-                                                      self.screen_operator.text_surface_start,
-                                                      GREEN, self.state, 'start_button')
+        if self.state != 'running' and self.check_exist_input():
+            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
+                                                          self.screen_operator.start_hover_rect,
+                                                          self.screen_operator.text_surface_start,
+                                                          GREEN, self.state, 'start_button')
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
@@ -460,9 +467,8 @@ class ViewManager:
 
     # *******************Added This************************#
     def open_box(self,box_num):
-        # self.boxes_on_screen_pos
-        # self.clock.tick(1)
-        pass
+        self.boxes_on_screen_obj[box_num].replace_box_image(new_name_img="chest_open.png",next_num=self.list_depend[self.current_round][box_num-1],font=self.screen_operator.font)  #list of dependencies starting from 0
+        self.clock.tick(1)
     # *****************************************************#
 
     def get_boxes_locations(self):

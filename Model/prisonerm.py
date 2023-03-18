@@ -69,27 +69,29 @@ class PrisonerM:
         """
         return self.prisoner_num
 
-    def is_still_searching(self) -> bool:
+    def is_still_searching(self) -> (bool,int):
         """
         This function check if the prisoner is still searching his target box, and replaces it if there is a need.\n
         As long the prisoner is still searching for his number the output of this function will be True otherwise
         if the prisoner got disqualified or won the game, the function will return False.\n
-        :return: bool, indication of relevance participant.
+        :return: tuple of (bool,int),the left hand is indication of relevance of the participant the right hand is the current box number.
         """
         if self.target_box.get_pos()[0] == self.pos[0] and \
                 self.target_box.get_pos()[1] == self.pos[1]:
             if self.target_box.get_nxt_box().get_num() == self.prisoner_num:
                 self.found_number = True
                 print(f"Prisoner number {self.prisoner_num} found his number at box number {self.target_box.box_num} at {self.target_box.pos}")
-                return False
+                return False,self.prisoner_num
             if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
                 print(f"Prisoner number {self.prisoner_num} got disqualified!")
-                return False
+                return False,self.target_box.get_num()
             else:
                 print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
-                self.visited_boxes.update({self.target_box.get_num: self.target_box})
+                self.visited_boxes.update({self.target_box.get_num(): self.target_box})
+                temp_box_num=self.target_box.get_num()
                 self.target_box = self.target_box.get_nxt_box()
-        return True
+                return True, temp_box_num
+        return True,self.target_box.get_num()
 
     def move_to_box(self, blocked: bool) -> None:
         """
