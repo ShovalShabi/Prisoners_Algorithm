@@ -189,7 +189,6 @@ class ViewManager:
             if self.state == 'begin' and self.check_exist_input():
                 self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY,
                                                      self.print_specify)
-
                 # prints result to tk
                 result = self.read_from_file()
                 self.screen_operator.write_text_on_secondary_screen(result, tk)
@@ -241,7 +240,6 @@ class ViewManager:
         self.root.geometry('400x450')
 
     def check_exist_input(self):
-        print(self.screen_operator.text_input_k == '', self.screen_operator.text_input_n == '')
         if self.screen_operator.text_input_k == '' or self.screen_operator.text_input_n == '':
             return False
         return True
@@ -282,10 +280,12 @@ class ViewManager:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
-                                                      self.screen_operator.start_hover_rect,
-                                                      self.screen_operator.text_surface_start,
-                                                      GREEN, self.state, 'start_button', self.check_exist_input)
+
+        if self.state != 'running':
+            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
+                                                          self.screen_operator.start_hover_rect,
+                                                          self.screen_operator.text_surface_start,
+                                                          GREEN, self.state, 'start_button', self.check_exist_input)
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
