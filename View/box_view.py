@@ -37,12 +37,11 @@ class BoxV:
 
     def close_box(self, num):
         self.print_num = num
-        self.color_num = YELLOW
-        self.replace_box_image('chest_closed.png')
+        self.replace_box_image('chest_closed.png', YELLOW)
 
-    def replace_box_image(self, new_name_img) -> None:
+    def replace_box_image(self, new_name_img, color) -> None:
         self.load_images(new_name_img)
-        self.color_num = RED
+        self.color_num = color
         self.draw_box()
 
     def load_images(self, new_name_img) -> None:

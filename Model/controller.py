@@ -29,7 +29,7 @@ class Controller:
     def set_model(self, model):
         self.model = model
 
-    #******************************* Model related methods *******************************#
+    # ******************************* Model related methods *******************************#
     def model_need_box(self, box_num):
         self.cnt_ntfy_view_handle_box_req(box_num)
 
@@ -42,13 +42,13 @@ class Controller:
     def model_need_all_boxes_on_screen_pos(self):  # will return dict of {num_box:position}
         return self.cnt_ntfy_to_view_get_all_boxes_location()
 
-    def model_need_to_open_box(self,current_box_num):
+    def model_need_to_open_box(self, current_box_num):
         self.cnt_ntfy_view_open_box(current_box_num)
 
-    def model_need_to_report_success(self,current_pris_num,num_succeeded):
-        self.cnt_ntfy_view_on_success(current_pris_num,num_succeeded)
+    def model_need_to_report_success(self, current_pris_num, num_succeeded):
+        self.cnt_ntfy_view_on_success(current_pris_num, num_succeeded)
 
-    def model_need_to_report_failure(self,current_pris_num):
+    def model_need_to_report_failure(self, current_pris_num):
         self.cnt_ntfy_view_on_failure(current_pris_num)
 
     def cnt_ntfy_to_view_pris_pos(self):
@@ -75,8 +75,8 @@ class Controller:
     def get_from_model_game_status(self):
         return self.model.get_game_status()
 
-    #************************************************************************************#
-    #****************************** View related methods ********************************#
+    # ************************************************************************************#
+    # ****************************** View related methods ********************************#
 
     def view_need_pris_pos(self):
         return self.cnt_ntfy_to_view_pris_pos()
@@ -96,7 +96,7 @@ class Controller:
     def view_need_know_game_status(self):
         return self.get_from_model_game_status()
 
-    def view_need_model_stop_running(self,flag):
+    def view_need_model_stop_running(self, flag):
         self.cnt_ntfy_to_model_stop_game(flag=flag)
 
     def view_need_update_boxes_pos(self):
@@ -123,11 +123,11 @@ class Controller:
         """
         return self.view.get_boxes_locations()
 
-    def cnt_ntfy_view_open_box(self,current_box_num):
+    def cnt_ntfy_view_open_box(self, current_box_num):
         self.view.open_box(current_box_num)
 
-    def cnt_ntfy_view_on_success(self,current_pris_num,num_succeeded):
-        self.view_handle_with_success(current_pris_num,num_succeeded)
+    def cnt_ntfy_view_on_success(self, current_pris_num, num_succeeded):
+        self.view.handle_with_success(current_pris_num, num_succeeded)
 
-    def cnt_ntfy_view_on_failure(self,current_pris_num):
-        self.view_handle_with_failure(current_pris_num)
+    def cnt_ntfy_view_on_failure(self, current_pris_num):
+        self.view.handle_with_failure(current_pris_num)

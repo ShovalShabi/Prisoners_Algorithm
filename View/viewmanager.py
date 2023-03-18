@@ -486,7 +486,7 @@ class ViewManager:
 
         # replace the image
         self.boxes_on_screen_obj[box_num]. \
-            replace_box_image(new_name_img="chest_open.png")  # list of dependencies starting from 0
+            replace_box_image(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
         self.clock.tick(1)
 
     def get_boxes_locations(self):
@@ -498,3 +498,9 @@ class ViewManager:
 
     def get_pris_dimensions(self):
         return self.prisoner.img_prisoner.get_rect().width, self.prisoner.img_prisoner.get_rect().height
+
+    def handle_with_success(self, current_pris_num, num_succeeded):
+        pass
+
+    def handle_with_failure(self, current_pris_num):
+        pass
