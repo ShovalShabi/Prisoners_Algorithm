@@ -177,13 +177,10 @@ class ViewManager:
         while self.running:
 
             self.screen_operator.draw_screen()
-            # self.screen_operator.draw_boxes(self.boxes_on_screen_pos)
-            self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)  # <------ Added this
+            if self.state != 'running':
+                self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)
             self.listen_to_events()
             self.button_events()
-
-            if self.actual_num_of_boxes != len(self.boxes_on_screen_obj):
-                self.create_boxes()
 
             if self.state == 'reset':
                 self.reset_input_view()
@@ -195,8 +192,7 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
-                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,
-                                                                        DOOR_WAY, self.print_specify)
+                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
