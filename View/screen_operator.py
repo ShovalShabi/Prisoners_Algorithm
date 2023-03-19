@@ -104,7 +104,7 @@ class ScreenOperator:
         self.scrollbar = tk.Scrollbar(root)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         # create text widget
-        self.text = tk.Text(root, yscrollcommand=self.scrollbar.set)
+        self.text = tk.Text(root, yscrollcommand=self.scrollbar.set, font=("Courier", 15))
         self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         # configure scrollbar to scroll with text widget
         self.scrollbar.config(command=self.text.yview)
