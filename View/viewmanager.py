@@ -193,8 +193,7 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
-                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,
-                                                                        DOOR_WAY, self.print_specify)
+                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -211,7 +210,7 @@ class ViewManager:
                     self.replace_prisoner(prisoner_num=pris_num)
 
                 self.screen_operator.current_round = self.current_round
-                self.screen_operator.pris_succeed = self.get_succeed_pris_for_file(pris_num)
+
                 if self.view_request_is_running_game():
                     self.view_request_run_game()
                     pos = self.view_request_pris_pos()
@@ -243,7 +242,8 @@ class ViewManager:
 
     def set_secondary_window(self):
         self.root = tk.Tk()
-        self.root.geometry('500x450')
+        self.root.geometry('400x450')
+        self.root.resizable(width=True, height=True)
 
     def reset_input_view(self) -> None:
         """
@@ -468,10 +468,9 @@ class ViewManager:
 
             # Putting the new box on the other bo position on screen
             self.boxes_off_screen_obj.pop(box_number)  # Removing the target box from self.boxes_off_screen_obj
-            target_box = BoxV(screen=self.screen_operator.main_screen, box_num=box_number)
+            trgt_box = BoxV(screen=self.screen_operator.main_screen, box_num=box_number)
             self.boxes_on_screen_pos.update({box_number: pos})
-            self.boxes_on_screen_obj.update({box_number: target_box})
-            target_box.set_pos(pos)
+            self.boxes_on_screen_obj.update({box_number: trgt_box})
 
             # Putting the replaced box in self.boxes_off_screen_obj
             replaced_box = BoxV(screen=self.screen_operator.main_screen,
@@ -480,17 +479,12 @@ class ViewManager:
             self.view_request_update_boxes_pos()
 
     def open_box(self, box_num):
-
-        if self.boxes_on_screen_obj[box_num].is_open():  # open
-            return
-
         # clear the current box image
-        self.boxes_on_screen_obj[box_num].\
-            clear_image(self.list_depend[self.current_round][box_num - 1]) # list of dependencies starting from 0
+        self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
 
         # replace the image
-        self.boxes_on_screen_obj[box_num].open_box(new_name_img="chest_open.png", color=RED)
-
+        self.boxes_on_screen_obj[box_num]. \
+            open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
         OPEN_CHEST_SOUND.play()
         self.clock.tick(1)
 
@@ -507,7 +501,14 @@ class ViewManager:
     @suppress_warnings
     def handle_with_success(self, current_pris_num, num_succeeded):
         SUCCESS_SOUND.play()
+        self.screen_operator.draw_success(current_pris_num, num_succeeded)
+        pygame.display.update()
+        self.clock.tick(1)
 
     @suppress_warnings
     def handle_with_failure(self, current_pris_num):
         FAILURE_SOUND.play()
+        self.screen_operator.draw_failure(current_pris_num)
+        pygame.display.update()
+        self.clock.tick(1)
+
