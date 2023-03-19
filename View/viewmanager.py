@@ -243,6 +243,7 @@ class ViewManager:
     def set_secondary_window(self):
         self.root = tk.Tk()
         self.root.geometry('400x450')
+        self.root.resizable(width=True, height=True)
 
     def reset_input_view(self) -> None:
         """
