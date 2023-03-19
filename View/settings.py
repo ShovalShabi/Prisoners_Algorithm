@@ -31,18 +31,24 @@ NUMBER_POSITION_ON_PRIS_BELOW_9 = (20, 35)
 CELL_SIZE = 80
 MAX_BOX_WIDTH = 10
 MAX_NO_PRISONER_BOX = 90
-MAX_NO_ROUND = 1000
+MAX_NO_ROUND = 100
 DOOR_WAY = (120, 400)
 EXIT_POINT =(940, 510)
 BOX_START_X = 150
 BOX_START_Y = 80
 
 IMG_BOX = pygame.image.load(os.path.join('View/Resources', 'chest_closed.png'))
-IMG_PRIS = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
+IMG_SP1_F = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
+IMG_SP2_F = pygame.image.load(os.path.join('View/Resources', 'SP2_front.png'))
+IMG_SP3_F = pygame.image.load(os.path.join('View/Resources', 'SP3_front.png'))
+IMG_SP4_F = pygame.image.load(os.path.join('View/Resources', 'SP4_front.png'))
+IMG_FP1_F = pygame.image.load(os.path.join('View/Resources', 'FP1_front.png'))
+IMG_FP2_F = pygame.image.load(os.path.join('View/Resources', 'FP2_front.png'))
+
 IMG_BOX_WIDTH = IMG_BOX.get_width()
 IMG_BOX_HEIGHT = IMG_BOX.get_height()
 
-IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunetic_Room.jpg'))
+IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunatic_Room.jpg'))
 
 # Sound
 pygame.mixer.init()
