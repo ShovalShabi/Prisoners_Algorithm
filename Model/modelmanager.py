@@ -218,3 +218,10 @@ class ModelManger:
 
     def get_game_status(self):
         return self.is_running_game
+
+    def stop_game(self):
+        self.is_running_game=False
+        self.succeeded=0
+        self.current_round=1
+        self.current_pris_num=1
+        return self.is_running_game
