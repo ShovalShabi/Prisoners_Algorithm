@@ -224,21 +224,10 @@ class ViewManager:
         self.root.quit()
         sys.exit()
 
-    def get_succeed_pris_for_file(self, pris_num):
-        content = self.read_from_file()
-        data = str(content)
-        string = 'Prisoner number ' + str(pris_num) + ' has been'
-        length = len(string)
-        location = data.find(string)
-        status = data[location + length + 1]
-        if status == 's':
-            return True
-        return False
-
     def set_secondary_window(self):
         self.root = tk.Tk()
-        self.root.geometry('400x450')
-        self.root.resizable(width=True, height=True)
+        self.root.geometry('710x500')
+        self.root.resizable(width=False, height=False)  # disable diagonal resize
 
     def reset_input_view(self) -> None:
         """
@@ -302,6 +291,7 @@ class ViewManager:
         Method that handles the events that happen in the game.\n
         :return: None.
         """
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False

@@ -63,13 +63,13 @@ FAILURE_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'failure_sound
 
 # USER GUIDE TEXT
 USER_GUIDE = 'USER GUIDE:\n' + \
-             '------------------------------' + \
+             '---------------------------------------' + \
              '\n\n' + 'LEFT ARROW: Select prisoner text input' + \
              '\n' + 'RIGHT ARROW: Select specify print check box' + \
              '\n' + 'X - Select/Unselect check box' + '\n\n' + \
-             '------------------------------' + \
+             '---------------------------------------' + \
              '\n' + 'Press START to run the game after' + '\n' + 'picking parameters' + '\n' + \
-             '------------------------------' + \
+             '---------------------------------------' + \
              '\n' + 'Press RESULTS to see the further' + '\n' + 'calculations' + '\n' + \
-             '------------------------------' + \
+             '---------------------------------------' + \
              '\n' + 'Press RESET to clear the screen'
