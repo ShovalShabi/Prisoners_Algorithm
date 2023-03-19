@@ -30,7 +30,7 @@ class PrisonerV:
         self.img_prisoner = pygame.transform.scale(self.img, (self.img.get_width() + 27, self.img.get_height() + 25))
         self.screen = screen
 
-    def draw_prisoner(self, font: Font, succeed: bool) -> None:
+    def draw_prisoner(self, font: Font) -> None:
         """
         Draws the prisoner on the pygame surface.\n
 
@@ -39,12 +39,6 @@ class PrisonerV:
         :return: None.
 
         """
-        if succeed is not None:
-            decide_status = 'succeeded' if succeed is True else 'failed'
-            txt = 'Prisoner ' + str(self.pris_num) + ' has been ' + decide_status
-            text_surface_succeed = font.render(txt, True, YELLOW)
-            text_pos_succeed = (screen_width//3, 45)
-            self.screen.blit(text_surface_succeed, text_pos_succeed)
 
         text_surface = font.render(str(self.pris_num), True, BLACK)
         if self.pris_num > 9:

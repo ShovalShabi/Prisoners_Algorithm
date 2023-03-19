@@ -20,6 +20,7 @@ class ScreenOperator:
         self.text_input_k = ""
         self.pris_succeed = None
         self.current_round = -1
+        self.num_succeeded = 0
 
         # Screen and background
         self.size_main_screen = (screen_width, screen_height)
@@ -44,7 +45,21 @@ class ScreenOperator:
         """
         Draws the prisoner on the screen.
         """
-        prisoner.draw_prisoner(self.font, self.pris_succeed)
+        prisoner.draw_prisoner(self.font)
+
+    def draw_failure(self, current_pris_num):
+        txt = 'Prisoner ' + str(current_pris_num) + ' has been failed'
+        text_surface_failed = self.font.render(txt, True, RED)
+        text_pos_failed = (screen_width // 3, 45)
+        self.main_screen.blit(text_surface_failed, text_pos_failed)
+
+    def draw_success(self, current_pris_num, num_succeeded):
+        self.num_succeeded = num_succeeded
+
+        txt = 'Prisoner ' + str(current_pris_num) + ' has been succeeded'
+        text_surface_succeed = self.font.render(txt, True, GREEN)
+        text_pos_succeed = (screen_width // 3, 45)
+        self.main_screen.blit(text_surface_succeed, text_pos_succeed)
 
     def draw_button(self, mouse_click: tuple[int, int, int], mouse_pos: tuple[int, int],
                     rect: pygame.Rect, hover: pygame.Rect, text_surface: pygame.Surface,
@@ -90,6 +105,7 @@ class ScreenOperator:
         self.draw_boxes(boxes_on_screen_obj)  # <------- Added this
         self.draw_prisoner(prisoner)
         self.draw_round_num()
+        self.draw_num_succeeded()
 
     def draw_round_num(self):
         txt = 'Current round : ' + str(self.current_round)
@@ -153,3 +169,9 @@ class ScreenOperator:
     def draw_screen(self):
         self.main_screen.blit(self.background_image, (0, 0))
         self.draw_menu()
+
+    def draw_num_succeeded(self):
+        txt_num_succeeded = str(self.num_succeeded) + ' Succeeded'
+        text_surface_num_succeed = self.font.render(txt_num_succeeded, True, GREEN)
+        text_pos_num_succeed = (screen_width // 2 + 300, 20)
+        self.main_screen.blit(text_surface_num_succeed, text_pos_num_succeed)
