@@ -143,14 +143,13 @@ class Controller:
         """
         self.model.run_game()
 
-    def cnt_ntfy_to_model_stop_game(self, flag) -> None:
+    def cnt_ntfy_to_model_stop_game(self) -> None:
         """
         Method for Controller notifying the model to run game.\n
-        :param flag: bool, an indicator for th state of the model, if it is running or not.
 
         :return: None.
         """
-        self.model.is_running_game = flag
+        self.model.stop_game()
 
     def cnt_ntfy_to_view_pris_changed(self) -> int:
         """
@@ -181,7 +180,7 @@ class Controller:
 
         :return: bool, an indicator of game status in ModelManager.
         """
-        return self.model.stop_game()
+        return self.model.get_game_status()
 
     # *************************************************************************************************************************************************#
     # *************************************************** View related methods ************************************************************************#
@@ -221,8 +220,8 @@ class Controller:
     def view_need_know_game_status(self):
         return self.get_from_model_game_status()
 
-    def view_need_model_stop_running(self, flag):
-        self.cnt_ntfy_to_model_stop_game(flag=flag)
+    def view_need_model_stop_running(self):
+        self.cnt_ntfy_to_model_stop_game()
 
     def view_need_update_boxes_pos(self):
         self.cnt_update_boxes_pos()

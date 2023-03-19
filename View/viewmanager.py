@@ -136,8 +136,8 @@ class ViewManager:
     def view_request_update_boxes_pos(self):
         self.listener.view_need_update_boxes_pos()
 
-    def ntfy_to_model_stop_running(self, flag):
-        self.listener.view_need_model_stop_running(flag=flag)
+    def ntfy_to_model_stop_running(self):
+        self.listener.view_need_model_stop_running()
 
     def set_listener(self, listener) -> None:
         """
@@ -178,7 +178,8 @@ class ViewManager:
 
             if self.state == 'reset':
                 self.reset_input_view()
-                self.ntfy_to_model_stop_running(flag=False)
+                self.screen_operator.num_succeeded=0
+                self.ntfy_to_model_stop_running()
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states

@@ -181,7 +181,6 @@ class ModelManger:
                 self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
             else:
                 self.model_request_failure_prisoner(self.current_pris_num)  # Reporting to view on failures
-                # self.model_request_to_open_box(status[1])
             self.current_pris_num += 1
 
             # Replacing Round
@@ -224,4 +223,3 @@ class ModelManger:
         self.succeeded=0
         self.current_round=1
         self.current_pris_num=1
-        return self.is_running_game
