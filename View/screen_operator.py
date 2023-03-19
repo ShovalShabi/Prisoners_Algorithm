@@ -10,6 +10,8 @@ class ScreenOperator:
 
     def __init__(self) -> None:
         # Font
+        self.error_prisoner_max = False
+        self.error_round_max = False
         self.font = pygame.font.SysFont('monospace', FONT_SIZE, bold=True)
 
         # Variables
@@ -136,8 +138,14 @@ class ScreenOperator:
         # Draw the input text
         self.draw_label(self.p_color, 150, 770, 'Number of prisoners:')
         self.draw_label(RED, 150, 790, self.text_input_n)
+        if self.error_prisoner_max:
+            self.draw_label(RED, 150, 810, 'MAX ' + str(MAX_NO_PRIS) + ' prisoners')
+
         self.draw_label(self.r_color, 430, 770, 'Number of rounds:')
         self.draw_label(RED, 430, 790, self.text_input_k)
+        if self.error_round_max:
+            self.draw_label(RED, 430, 810, 'MAX ' + str(MAX_NO_ROUND) + ' rounds')
+
         self.draw_label(self.s_color, 680, 770, 'Specified result:')
 
     def draw_check_box(self, print_specify) -> None:

@@ -193,7 +193,8 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
-                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,DOOR_WAY, self.print_specify)
+                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,
+                                                                        DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -290,7 +291,8 @@ class ViewManager:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        if self.state != 'running' and self.check_exist_input():
+        if self.state != 'running' and self.check_exist_input() and \
+                not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
             self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                           self.screen_operator.start_hover_rect,
                                                           self.screen_operator.text_surface_start,
@@ -355,8 +357,10 @@ class ViewManager:
             num = int(self.screen_operator.text_input_k)
             if num <= MAX_NO_ROUND:
                 self.num_of_rounds = num
+                self.screen_operator.error_round_max = False
             else:
                 self.num_of_rounds = MAX_NO_ROUND
+                self.screen_operator.error_round_max = True
         else:
             self.screen_operator.text_input_k = ""
             self.num_of_rounds = 0
@@ -370,18 +374,31 @@ class ViewManager:
         """
         self.prisoner.set_pris_pos(pos)
 
+    @suppress_warnings
+    def generate_random_image(self):
+        images = [IMG_SP1_F, IMG_SP2_F, IMG_SP3_F, IMG_SP4_F, IMG_FP1_F, IMG_FP2_F]
+        image_name = images[randint(0, len(images))]
+        return image_name
+
     def convert_input_prisoner_to_num(self) -> None:
         """
         Converts the text input for the number of prisoners to an integer.
         """
         if self.screen_operator.text_input_n != "" and str.isdigit(self.screen_operator.text_input_n):
             num = int(self.screen_operator.text_input_n)
-            if num <= MAX_NO_PRISONER_BOX:
-                self.num_of_boxes_view = num
+
+            if num > MAX_NO_PRIS:
+                self.screen_operator.error_prisoner_max = True
             else:
-                self.num_of_boxes_view = MAX_NO_PRISONER_BOX
-            self.actual_num_of_boxes = num
-            self.num_of_prisoners = num
+                self.screen_operator.error_prisoner_max = False
+
+                if num <= MAX_NO_PRISONER_BOX:
+                    self.num_of_boxes_view = num
+                else:
+                    self.num_of_boxes_view = MAX_NO_PRISONER_BOX
+
+                self.actual_num_of_boxes = num
+                self.num_of_prisoners = num
         else:
             self.screen_operator.text_input_n = ""
             self.num_of_boxes_view = 0
@@ -440,7 +457,8 @@ class ViewManager:
         :param num_prisoner: An integer representing the number of the prisoner.
         :return: None.
         """
-        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.main_screen)
+        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.main_screen,
+                                  self.generate_random_image().convert_alpha())
 
     def replace_prisoner(self, prisoner_num: int) -> None:
         """
@@ -512,4 +530,3 @@ class ViewManager:
         self.screen_operator.draw_failure(current_pris_num)
         pygame.display.update()
         self.clock.tick(1)
-

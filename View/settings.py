@@ -32,8 +32,9 @@ CELL_SIZE = 80
 MAX_BOX_WIDTH = 10
 MAX_NO_PRISONER_BOX = 90
 MAX_NO_ROUND = 100
+MAX_NO_PRIS = 200
 DOOR_WAY = (120, 400)
-EXIT_POINT =(940, 510)
+EXIT_POINT = (940, 510)
 BOX_START_X = 150
 BOX_START_Y = 80
 
@@ -56,7 +57,7 @@ OPEN_CHEST_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'open_chest
 SUCCESS_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'success_sound.mp3'))
 SUCCESS_SOUND.set_volume(0.2)
 FAILURE_SOUND = pygame.mixer.Sound(os.path.join('View/Resources', 'failure_sound.mp3'))
-#FAILURE_SOUND.set_volume(0.2)
+# FAILURE_SOUND.set_volume(0.2)
 
 # USER GUIDE TEXT
 USER_GUIDE = 'USER GUIDE:\n' + \

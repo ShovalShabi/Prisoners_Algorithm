@@ -16,7 +16,7 @@ class PrisonerV:
     img_prisoner: transformed image of the prisoner o better dimensions -> Surface object.\n
     """
 
-    def __init__(self, start_pos: tuple[int, int], num: int, screen: Surface) -> None:
+    def __init__(self, start_pos: tuple[int, int], num: int, screen: Surface, image) -> None:
         """
         Initializes a PrisonerV object.
 
@@ -26,8 +26,7 @@ class PrisonerV:
         """
         self.pos = start_pos
         self.pris_num = num
-        self.img = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png')).convert_alpha()
-        self.img_prisoner = pygame.transform.scale(self.img, (self.img.get_width() + 27, self.img.get_height() + 25))
+        self.img_prisoner = pygame.transform.scale(image, (image.get_width() + 27, image.get_height() + 25))
         self.screen = screen
 
     def draw_prisoner(self, font: Font) -> None:
@@ -71,3 +70,5 @@ class PrisonerV:
         :return: A tuple containing the x and y coordinates of the prisoner -> tuple (x,y).
         """
         return self.pos
+
+
