@@ -173,6 +173,17 @@ class ScreenOperator:
         text_pos_round = (screen_width // 3 + 50, 20)
         self.main_screen.blit(text_surface_round, text_pos_round)
 
+    @suppress_warnings
+    def read_from_file(self) -> str:
+        """
+        Read from 'PrisonersResults.txt' the results to print on the secondary screen (tkinter) .\n
+
+        :return: str
+        """
+        file = open("PrisonersResults.txt", "r")
+        content = file.read()
+        return content
+
     def config_text_window(self, tk: tkinter, root: tkinter.Tk) -> None:
         """
         Config the secondary window with scrollbar.\n

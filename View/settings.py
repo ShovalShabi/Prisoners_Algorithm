@@ -73,3 +73,7 @@ USER_GUIDE = 'USER GUIDE:\n' + \
              '\n' + 'Press RESULTS to see the further' + '\n' + 'calculations' + '\n' + \
              '---------------------------------------' + \
              '\n' + 'Press RESET to clear the screen'
+
+# FRAME CLOCK RATE
+FRAME_RATE = 25
+WAIT_FRAME_RATE = 1
