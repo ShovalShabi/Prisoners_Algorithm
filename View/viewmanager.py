@@ -493,13 +493,14 @@ class ViewManager:
 
     def open_box(self, box_num):
         # clear the current box image
-        self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
+        if not self.boxes_on_screen_obj[box_num].open:
+            self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
 
-        # replace the image
-        self.boxes_on_screen_obj[box_num]. \
-            open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
-        OPEN_CHEST_SOUND.play()
-        self.clock.tick(1)
+            # replace the image
+            self.boxes_on_screen_obj[box_num]. \
+                open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
+            OPEN_CHEST_SOUND.play()
+            self.clock.tick(1)
 
     def get_boxes_locations(self):
         return self.boxes_on_screen_pos
