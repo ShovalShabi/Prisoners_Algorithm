@@ -31,7 +31,7 @@ NUMBER_POSITION_ON_PRIS_BELOW_9 = (20, 35)
 CELL_SIZE = 80
 MAX_BOX_WIDTH = 10
 MAX_NO_PRISONER_BOX = 90
-MAX_NO_ROUND = 10000
+MAX_NO_ROUND = 100
 DOOR_WAY = (120, 400)
 EXIT_POINT =(940, 510)
 BOX_START_X = 150
@@ -42,7 +42,7 @@ IMG_PRIS = pygame.image.load(os.path.join('View/Resources', 'SP1_front.png'))
 IMG_BOX_WIDTH = IMG_BOX.get_width()
 IMG_BOX_HEIGHT = IMG_BOX.get_height()
 
-IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunetic_Room.jpg'))
+IMG_BACKGROUND = pygame.image.load(os.path.join('View/Resources', 'Lunatic_Room.jpg'))
 
 # Sound
 pygame.mixer.init()
