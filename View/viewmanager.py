@@ -1,27 +1,16 @@
 import math
 import sys
-import warnings
 import pygame.time
 import tkinter as tk
-
 from random import randint
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
-from View.screen_operator import ScreenOperator
+from View.screen_operator import ScreenOperator, suppress_warnings
 from View.prisoner_view import PrisonerV
 from View.settings import *
 from View.box_view import BoxV
 from pygame.time import Clock
 import pygame.mixer
-
-
-def suppress_warnings(func):
-    def wrapper(*args, **kwargs):
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            return func(*args, **kwargs)
-
-    return wrapper
 
 
 class ViewManager:
@@ -37,13 +26,18 @@ class ViewManager:
     num_of_boxes_view: the number of boxes that view represents -> int.\n
     num_of_prisoners: the number of prisoners -> int.\n
     status: the status of the view -> str object.\n
+    current_round: the current roung in the game -> int object.\n
     num_of_rounds: the number of rounds -> int.\n
     actual_num_of_boxes: the number of boxes that view handle,can be more than the screen can represent -> int.\n
+    print_specify: the flag if the results would be specify or not
+    exit_tk:
     prisoner: the prisoner that is currently searching for his number -> PrisonerV object.\n
     listener: coordinates the activity between the backend and the frontend -> Controller object.\n
     boxes_on_screen_obj: dictionary of BoxV objects that are currently on screen mapped by their number -> dict of {int:BoxV object}.\n
     boxes_on_screen_pos: dictionary of tuple of position of each BoxV object, mapped by their number -> dict of {int: tuple (x,y)}.\n
     boxes_off_screen_obj: dictionary of BoxV objects that are not currently on screen mapped by their number -> dict of {int:BoxV object}.\n
+    list_depend
+    root
     screen_operator: object that organizes the drawing of the objects on screen, fonts and buttons -> ScreenOpreator object.\n
     clock: clock the keeps the frame rate reasonable -> Clock object.\n
     """
@@ -64,7 +58,6 @@ class ViewManager:
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
-        self.exit_tk = False
 
         # Objects
         self.prisoner = None
@@ -193,7 +186,8 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
-                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,DOOR_WAY, self.print_specify)
+                self.list_depend = self.listener.view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds,
+                                                                        DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 result = self.read_from_file()
@@ -258,6 +252,7 @@ class ViewManager:
         self.num_of_rounds = 0
         self.actual_num_of_boxes = 0
         self.print_specify = False
+        self.screen_operator.current_round = -1
 
         # Objects
         self.boxes_on_screen_pos.clear()
@@ -290,7 +285,8 @@ class ViewManager:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        if self.state != 'running' and self.check_exist_input():
+        if self.state != 'running' and self.check_exist_input() and \
+                not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
             self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                           self.screen_operator.start_hover_rect,
                                                           self.screen_operator.text_surface_start,
@@ -355,8 +351,10 @@ class ViewManager:
             num = int(self.screen_operator.text_input_k)
             if num <= MAX_NO_ROUND:
                 self.num_of_rounds = num
+                self.screen_operator.error_round_max = False
             else:
                 self.num_of_rounds = MAX_NO_ROUND
+                self.screen_operator.error_round_max = True
         else:
             self.screen_operator.text_input_k = ""
             self.num_of_rounds = 0
@@ -376,12 +374,19 @@ class ViewManager:
         """
         if self.screen_operator.text_input_n != "" and str.isdigit(self.screen_operator.text_input_n):
             num = int(self.screen_operator.text_input_n)
-            if num <= MAX_NO_PRISONER_BOX:
-                self.num_of_boxes_view = num
+
+            if num > MAX_NO_PRIS:
+                self.screen_operator.error_prisoner_max = True
             else:
-                self.num_of_boxes_view = MAX_NO_PRISONER_BOX
-            self.actual_num_of_boxes = num
-            self.num_of_prisoners = num
+                self.screen_operator.error_prisoner_max = False
+
+                if num <= MAX_NO_PRISONER_BOX:
+                    self.num_of_boxes_view = num
+                else:
+                    self.num_of_boxes_view = MAX_NO_PRISONER_BOX
+
+                self.actual_num_of_boxes = num
+                self.num_of_prisoners = num
         else:
             self.screen_operator.text_input_n = ""
             self.num_of_boxes_view = 0
@@ -440,7 +445,14 @@ class ViewManager:
         :param num_prisoner: An integer representing the number of the prisoner.
         :return: None.
         """
-        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.main_screen)
+        self.prisoner = PrisonerV(DOOR_WAY, num_prisoner, self.screen_operator.main_screen,
+                                  self.generate_random_image().convert_alpha())
+
+    @suppress_warnings
+    def generate_random_image(self):
+        images = [IMG_SP1_F, IMG_SP2_F, IMG_SP3_F, IMG_SP4_F, IMG_FP1_F, IMG_FP2_F]
+        image_name = images[randint(0, len(images) - 1)]
+        return image_name
 
     def replace_prisoner(self, prisoner_num: int) -> None:
         """
@@ -481,13 +493,14 @@ class ViewManager:
 
     def open_box(self, box_num):
         # clear the current box image
-        self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
+        if not self.boxes_on_screen_obj[box_num].open:
+            self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
 
-        # replace the image
-        self.boxes_on_screen_obj[box_num]. \
-            open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
-        OPEN_CHEST_SOUND.play()
-        self.clock.tick(1)
+            # replace the image
+            self.boxes_on_screen_obj[box_num]. \
+                open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
+            OPEN_CHEST_SOUND.play()
+            self.clock.tick(1)
 
     def get_boxes_locations(self):
         return self.boxes_on_screen_pos
@@ -512,4 +525,3 @@ class ViewManager:
         self.screen_operator.draw_failure(current_pris_num)
         pygame.display.update()
         self.clock.tick(1)
-
