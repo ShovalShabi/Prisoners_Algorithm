@@ -1,7 +1,6 @@
 from Model.boxm import BoxM
 from Model.prisonerm import PrisonerM
 from Model.probabilities_handler import ProbabilitiesHandler
-from View.settings import IMG_BOX_WIDTH, IMG_BOX_HEIGHT
 
 
 class ModelManger:

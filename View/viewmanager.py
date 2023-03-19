@@ -471,6 +471,7 @@ class ViewManager:
             target_box = BoxV(screen=self.screen_operator.main_screen, box_num=box_number)
             self.boxes_on_screen_pos.update({box_number: pos})
             self.boxes_on_screen_obj.update({box_number: target_box})
+            target_box.set_pos(pos)
 
             # Putting the replaced box in self.boxes_off_screen_obj
             replaced_box = BoxV(screen=self.screen_operator.main_screen,
