@@ -46,14 +46,15 @@ class ProbabilitiesHandler:
         list_of_success = number_of_boxes * [0]
         for j in range(number_of_boxes):
             if print_route:
-                print("Iteration number", j + 1,file=self.file)
+                print("Prisoner number:", j + 1,file=self.file)
             visited_boxes = []
             pointer_box = list_of_boxes[j]
+            current_box = j + 1
             visited_boxes.append(pointer_box)
             for attempts in range(number_of_boxes):
                 success = False
                 if print_route:
-                    print("Attempt:", attempts + 1, " is leading to box", pointer_box + 1,file=self.file)
+                    print("Box number", current_box, " is leading to box", pointer_box + 1,file=self.file)
                 if pointer_box == j and attempts < (number_of_boxes // 2):
                     success = True
                     list_of_success[j] = 1
@@ -62,6 +63,7 @@ class ProbabilitiesHandler:
                     if pointer_box == j:
                         break
                     else:
+                        current_box = pointer_box + 1
                         pointer_box = list_of_boxes[pointer_box]
                         visited_boxes.append(pointer_box)
             if print_route:
