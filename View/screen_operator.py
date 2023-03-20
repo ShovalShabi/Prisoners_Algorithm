@@ -36,6 +36,9 @@ class ScreenOperator:
     start_rect: the rect object of the start button.\n
     start_hover_rect: the hover rect object of the start button.\n
     text_surface_start: the surface object of the text of start button.\n
+    stats_rect: the rect object of the probs button.\n
+    stats_hover_rect: the hover rect object of the probs button.\n
+    text_surface_stats: the surface object of the text of probs button.\n
     reset_rect: the rect object of the reset button.\n
     reset_hover_rect: the hover rect object of the reset button.\n
     text_surface_reset: the surface object of the text of reset button.\n
@@ -67,16 +70,23 @@ class ScreenOperator:
         self.main_screen = pygame.display.set_mode(self.size_main_screen)
 
         self.background_image = pygame.transform.scale(IMG_BACKGROUND, (screen_width, screen_height))
+        self.floor_image = pygame.transform.scale(IMG_FLOOR, (floor_width, floor_height))
 
         # Buttons
-        self.start_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
-        self.start_hover_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
+        self.start_rect = pygame.Rect(button_x, button_y - 75, button_width, button_height)
+        self.start_hover_rect = pygame.Rect(button_x, button_y - 75, button_width, button_height)
         self.text_surface_start = self.font.render("START", True, BLACK)
-        self.reset_rect = pygame.Rect(button_x, button_y + 150, button_width, button_height)
-        self.reset_hover_rect = pygame.Rect(button_x, button_y + 150, button_width, button_height)
+
+        self.stats_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+        self.stats_hover_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+        self.text_surface_stats = self.font.render("PROBS", True, BLACK)
+
+        self.reset_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
+        self.reset_hover_rect = pygame.Rect(button_x, button_y + 75, button_width, button_height)
         self.text_surface_reset = self.font.render("RESET", True, BLACK)
 
         # Results
+        self.run_only_probs = False
         self.scrollbar = None
         self.text = None
 
@@ -140,6 +150,8 @@ class ScreenOperator:
                     state = 'begin'
                 if type_button == 'reset_button':
                     state = 'reset'
+                if type_button == 'stats_button':
+                    state = 'stats'
         else:
             # Draw the normal state if the mouse is not over the button
             pygame.draw.rect(self.main_screen, WHITE, rect)
@@ -197,7 +209,7 @@ class ScreenOperator:
         self.scrollbar = tk.Scrollbar(root)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         # create text widget
-        self.text = tk.Text(root, yscrollcommand=self.scrollbar.set, font=("Courier", 15))
+        self.text = tk.Text(root, yscrollcommand=self.scrollbar.set, font=("TkDefaultFont", 14, "bold"))
         self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         # configure scrollbar to scroll with text widget
         self.scrollbar.config(command=self.text.yview)
@@ -220,17 +232,17 @@ class ScreenOperator:
         :return: None
         """
         # Draw the input text
-        self.draw_label(self.p_color, 150, 770, 'Number of prisoners:')
-        self.draw_label(RED, 150, 790, self.text_input_n)
+        self.draw_label(self.p_color, 150, (screen_height-70), 'Number of prisoners:')
+        self.draw_label(RED, 150, (screen_height-50), self.text_input_n)
         if self.error_prisoner_max:
-            self.draw_label(RED, 150, 810, 'MAX ' + str(MAX_NO_PRIS) + ' prisoners')
+            self.draw_label(RED, 150, (screen_height-35), 'MAX ' + str(MAX_NO_PRIS) + ' prisoners in view')
 
-        self.draw_label(self.r_color, 430, 770, 'Number of rounds:')
-        self.draw_label(RED, 430, 790, self.text_input_k)
+        self.draw_label(self.r_color, 430, (screen_height-70), 'Number of rounds:')
+        self.draw_label(RED, 430, (screen_height-50), self.text_input_k)
         if self.error_round_max:
-            self.draw_label(RED, 430, 810, 'MAX ' + str(MAX_NO_ROUND) + ' rounds')
+            self.draw_label(RED, 430, (screen_height-35), 'MAX ' + str(MAX_NO_ROUND) + ' rounds in view')
 
-        self.draw_label(self.s_color, 680, 770, 'Specified result:')
+        self.draw_label(self.s_color, 680, (screen_height-70), 'Specified result:')
 
     def draw_check_box(self, print_specify: bool) -> None:
         """
@@ -239,14 +251,14 @@ class ScreenOperator:
 
         :return: None
         """
-        select_box = pygame.Rect(900, 770, 20, 20)
+        select_box = pygame.Rect(900, (screen_height-70), 20, 20)
         if print_specify:
             text = 'X'
         else:
             text = ''
         pygame.draw.rect(self.main_screen, RED, select_box, 2)
         text_surface = self.font.render(text, True, RED)
-        self.main_screen.blit(text_surface, (904, 770))
+        self.main_screen.blit(text_surface, (904, (screen_height-70)))
 
     def draw_label(self, color: tuple[int, int, int], pos_x: int, pos_y: int, text: str = "") -> None:
         """
@@ -278,6 +290,7 @@ class ScreenOperator:
         :return: None
         """
         self.main_screen.blit(self.background_image, (0, 0))
+        self.main_screen.blit(self.floor_image, (138, 70))
         self.draw_menu()
 
     def draw_num_succeeded(self) -> None:
