@@ -193,7 +193,7 @@ class ViewManager:
         """
         self.root = tk.Tk()
         self.root.geometry('500x500')
-        self.root.resizable(width=False, height=False)  # disable diagonal resize
+        self.root.resizable(width=True, height=False)  # disable diagonal resize
 
     def reset_input_view(self) -> None:
         """
