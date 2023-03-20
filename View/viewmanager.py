@@ -123,6 +123,19 @@ class ViewManager:
                 self.create_boxes()
 
             # Occurs when start button is clicked
+            if self.state == 'stats' and self.check_exist_input():
+                print(self.actual_num_of_boxes, self.num_of_prisoners)
+                self.listener.view_need_to_init_statistics(self.actual_num_of_boxes, self.num_of_rounds, DOOR_WAY,
+                                                           self.print_specify)
+
+                # prints result to tk
+                self.tk_print_results()
+
+                pris_num = self.view_request_pris_num()
+                self.create_prisoner(pris_num)
+                self.state = "not running"
+
+            # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
                 self.list_depend = self.listener. \
                     view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, self.print_specify)
@@ -179,8 +192,8 @@ class ViewManager:
         :return: None
         """
         self.root = tk.Tk()
-        self.root.geometry('750x500')
-        self.root.resizable(width=False, height=False)  # disable diagonal resize
+        self.root.geometry('500x500')
+        self.root.resizable(width=True, height=False)  # disable diagonal resize
 
     def reset_input_view(self) -> None:
         """
@@ -209,9 +222,6 @@ class ViewManager:
         self.screen_operator.text_input_k = ""
         self.print_specify = False
 
-        # Reset
-        self.screen_operator.write_text_on_secondary_screen(USER_GUIDE, tk)
-
         # State
         self.state = 'not running'
 
@@ -236,12 +246,16 @@ class ViewManager:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        if self.state != 'running' and self.check_exist_input() and \
-                not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
+        if self.state != 'running' and self.check_exist_input() and not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
             self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                           self.screen_operator.start_hover_rect,
                                                           self.screen_operator.text_surface_start,
                                                           GREEN, self.state, 'start_button')
+        if self.state != 'running' and self.check_exist_input():
+            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.stats_rect,
+                                                          self.screen_operator.stats_hover_rect,
+                                                          self.screen_operator.text_surface_stats,
+                                                          ORANGE, self.state, 'stats_button')
         self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
@@ -333,6 +347,7 @@ class ViewManager:
 
             if num > MAX_NO_PRIS:  # occurs when the input is above the max num of prisoners
                 self.screen_operator.error_prisoner_max = True
+                self.screen_operator.run_only_probs = True
             else:  # occurs when the input is below the max num of prisoners
                 self.screen_operator.error_prisoner_max = False
 
@@ -341,8 +356,8 @@ class ViewManager:
                 else:  # occurs when the input is valid and there are boxes more than the displayed
                     self.num_of_boxes_view = MAX_NO_PRISONER_BOX
 
-                self.actual_num_of_boxes = num
                 self.num_of_prisoners = num
+            self.actual_num_of_boxes = num
         else:
             self.screen_operator.text_input_n = ""
             self.num_of_boxes_view = 0
@@ -480,8 +495,8 @@ class ViewManager:
             self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
 
             # replace the image
-            self.boxes_on_screen_obj[box_num]. \
-                open_box(new_name_img="chest_open.png", color=RED)  # list of dependencies starting from 0
+            self.boxes_on_screen_obj[box_num].open_box(new_name_img="chest_open.png", color=RED)
+            # list of dependencies starting from 0
 
             OPEN_CHEST_SOUND.play()  # plays the open chest sound
             self.clock.tick(WAIT_FRAME_RATE)  # waits 1 frame rate
@@ -601,6 +616,17 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_update_boxes_pos()
+
+    #### Shoval need to create #####
+    def view_request_update_time_boxes(self) -> None:
+        """
+        Method that needs update of the time between one box to other box.\n
+
+        :return: None.
+        """
+        self.screen_operator.current_reach_time = self.listener.view_request_update_time_boxes()
+
+    ################################
 
     def ntfy_to_model_stop_running(self) -> None:
         """
