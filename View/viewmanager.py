@@ -126,7 +126,7 @@ class ViewManager:
             if self.state == 'stats' and self.check_exist_input():
                 print(self.actual_num_of_boxes, self.num_of_prisoners)
                 self.listener.view_need_to_init_statistics(self.actual_num_of_boxes, self.num_of_rounds, DOOR_WAY,
-                                                 self.print_specify)
+                                                           self.print_specify)
 
                 # prints result to tk
                 self.tk_print_results()
@@ -616,6 +616,17 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_update_boxes_pos()
+
+    #### Shoval need to create #####
+    def view_request_update_time_boxes(self) -> None:
+        """
+        Method that needs update of the time between one box to other box.\n
+
+        :return: None.
+        """
+        self.screen_operator.current_reach_time = self.listener.view_request_update_time_boxes()
+
+    ################################
 
     def ntfy_to_model_stop_running(self) -> None:
         """

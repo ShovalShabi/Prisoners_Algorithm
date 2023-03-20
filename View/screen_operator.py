@@ -50,6 +50,7 @@ class ScreenOperator:
         Initializes a ScreenOperator object.
         """
         # Font
+        self.current_reach_time = -1
         self.error_prisoner_max = False
         self.error_round_max = False
         self.font = pygame.font.SysFont('monospace', FONT_SIZE, bold=True)
@@ -235,6 +236,8 @@ class ScreenOperator:
 
         :return: None
         """
+        self.draw_label(self.p_color, 150, (screen_height - 70), 'Time between box to box: '
+                        + str(self.current_reach_time) + ' ms')
         # Draw the input text
         self.draw_label(self.p_color, 150, (screen_height - 70), 'Number of prisoners:')
         self.draw_label(RED, 150, (screen_height - 50), self.text_input_n)
