@@ -211,47 +211,93 @@ class Controller:
         """
         return self.cnt_ntfy_to_view_round_num()
 
-    def view_need_pris_num(self):
+    def view_need_pris_num(self) -> int:
+        """
+        Method for notifying the ModelManager that the ViewManager need the current prisoner number.\n
+        :return: int, representing prisoner number.
+        """
         return self.cnt_ntfy_to_view_pris_changed()
 
-    def view_need_to_run_game(self):
+    def view_need_to_run_game(self) -> None:
+        """
+        Method for notifying the ModelManager that the ViewManager need to run the game.\n
+        :return: int, representing round number.
+        """
         self.cnt_ntfy_to_model_run_game()
 
-    def view_need_know_game_status(self):
+    def view_need_know_game_status(self) -> bool:
+        """
+        Method for notifying the ModelManager that the ViewManager need the status of the game .\n
+        :return: bool, representing running game flag.
+        """
         return self.get_from_model_game_status()
 
-    def view_need_model_stop_running(self):
+    def view_need_model_stop_running(self) -> None:
+        """
+        Method for notifying the ModelManager that the ViewManager need to stop the game .\n
+        Returns: None.
+        """
         self.cnt_ntfy_to_model_stop_game()
 
-    def view_need_update_boxes_pos(self):
+    def view_need_update_boxes_pos(self) -> None:
+        """
+        Method for notifying the ModelManager that the ViewManager need to update the positions of the boxes that are on screen .\n
+        :return: None
+        """
         self.cnt_update_boxes_pos()
 
-    def cnt_ntfy_view_handle_box_req(self, box_num):
+    def cnt_ntfy_view_handle_box_req(self, box_num) -> None:
+        """
+        Method for Controller notifying the view that the model need a specific box number to be on screen.\n
+        :param box_num: int, representing the box number.
+
+        :return: None.
+        """
         self.view.handle_box_request(box_num)
 
     def cnt_ntfy_to_view_get_box_dimension(self) -> tuple[int,int]:
         """
-        Sends the dimensions of the box image to the listener.
+        Method for Controller notifying the view that the model need the dimensions of box image for further calculation.\n
+        :return: tuple of (x,y) that represents box dimensions.
         """
         return self.view.get_box_dimensions()
 
     def cnt_ntfy_to_view_get_pris_dimension(self) -> tuple[int,int]:
         """
-        Sends the dimensions of the prisoner image to the listener.
+        Method for Controller notifying the view that the model need the dimensions of prisoner image for further calculation.\n
+        :return: tuple of (x,y) that represents box dimensions.
         """
         return self.view.get_pris_dimensions()
 
     def cnt_ntfy_to_view_get_all_boxes_location(self) -> dict:
         """
-        Sends the current locations of all the boxes to the listener.
+        Method for Controller notifying the view that the model need the locations of all the boxes that are on screen.\n
+        :return: dict of {number of box : tuple of (x,y) that represents box position}.
         """
         return self.view.get_boxes_locations()
 
     def cnt_ntfy_view_open_box(self, current_box_num):
+
+        """
+        Method for Controller notifying the view that the model need to open specific box number.\n
+        :param current_box_num: int, a number that represents box number.
+        :return: None.
+        """
         self.view.open_box(current_box_num)
 
     def cnt_ntfy_view_on_success(self, current_pris_num, num_succeeded):
+        """
+        Method for Controller notifying the view that the model need to open specific box number.\n
+        :param current_pris_num: int, a number that represents current prisoner number.
+        :param num_succeeded: int, a number that represents the number of prisoners that managed to escape.
+        :return: None.
+        """
         self.view.handle_with_success(current_pris_num, num_succeeded)
 
     def cnt_ntfy_view_on_failure(self, current_pris_num):
+        """
+        Method for Controller notifying the view that the model need to open specific box number.\n
+        :param current_pris_num: int, a number that represents current prisoner number.
+        :return: None.
+        """
         self.view.handle_with_failure(current_pris_num)
