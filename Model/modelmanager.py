@@ -24,9 +24,10 @@ class ModelManger:
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize ModelManger Object.\n
+        :return: None.
         """
         self.dict_rounds = {}  # dict of {round_num:list dependencies of boxes}
         self.dict_prisoners = {}  # dict of {num_pris:prisoner}
@@ -45,32 +46,48 @@ class ModelManger:
 
     def model_request_box(self) -> None:
         """
-        Method for notifying the view to prepare the relevant box image on screen.\n
+        Method for requesting from ViewManager a specific box to be placed on screen.\n
         :return: None.
         """
         self.listener.model_need_box(self.dict_prisoners[self.current_pris_num].target_box.box_num)
 
     def model_request_box_dimensions(self) -> tuple[int, int]:
         """
-        Method that fetch box image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
+        Method for requesting from ViewManager box image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
         :return: a position tuple in form -> tuple[int,int].
         """
         return self.listener.model_need_box_dimensions()
 
     def model_request_pris_dimensions(self) -> tuple[int, int]:
         """
-        Method that fetch prisoner image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
+        Method for requesting from ViewManager prisoner image dimensions in purpose to help the prisoner calculate its route to box without collisions.\n
         :return: a position tuple in form -> tuple[int,int].
         """
         return self.listener.model_need_pris_dimensions()
 
-    def model_request_to_open_box(self, current_box_num):
+    def model_request_to_open_box(self, current_box_num) -> None:
+        """
+        Method for requesting from ViewManager to open specific box number.\n
+        :param current_box_num: int, a number that represents specific box number.
+        :return: None.
+        """
         self.listener.model_need_to_open_box(current_box_num)
 
-    def model_request_success_prisoner(self,current_pris_num,num_succeeded):
+    def model_request_success_prisoner(self,current_pris_num,num_succeeded) -> None:
+        """
+        Method for requesting from ViewManager to open specific box number.\n
+        :param current_pris_num: int, a number that represents prisoner number.
+        :param num_succeeded: int, a number that represents the number of prisoners that managed to escape.
+        :return: None.
+        """
         self.listener.model_need_to_report_success(current_pris_num,num_succeeded)
 
-    def model_request_failure_prisoner(self,current_pris_num):
+    def model_request_failure_prisoner(self,current_pris_num) -> None:
+        """
+        Method for requesting from ViewManager to open specific box number.\n
+        :param current_pris_num: int, a number that represents prisoner number.
+        :return: None.
+        """
         self.listener.model_need_to_report_failure(current_pris_num)
 
     def ntfy_to_view_get_all_boxes_pos(self) -> dict:
@@ -196,10 +213,7 @@ class ModelManger:
 
                 #Intializing parameters of ModelManger
                 else:
-                    self.current_pris_num = 1
-                    self.current_round = 1
-                    self.succeeded = 0
-                    self.is_running_game = False
+                    self.stop_game()
 
     def get_current_pris_num(self) -> int:
         """
@@ -215,10 +229,18 @@ class ModelManger:
         """
         return self.dict_prisoners[self.current_pris_num].get_pos()
 
-    def get_game_status(self):
+    def get_game_status(self) -> bool:
+        """
+        Method for getting the state of the game.\n
+        :return:bool, an indication of game status.
+        """
         return self.is_running_game
 
-    def stop_game(self):
+    def stop_game(self) -> None:
+        """
+        Method for stop the current game that runs.\n
+        :return: None.
+        """
         self.is_running_game=False
         self.succeeded=0
         self.current_round=1

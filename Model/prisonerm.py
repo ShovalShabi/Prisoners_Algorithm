@@ -37,9 +37,9 @@ class PrisonerM:
         self.all_boxes = all_boxes  # dictionary of {number box:value box}
         self.target_box = target_box
         self.found_number = False
-        self.on_exit = False
         self.updated_pos = False
         self.total_pris_count=all_prisoners
+        self.on_exit = False
 
     def set_pos(self, position: tuple[int,int]) -> None:
         """
@@ -78,7 +78,7 @@ class PrisonerM:
 
     def is_still_searching(self) -> (bool,int):
         """
-        This function check if the prisoner is still searching his target box, and replaces it if there is a need.\n
+        This method check if the prisoner is still searching his target box, and replaces it if there is a need.\n
         As long the prisoner is still searching for his number the output of this function will be True otherwise
         if the prisoner got disqualified or won the game, the function will return False.\n
         :return: tuple of (bool,int),the left hand is indication of relevance of the participant the right hand is the current box number.
@@ -110,7 +110,7 @@ class PrisonerM:
 
     def move_to_box(self, blocked: bool) -> None:
         """
-        This function check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.\n
+        This method check if a prisoner is blocked, it receives a boolean variable that tells if the prisoner is blocked or not.\n
         :param: blocked: bool, indication if the prisoner is blocked (checked by method check_collision within PrisonerM).
         :return: bool, is the object moving or not.
         """
