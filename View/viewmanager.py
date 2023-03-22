@@ -553,6 +553,16 @@ class ViewManager:
         pygame.display.update()
         self.clock.tick(1)
 
+    def view_handle_with_time(self, time) -> None:
+        """
+        Method that needs update of the time between one box to other box.\n
+        :param time: the updated time.\n
+
+        :return: None.
+        """
+        self.screen_operator.current_reach_time = time
+
+
     """*******************************************MVC Methods******************************************************"""
 
     def view_request_pris_pos(self) -> tuple[int, int]:
@@ -616,17 +626,6 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_update_boxes_pos()
-
-    #### Shoval need to create #####
-    def view_request_update_time_boxes(self) -> None:
-        """
-        Method that needs update of the time between one box to other box.\n
-
-        :return: None.
-        """
-        self.screen_operator.current_reach_time = self.listener.view_request_update_time_boxes()
-
-    ################################
 
     def ntfy_to_model_stop_running(self) -> None:
         """

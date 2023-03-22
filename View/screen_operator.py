@@ -175,7 +175,7 @@ class ScreenOperator:
         self.draw_time_reach_box()
 
     def draw_time_reach_box(self):
-        self.draw_label(RED, screen_width // 2 + 300, 45, 'Time: ' + str(self.current_reach_time) + ' ms')
+        self.draw_label(RED, screen_width // 2 + 300, 45, 'Time: ' + str(self.current_reach_time) + ' second')
 
     def draw_round_num(self) -> None:
         """
