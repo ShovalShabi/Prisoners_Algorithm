@@ -115,6 +115,15 @@ class Controller:
         """
         self.cnt_ntfy_view_on_failure(current_pris_num)
 
+    def model_need_to_update_time(self, time:float) -> None:
+        """
+        Method for notifying the ViewManager that the ModelManager need to show prisoner success.\n
+        :param time: float, a number that represents the time that took the prisoner to get his target box.
+
+        :return: None.
+        """
+        self.cnt_ntfy_view_on_time(time)
+
     def cnt_ntfy_to_view_pris_pos(self) -> tuple[int,int]:
         """
         Method for Controller notifying the model the position of a prisoner on screen.\n
@@ -285,7 +294,7 @@ class Controller:
         """
         self.view.open_box(current_box_num)
 
-    def cnt_ntfy_view_on_success(self, current_pris_num, num_succeeded):
+    def cnt_ntfy_view_on_success(self, current_pris_num, num_succeeded) -> None:
         """
         Method for Controller notifying the view that the model need to open specific box number.\n
         :param current_pris_num: int, a number that represents current prisoner number.
@@ -301,3 +310,11 @@ class Controller:
         :return: None.
         """
         self.view.handle_with_failure(current_pris_num)
+
+    def cnt_ntfy_view_on_time(self, time) -> None:
+        """
+        Method for Controller notifying the view that the model need to open specific box number.\n
+        :param time: float, a number that represents the time that took the prisoner to get his target box.
+        :return: None.
+        """
+        self.view.handle_with_time(time)

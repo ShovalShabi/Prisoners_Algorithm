@@ -1,5 +1,7 @@
+from time import time
+
 from Model.boxm import BoxM
-from View.settings import EXIT_POINT
+from View.settings import EXIT_POINT,DOOR_WAY
 
 
 class PrisonerM:
@@ -18,6 +20,7 @@ class PrisonerM:
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
     all_prisoners:int, represents the number of all prisoners.\n
     on_exit: bool, indicator if the prisoner is on it's to exit point.\n
+    time: time object, a time measurement tool for measuring each box interval.
     """
 
     def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM,all_prisoners:int):
@@ -40,6 +43,7 @@ class PrisonerM:
         self.updated_pos = False
         self.total_pris_count=all_prisoners
         self.on_exit = False
+        self.time=None
 
     def set_pos(self, position: tuple[int,int]) -> None:
         """
@@ -145,3 +149,15 @@ class PrisonerM:
             if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1]+pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)
+
+    def measure_time(self):
+        if self.pos[0] == DOOR_WAY[0] and self.pos[1]==DOOR_WAY[1]:
+            self.time=time()  #The first appearance of the prisoner on screen and initializing time measurement
+            return self.time-self.time  # should return 0 because it's the start point of the measurement
+
+        elif self.pos[0] == self.target_box.get_pos()[0] and self.pos[1] == self.target_box.get_pos()[1]:
+            current_time=time()
+            result = current_time - self.time
+            self.time = current_time
+            return result
+

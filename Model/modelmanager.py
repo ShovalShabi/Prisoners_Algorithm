@@ -90,6 +90,14 @@ class ModelManger:
         """
         self.listener.model_need_to_report_failure(current_pris_num)
 
+    def model_request_time_prisoner(self,time:float) -> None:
+        """
+        Method for requesting from ViewManager to open specific box number.\n
+        :param time: float, a number that represents the time that took the prisoner to get his target box.
+        :return: None.
+        """
+        self.listener.model_need_to_update_time(time)
+
     def ntfy_to_view_get_all_boxes_pos(self) -> dict:
         """
         Method that fetch all boxes position mapped by their number in purpose to help the prisoner calculate its route.\n
@@ -180,6 +188,8 @@ class ModelManger:
         :return: None.
         """
         status = self.dict_prisoners[self.current_pris_num].is_still_searching()  # status[0] is indication of search, status[1] is the current box num
+        time = self.dict_prisoners[self.current_pris_num].measure_time()
+        self.model_request_time_prisoner(time)
         if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
         if status[0]:
