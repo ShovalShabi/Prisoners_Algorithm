@@ -174,8 +174,14 @@ class ScreenOperator:
         self.draw_num_succeeded()
         self.draw_time_reach_box()
 
-    def draw_time_reach_box(self):
-        self.draw_label(RED, screen_width // 2 + 300, 45, 'Time: ' +"{:.2f}".format(self.current_reach_time) + ' ms')  # Two digits after the decimal presentation
+    def draw_time_reach_box(self) -> None:
+        """
+        Draw the time between boxes.\n
+
+        :return: None
+        """
+        self.draw_label(RED, screen_width // 2 + 250, 45, 'Time: ' + "{:.2f}".format(
+            self.current_reach_time) + ' ms')  # Two digits after the decimal presentation
 
     def draw_round_num(self) -> None:
         """
@@ -310,5 +316,5 @@ class ScreenOperator:
         """
         txt_num_succeeded = str(self.num_succeeded) + ' Succeeded'
         text_surface_num_succeed = self.font.render(txt_num_succeeded, True, GREEN)
-        text_pos_num_succeed = (screen_width // 2 + 300, 20)
+        text_pos_num_succeed = (screen_width // 2 + 250, 20)
         self.main_screen.blit(text_surface_num_succeed, text_pos_num_succeed)
