@@ -75,7 +75,11 @@ USER_GUIDE = 'USER GUIDE:\n' + \
              '---------------------------------------' + \
              '\n' + 'Press PROBS to view the game statistics' + '\n' + \
              '---------------------------------------' + \
-             '\n' + 'Press RESET to clear the screen'
+             '\n' + 'Press RESET to clear the screen' + '\n' + \
+             '\n' + '*Please be notified that that the maximum numbers' + \
+             '\n' + 'of prisoners that can participate the game is 200' + \
+             '\n' + 'From 200 prisoners onwards you can only' + \
+             '\n' + 'calculate probabilities*'
 
 # FRAME CLOCK RATE
 FRAME_RATE = 25

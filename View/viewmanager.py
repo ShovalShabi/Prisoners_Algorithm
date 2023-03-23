@@ -116,7 +116,7 @@ class ViewManager:
             # Occurs when reset button is clicked
             if self.state == 'reset':
                 self.reset_input_view()
-                self.ntfy_to_model_stop_running()
+                self.view_request_model_stop_running()
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
@@ -124,9 +124,7 @@ class ViewManager:
 
             # Occurs when start button is clicked
             if self.state == 'stats' and self.check_exist_input():
-                print(self.actual_num_of_boxes, self.num_of_prisoners)
-                self.listener.view_need_to_init_statistics(self.actual_num_of_boxes, self.num_of_rounds, DOOR_WAY,
-                                                           self.print_specify)
+                self.view_request_to_init_statistics(self.actual_num_of_boxes, self.num_of_rounds, self.print_specify)
 
                 # prints result to tk
                 self.tk_print_results()
@@ -195,6 +193,11 @@ class ViewManager:
         self.root.geometry('500x500')
         self.root.resizable(width=True, height=False)  # disable diagonal resize
 
+        def pass_close():  # Igoring method of exit button for tk window
+            pass
+
+        self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled
+
     def reset_input_view(self) -> None:
         """
         Method that resets all the view controls and screen.\n
@@ -221,6 +224,7 @@ class ViewManager:
         self.screen_operator.text_input_n = ""
         self.screen_operator.text_input_k = ""
         self.print_specify = False
+        self.screen_operator.error_prisoner_max = False
 
         # State
         self.state = 'not running'
@@ -348,6 +352,7 @@ class ViewManager:
             if num > MAX_NO_PRIS:  # occurs when the input is above the max num of prisoners
                 self.screen_operator.error_prisoner_max = True
                 self.screen_operator.run_only_probs = True
+                self.num_of_boxes_view = MAX_NO_PRISONER_BOX
             else:  # occurs when the input is below the max num of prisoners
                 self.screen_operator.error_prisoner_max = False
 
@@ -626,13 +631,24 @@ class ViewManager:
         """
         self.listener.view_need_update_boxes_pos()
 
-    def ntfy_to_model_stop_running(self) -> None:
+    def view_request_model_stop_running(self) -> None:
         """
         Method that notifies to model to stop the running game.\n
 
         :return: None.
         """
         self.listener.view_need_model_stop_running()
+
+    def view_request_to_init_statistics(self, num_prisoners, num_rounds, print_specify) -> None:
+        """
+        Method that tells the controller to calculate statistics.\n
+        :param num_prisoners: int, the number of prisoners.
+        :param num_rounds: int, the number of rounds.
+        :param print_specify: bool, indication to print specified results.
+
+        :return: None.
+        """
+        self.listener.view_need_to_init_statistics(num_prisoners, num_rounds, print_specify)
 
     def set_listener(self, listener) -> None:
         """

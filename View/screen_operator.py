@@ -181,7 +181,7 @@ class ScreenOperator:
         :return: None
         """
         self.draw_label(RED, screen_width // 2 + 250, 45, 'Time: ' + "{:.2f}".format(
-            self.current_reach_time) + ' ms')  # Two digits after the decimal presentation
+            self.current_reach_time) + ' sec')  # Two digits after the decimal presentation
 
     def draw_round_num(self) -> None:
         """

@@ -259,3 +259,15 @@ class ModelManger:
         self.succeeded = 0
         self.current_round = 1
         self.current_pris_num = 1
+
+    def run_statistics(self, num_prisoners, num_rounds, print_specify):
+        """
+        Method that tells the probabilities' handler to calculate statistics.\n
+        :param num_prisoners: int, the number of prisoners.
+        :param num_rounds: int, the number of rounds.
+        :param print_specify: bool, indication to print specified results.
+
+        :return: None.
+        """
+        self.prob_handler = ProbabilitiesHandler(num_prisoners, num_rounds, print_specify)
+        self.prob_handler.run_probabilities()

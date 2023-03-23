@@ -183,6 +183,17 @@ class Controller:
         """
         self.model.set_all_boxes_pos()
 
+    def cnt_ntfy_to_model_init_stat(self, num_prisoners, num_rounds, print_specify) -> None:
+        """
+        Method that tells the model to calculate statistics.\n
+        :param num_prisoners: int, the number of prisoners.
+        :param num_rounds: int, the number of rounds.
+        :param print_specify: bool, indication to print specified results.
+
+        :return: None.
+        """
+        self.model.run_statistics(num_prisoners, num_rounds, print_specify)
+
     def get_from_model_game_status(self):
         """
         Method for Controller to retrieve from the model to its running status.\n
@@ -241,6 +252,13 @@ class Controller:
         """
         return self.get_from_model_game_status()
 
+    def view_need_update_boxes_pos(self) -> None:
+        """
+        Method for notifying the ModelManager that the ViewManager need to update the positions of the boxes that are on screen .\n
+        :return: None
+        """
+        self.cnt_update_boxes_pos()
+
     def view_need_model_stop_running(self) -> None:
         """
         Method for notifying the ModelManager that the ViewManager need to stop the game .\n
@@ -248,12 +266,16 @@ class Controller:
         """
         self.cnt_ntfy_to_model_stop_game()
 
-    def view_need_update_boxes_pos(self) -> None:
+    def view_need_to_init_statistics(self, num_prisoners, num_rounds, print_specify) -> None:
         """
-        Method for notifying the ModelManager that the ViewManager need to update the positions of the boxes that are on screen .\n
-        :return: None
+        Method that tells the controller to calculate statistics.\n
+        :param num_prisoners: int, the number of prisoners.
+        :param num_rounds: int, the number of rounds.
+        :param print_specify: bool, indication to print specified results.
+
+        :return: None.
         """
-        self.cnt_update_boxes_pos()
+        self.cnt_ntfy_to_model_init_stat(num_prisoners, num_rounds, print_specify)
 
     def cnt_ntfy_view_handle_box_req(self, box_num) -> None:
         """
