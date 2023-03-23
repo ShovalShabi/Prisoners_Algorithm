@@ -1,7 +1,6 @@
 from time import time
-
 from Model.boxm import BoxM
-from View.settings import EXIT_POINT,DOOR_WAY
+from View.settings import EXIT_POINT
 
 
 class PrisonerM:
@@ -20,7 +19,8 @@ class PrisonerM:
     updated_pos: flag the represents if the prisoner has been changed position -> bool.
     all_prisoners:int, represents the number of all prisoners.\n
     on_exit: bool, indicator if the prisoner is on it's to exit point.\n
-    time: time object, a time measurement tool for measuring each box interval.
+    time_start: time object, a time measurement tool for measuring each box interval, start point.
+    time_start: time object, a time measurement tool for measuring each box interval, end point.
     """
 
     def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM,all_prisoners:int):
@@ -43,7 +43,8 @@ class PrisonerM:
         self.updated_pos = False
         self.total_pris_count=all_prisoners
         self.on_exit = False
-        self.time=None
+        self.time = 0.0
+        self.time_interval = 0.0
 
     def set_pos(self, position: tuple[int,int]) -> None:
         """
@@ -89,7 +90,10 @@ class PrisonerM:
         """
         if self.target_box.get_pos()[0] == self.pos[0] and \
                 self.target_box.get_pos()[1] == self.pos[1]:
-            self.visited_boxes.update({self.target_box.get_num(): self.target_box})
+
+            self.measure_time()  #Measuring the time which the prisoner to get to the box
+
+            self.visited_boxes.update({self.target_box.get_num(): self.target_box})  #Updating the visited dictionary boxes with the new box which the prisoner got to
             temp_box_num = self.target_box.get_num()
 
             if self.on_exit:
@@ -150,14 +154,14 @@ class PrisonerM:
                 self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)
 
-    def measure_time(self):
-        if self.pos[0] == DOOR_WAY[0] and self.pos[1]==DOOR_WAY[1]:
-            self.time=time()  #The first appearance of the prisoner on screen and initializing time measurement
-            return self.time-self.time  # should return 0 because it's the start point of the measurement
-
-        elif self.pos[0] == self.target_box.get_pos()[0] and self.pos[1] == self.target_box.get_pos()[1]:
-            current_time=time()
-            result = current_time - self.time
-            self.time = current_time
-            return result
-
+    def measure_time(self) -> None:
+        """
+        This method measure the timr that took the prisoner to get to the box in milliseconds, each arrival to box is measured,
+        and the current time which the prisoner got to the box is updated.
+        :return: None.
+        """
+        current_time=time()
+        self.time_interval = current_time - self.time
+        if self.time == 0.0:
+            self.time_interval%=9  #Considering only two digits after decimal, only at the first calculation
+        self.time = current_time

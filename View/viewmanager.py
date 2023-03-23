@@ -553,15 +553,14 @@ class ViewManager:
         pygame.display.update()
         self.clock.tick(1)
 
-    def view_handle_with_time(self, time) -> None:
+    def handle_with_time(self, time:float) -> None:
         """
         Method that needs update of the time between one box to other box.\n
-        :param time: the updated time.\n
+        :param time: float, a number that represents the time that took the prisoner to get his target box.
 
         :return: None.
         """
         self.screen_operator.current_reach_time = time
-
 
     """*******************************************MVC Methods******************************************************"""
 

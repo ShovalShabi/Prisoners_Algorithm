@@ -311,7 +311,7 @@ class Controller:
         """
         self.view.handle_with_failure(current_pris_num)
 
-    def cnt_ntfy_view_on_time(self, time) -> None:
+    def cnt_ntfy_view_on_time(self, time:float) -> None:
         """
         Method for Controller notifying the view that the model need to open specific box number.\n
         :param time: float, a number that represents the time that took the prisoner to get his target box.

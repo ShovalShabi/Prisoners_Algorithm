@@ -144,8 +144,7 @@ class ModelManger:
             box = BoxM(box_num=index_box + 1)
             self.dict_boxes[index_box + 1] = box
         for box_num in self.dict_boxes.keys():  # box num starts from 1 to n+1
-            self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][
-                box_num - 1]])  # redirecting each box to current next box
+            self.dict_boxes[box_num].set_next_box(self.dict_boxes[self.dict_rounds[self.current_round][box_num - 1]])  # redirecting each box to current next box
         self.set_all_boxes_pos()
 
     def set_all_boxes_pos(self) -> None:
@@ -188,13 +187,15 @@ class ModelManger:
         :return: None.
         """
         status = self.dict_prisoners[self.current_pris_num].is_still_searching()  # status[0] is indication of search, status[1] is the current box num
-        time = self.dict_prisoners[self.current_pris_num].measure_time()
-        self.model_request_time_prisoner(time)
+
+        self.model_request_time_prisoner(self.dict_prisoners[self.current_pris_num].time_interval)  #Updating the view on time intervals
+
         if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
         if status[0]:
             if not self.dict_prisoners[self.current_pris_num].on_exit:  #-1 is the exit point
-                self.model_request_box()  # Prisoner alerts the View that he needs a new box, the view should bring it to screen if it's not there
+                self.model_request_box()  # Model alerts the View that he needs a new box, the view should bring it to screen if it's not there
+
             box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
             pris_dimensions = self.model_request_pris_dimensions()  # Getting the dimensions of box image
             self.dict_prisoners[self.current_pris_num].navigate(box_width=box_dimensions[0],
@@ -202,12 +203,15 @@ class ModelManger:
                                                                 pris_width=pris_dimensions[0],
                                                                 pris_height=pris_dimensions[1])
         else:
+
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
                 self.succeeded += 1
                 self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
+
+            # Reporting to view on failures
             else:
-                self.model_request_failure_prisoner(self.current_pris_num)  # Reporting to view on failures
+                self.model_request_failure_prisoner(self.current_pris_num)
             self.current_pris_num += 1
 
             # Replacing Round
