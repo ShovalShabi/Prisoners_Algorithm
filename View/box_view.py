@@ -94,12 +94,9 @@ class BoxV:
 
         if self.open:
             font_prev_num = SysFont('monospace', FONT_SIZE, bold=True)
-            rect_prev_num = Rect(self.pos[0] + IMG_BOX_WIDTH//2, self.pos[1] - 15, IMG_BOX_WIDTH, 10)
+            rect_prev_num = Rect(self.pos[0] + IMG_BOX_WIDTH // 2, self.pos[1] - 15, IMG_BOX_WIDTH, 10)
             text_surface_prev_num = font_prev_num.render(str(self.box_num), True, BLACK)
             self.screen.blit(text_surface_prev_num, rect_prev_num.center)
-
-
-
 
     def set_pos(self, new_pos: tuple[int, int]) -> None:
         """

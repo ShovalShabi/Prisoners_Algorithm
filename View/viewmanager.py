@@ -553,7 +553,7 @@ class ViewManager:
         pygame.display.update()
         self.clock.tick(1)
 
-    def handle_with_time(self, time:float) -> None:
+    def handle_with_time(self, time: float) -> None:
         """
         Method that needs update of the time between one box to other box.\n
         :param time: float, a number that represents the time that took the prisoner to get his target box.

@@ -42,7 +42,7 @@ class ModelManger:
         self.prob_handler = None
         self.listener = None
 
-    #************************* MVC Methods ******************************************#
+    # ************************* MVC Methods ******************************************#
 
     def model_request_box(self) -> None:
         """
@@ -73,16 +73,16 @@ class ModelManger:
         """
         self.listener.model_need_to_open_box(current_box_num)
 
-    def model_request_success_prisoner(self,current_pris_num,num_succeeded) -> None:
+    def model_request_success_prisoner(self, current_pris_num, num_succeeded) -> None:
         """
         Method for requesting from ViewManager to open specific box number.\n
         :param current_pris_num: int, a number that represents prisoner number.
         :param num_succeeded: int, a number that represents the number of prisoners that managed to escape.
         :return: None.
         """
-        self.listener.model_need_to_report_success(current_pris_num,num_succeeded)
+        self.listener.model_need_to_report_success(current_pris_num, num_succeeded)
 
-    def model_request_failure_prisoner(self,current_pris_num) -> None:
+    def model_request_failure_prisoner(self, current_pris_num) -> None:
         """
         Method for requesting from ViewManager to open specific box number.\n
         :param current_pris_num: int, a number that represents prisoner number.
@@ -90,7 +90,7 @@ class ModelManger:
         """
         self.listener.model_need_to_report_failure(current_pris_num)
 
-    def model_request_time_prisoner(self,time:float) -> None:
+    def model_request_time_prisoner(self, time: float) -> None:
         """
         Method for requesting from ViewManager to open specific box number.\n
         :param time: float, a number that represents the time that took the prisoner to get his target box.
@@ -113,7 +113,7 @@ class ModelManger:
         """
         self.listener = listener
 
-    #********************************************************************************#
+    # ********************************************************************************#
 
     def init_prisoners(self, num_pris: int, initial_pos: tuple) -> None:
         """
@@ -188,12 +188,12 @@ class ModelManger:
         """
         status = self.dict_prisoners[self.current_pris_num].is_still_searching()  # status[0] is indication of search, status[1] is the current box num
 
-        self.model_request_time_prisoner(self.dict_prisoners[self.current_pris_num].time_interval)  #Updating the view on time intervals
+        self.model_request_time_prisoner(self.dict_prisoners[self.current_pris_num].time_interval)  # Updating the view on time intervals
 
         if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
         if status[0]:
-            if not self.dict_prisoners[self.current_pris_num].on_exit:  #-1 is the exit point
+            if not self.dict_prisoners[self.current_pris_num].on_exit:  # -1 is the exit point
                 self.model_request_box()  # Model alerts the View that he needs a new box, the view should bring it to screen if it's not there
 
             box_dimensions = self.model_request_box_dimensions()  # Getting the dimensions of box image
@@ -207,7 +207,7 @@ class ModelManger:
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
                 self.succeeded += 1
-                self.model_request_success_prisoner(self.current_pris_num,self.succeeded)  # Reporting to view on successes
+                self.model_request_success_prisoner(self.current_pris_num, self.succeeded)  # Reporting to view on successes
 
             # Reporting to view on failures
             else:
@@ -223,9 +223,9 @@ class ModelManger:
                 # In case there are more rounds to go
                 if self.current_round <= self.total_rounds:
                     self.init_boxes(num_pris=self.total_pris)
-                    self.init_prisoners(num_pris=self.total_pris,initial_pos=self.initial_pos)
+                    self.init_prisoners(num_pris=self.total_pris, initial_pos=self.initial_pos)
 
-                #Intializing parameters of ModelManger
+                # Intializing parameters of ModelManger
                 else:
                     self.stop_game()
 
@@ -255,7 +255,7 @@ class ModelManger:
         Method for stop the current game that runs.\n
         :return: None.
         """
-        self.is_running_game=False
-        self.succeeded=0
-        self.current_round=1
-        self.current_pris_num=1
+        self.is_running_game = False
+        self.succeeded = 0
+        self.current_round = 1
+        self.current_pris_num = 1

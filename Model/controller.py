@@ -62,7 +62,7 @@ class Controller:
         """
         self.cnt_ntfy_view_handle_box_req(box_num)
 
-    def model_need_box_dimensions(self) -> tuple[int,int]:
+    def model_need_box_dimensions(self) -> tuple[int, int]:
         """
         Method for notifying the ViewManager that the ModelManager need a box image dimensions.\n
 
@@ -70,7 +70,7 @@ class Controller:
         """
         return self.cnt_ntfy_to_view_get_box_dimension()
 
-    def model_need_pris_dimensions(self) -> tuple[int,int]:
+    def model_need_pris_dimensions(self) -> tuple[int, int]:
         """
         Method for notifying the ViewManager that the ModelManager need a prisoner image dimensions.\n
 
@@ -115,7 +115,7 @@ class Controller:
         """
         self.cnt_ntfy_view_on_failure(current_pris_num)
 
-    def model_need_to_update_time(self, time:float) -> None:
+    def model_need_to_update_time(self, time: float) -> None:
         """
         Method for notifying the ViewManager that the ModelManager need to show prisoner success.\n
         :param time: float, a number that represents the time that took the prisoner to get his target box.
@@ -124,7 +124,7 @@ class Controller:
         """
         self.cnt_ntfy_view_on_time(time)
 
-    def cnt_ntfy_to_view_pris_pos(self) -> tuple[int,int]:
+    def cnt_ntfy_to_view_pris_pos(self) -> tuple[int, int]:
         """
         Method for Controller notifying the model the position of a prisoner on screen.\n
 
@@ -194,7 +194,7 @@ class Controller:
     # *************************************************************************************************************************************************#
     # *************************************************** View related methods ************************************************************************#
 
-    def view_need_pris_pos(self) -> tuple[int,int]:
+    def view_need_pris_pos(self) -> tuple[int, int]:
         """
         Method for notifying the ModelManager that the ViewManager need a prisoner with specific number on screen.\n
         :return: tuple of (x,y)
@@ -264,14 +264,14 @@ class Controller:
         """
         self.view.handle_box_request(box_num)
 
-    def cnt_ntfy_to_view_get_box_dimension(self) -> tuple[int,int]:
+    def cnt_ntfy_to_view_get_box_dimension(self) -> tuple[int, int]:
         """
         Method for Controller notifying the view that the model need the dimensions of box image for further calculation.\n
         :return: tuple of (x,y) that represents box dimensions.
         """
         return self.view.get_box_dimensions()
 
-    def cnt_ntfy_to_view_get_pris_dimension(self) -> tuple[int,int]:
+    def cnt_ntfy_to_view_get_pris_dimension(self) -> tuple[int, int]:
         """
         Method for Controller notifying the view that the model need the dimensions of prisoner image for further calculation.\n
         :return: tuple of (x,y) that represents box dimensions.
@@ -286,7 +286,6 @@ class Controller:
         return self.view.get_boxes_locations()
 
     def cnt_ntfy_view_open_box(self, current_box_num):
-
         """
         Method for Controller notifying the view that the model need to open specific box number.\n
         :param current_box_num: int, a number that represents box number.
@@ -311,7 +310,7 @@ class Controller:
         """
         self.view.handle_with_failure(current_pris_num)
 
-    def cnt_ntfy_view_on_time(self, time:float) -> None:
+    def cnt_ntfy_view_on_time(self, time: float) -> None:
         """
         Method for Controller notifying the view that the model need to open specific box number.\n
         :param time: float, a number that represents the time that took the prisoner to get his target box.

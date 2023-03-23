@@ -23,7 +23,7 @@ class PrisonerM:
     time_start: time object, a time measurement tool for measuring each box interval, end point.
     """
 
-    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM,all_prisoners:int):
+    def __init__(self, num_prisoner: int, position: tuple, pace: int, all_boxes: dict, target_box: BoxM, all_prisoners: int):
         """
         Initialize the PrisonerM object.\n
         :param num_prisoner: int , represents prisoner number.
@@ -41,12 +41,12 @@ class PrisonerM:
         self.target_box = target_box
         self.found_number = False
         self.updated_pos = False
-        self.total_pris_count=all_prisoners
+        self.total_pris_count = all_prisoners
         self.on_exit = False
         self.time = 0.0
         self.time_interval = 0.0
 
-    def set_pos(self, position: tuple[int,int]) -> None:
+    def set_pos(self, position: tuple[int, int]) -> None:
         """
         Set position of the prisoner, tuple of (x,y) of pixels on screen.\n
         :return: None.
@@ -81,7 +81,7 @@ class PrisonerM:
         """
         return self.prisoner_num
 
-    def is_still_searching(self) -> (bool,int):
+    def is_still_searching(self) -> (bool, int):
         """
         This method check if the prisoner is still searching his target box, and replaces it if there is a need.\n
         As long the prisoner is still searching for his number the output of this function will be True otherwise
@@ -91,30 +91,30 @@ class PrisonerM:
         if self.target_box.get_pos()[0] == self.pos[0] and \
                 self.target_box.get_pos()[1] == self.pos[1]:
 
-            self.measure_time()  #Measuring the time which the prisoner to get to the box
+            self.measure_time()  # Measuring the time which the prisoner to get to the box
 
-            self.visited_boxes.update({self.target_box.get_num(): self.target_box})  #Updating the visited dictionary boxes with the new box which the prisoner got to
+            self.visited_boxes.update({self.target_box.get_num(): self.target_box})  # Updating the visited dictionary boxes with the new box which the prisoner got to
             temp_box_num = self.target_box.get_num()
 
             if self.on_exit:
-                self.found_number= True
+                self.found_number = True
                 return False, self.prisoner_num
 
-            if self.target_box.get_nxt_box().get_num() == self.prisoner_num and len(self.visited_boxes) <= self.total_pris_count//2:
+            if self.target_box.get_nxt_box().get_num() == self.prisoner_num and len(self.visited_boxes) <= self.total_pris_count // 2:
                 self.on_exit = True
-                fake_box=BoxM(-1)
+                fake_box = BoxM(-1)
                 fake_box.set_pos(EXIT_POINT)
-                self.target_box=fake_box
+                self.target_box = fake_box
                 print(f"Prisoner number {self.prisoner_num} found his number at box number {temp_box_num} at {self.target_box.pos}")
-                return True,temp_box_num
+                return True, temp_box_num
             if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
                 print(f"Prisoner number {self.prisoner_num} got disqualified!")
-                return False,self.target_box.get_num()
+                return False, self.target_box.get_num()
             else:
                 print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
                 self.target_box = self.target_box.get_nxt_box()
                 return True, temp_box_num
-        return True,self.target_box.get_num()
+        return True, self.target_box.get_num()
 
     def move_to_box(self, blocked: bool) -> None:
         """
@@ -136,7 +136,7 @@ class PrisonerM:
             self.updated_pos = True
         self.updated_pos = False
 
-    def navigate(self, box_width: int, box_height: int, pris_width:int, pris_height:int) -> None:
+    def navigate(self, box_width: int, box_height: int, pris_width: int, pris_height: int) -> None:
         """
         This function swipe all box positions on screen, and check if the prisoner is about to collide box image on screen.\n
         :param box_width: int, represents a box width of an image.
@@ -150,7 +150,7 @@ class PrisonerM:
                 continue  # There are might more boxes on screen up ahead
             if self.all_boxes[box_number].get_pos()[0] <= self.pos[0] + pris_width <= self.all_boxes[box_number].get_pos()[0] + box_width:  # collision on axis x
                 self.move_to_box(blocked=True)
-            if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1]+pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
+            if self.all_boxes[box_number].get_pos()[1] <= self.pos[1] and self.pos[1] + pris_height <= self.all_boxes[box_number].get_pos()[1] + box_height:  # collision on axis y
                 self.move_to_box(blocked=True)
         self.move_to_box(blocked=False)
 
@@ -160,8 +160,8 @@ class PrisonerM:
         and the current time which the prisoner got to the box is updated.
         :return: None.
         """
-        current_time=time()
+        current_time = time()
         self.time_interval = current_time - self.time
         if self.time == 0.0:
-            self.time_interval%=9  #Considering only two digits after decimal, only at the first calculation
+            self.time_interval %= 9  # Considering only two digits after decimal, only at the first calculation
         self.time = current_time
