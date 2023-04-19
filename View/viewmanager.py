@@ -190,8 +190,8 @@ class ViewManager:
         :return: None
         """
         self.root = tk.Tk()
-        self.root.geometry('500x500')
-        self.root.resizable(width=True, height=False)  # disable diagonal resize
+        self.root.geometry('700x600')
+        self.root.resizable(width=False, height=False)  # disable diagonal resize
 
         def pass_close():  # Igoring method of exit button for tk window
             pass

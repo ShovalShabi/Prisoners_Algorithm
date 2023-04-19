@@ -83,8 +83,8 @@ class ProbabilitiesHandler:
                           "the chain length is", (attempts + 1), file=self.file)
                 print(file=self.file)
         if print_route:
-            print("The number of prisoners that found their number is:",
-                  sum(list_of_success), "\nfrom", number_of_boxes, "prisoners.\n", file=self.file)
+            print("The number of prisoners that found their number is",
+                  sum(list_of_success), "\nout of", number_of_boxes, "prisoners.\n", file=self.file)
         if sum(list_of_success) == number_of_boxes:
             return True
         else:
@@ -108,7 +108,7 @@ class ProbabilitiesHandler:
             return
         if self.num_rounds <= 0:
             print("The number of rounds is ", self.num_rounds, " rounds must be greater 0.", file=self.file)
-        s = 0
+        success_rounds = 0
         general_lists = {}  # {round:list dependencies}
         for i in range(self.num_rounds):
             if print_route:
@@ -128,16 +128,16 @@ class ProbabilitiesHandler:
             self.lock_shuffle.release()  # release shuffling list area
 
             if self.run_route(general_lists[i + 1], print_route):  ## fix this for one calculation
-                s += 1
+                success_rounds += 1
 
-        print("The number of prisoners is", self.num_prisoners, ",the number of rounds is", self.num_rounds, ",s = ", s,
-              "\ns / k in % =", 100 * (s / self.num_rounds), file=self.file)
-        s = 0
+        print("The total number of prisoners is", self.num_prisoners, ",the total number of rounds is", self.num_rounds, ",the number of successful rounds is ", success_rounds,
+              "\n(successful_rounds / total_rounds) as percentage is", 100 * (success_rounds / self.num_rounds),"%", file=self.file)
+        success_rounds = 0
         hn = self.num_prisoners / 2
         for i in range(self.num_prisoners // 2):
-            s += 1 / (hn + (i + 1))
-        print("Probability by loop calculation of the geometric series:\n",
-              "1 - (1/((n/2)+1) + 1/((n/2)+2) + ...) =", 1 - s, file=self.file)
+            success_rounds += 1 / (hn + (i + 1))
+        print("\nProbability by loop calculation of the geometric series:\n",
+              "1 - (1/((num_prisoners/2)+1) + 1/((num_prisoners/2)+2) + ...) =", 1 - success_rounds, file=self.file)
         self.close_file()
 
     def open_file(self) -> None:
