@@ -193,7 +193,7 @@ class ViewManager:
         self.root.geometry('700x600')
         self.root.resizable(width=False, height=False)  # disable diagonal resize
 
-        def pass_close():  # Igoring method of exit button for tk window
+        def pass_close():  # Ignoring method of exit button for tk window
             pass
 
         self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled

@@ -105,13 +105,13 @@ class PrisonerM:
                 fake_box = BoxM(-1)
                 fake_box.set_pos(EXIT_POINT)
                 self.target_box = fake_box
-                print(f"Prisoner number {self.prisoner_num} found his number at box number {temp_box_num} at {self.target_box.pos}")
+                # print(f"Prisoner number {self.prisoner_num} found his number at box number {temp_box_num} at {self.target_box.pos}")
                 return True, temp_box_num
             if self.target_box.get_nxt_box().get_num() in self.visited_boxes.keys():
-                print(f"Prisoner number {self.prisoner_num} got disqualified!")
+                # print(f"Prisoner number {self.prisoner_num} got disqualified!")
                 return False, self.target_box.get_num()
             else:
-                print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
+                # print(f"Prisoner number {self.prisoner_num} visited box number {self.target_box.box_num}")
                 self.target_box = self.target_box.get_nxt_box()
                 return True, temp_box_num
         return True, self.target_box.get_num()
