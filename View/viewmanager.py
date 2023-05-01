@@ -74,6 +74,7 @@ class ViewManager:
 
         # Screen Operations
         self.root = None
+        self.is_root_up = False
         self.screen_operator = None
         self.clock = Clock()
 
@@ -181,7 +182,15 @@ class ViewManager:
         :return: None
         """
         result = self.screen_operator.read_from_file()
+        if not self.is_root_up:
+            self.set_secondary_window()
+            self.screen_operator.config_text_window(tk,self.root)
+        self.root.deiconify()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
+
+    def on_close(self,event) -> None:  # Ignoring method of exit button for tk window
+        self.is_root_up = False
+        self.screen_operator.text.destroy()  # Destroy the text widget
 
     def set_secondary_window(self) -> None:
         """
@@ -192,11 +201,8 @@ class ViewManager:
         self.root = tk.Tk()
         self.root.geometry('700x600')
         self.root.resizable(width=False, height=False)  # disable diagonal resize
-
-        def pass_close():  # Ignoring method of exit button for tk window
-            pass
-
-        self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled
+        self.root.bind("<Destroy>", self.on_close)  #Overriding the exit button to configured exit
+        self.is_root_up = True
 
     def reset_input_view(self) -> None:
         """
