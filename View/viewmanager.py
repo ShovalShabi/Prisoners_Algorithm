@@ -52,6 +52,7 @@ class ViewManager:
         Initialize the ViewManager Object and initializing various game variables.
         """
         # Game state
+        self.mouse_click = None
         self.state = 'not running'
         self.running = True
 
@@ -111,6 +112,7 @@ class ViewManager:
             # listens to event
             if self.state != 'running':
                 self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)
+
             self.listen_to_events()
             self.button_events()
 
@@ -137,7 +139,8 @@ class ViewManager:
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
                 self.list_depend = self.listener. \
-                    view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, self.print_specify)
+                    view_need_to_init_game(self.num_of_prisoners,
+                                           self.num_of_rounds, DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 self.tk_print_results()
@@ -188,7 +191,7 @@ class ViewManager:
         self.root.deiconify()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
 
-    def on_close(self,event) -> None:  # Ignoring method of exit button for tk window
+    def on_close(self, event) -> None:  # Ignoring method of exit button for tk window
         self.is_root_up = False
         self.screen_operator.text.destroy()  # Destroy the text widget
 
@@ -254,19 +257,22 @@ class ViewManager:
         :return: None.
         """
         mouse_pos = pygame.mouse.get_pos()
-        mouse_click = pygame.mouse.get_pressed()
+        self.mouse_click = pygame.mouse.get_pressed()
+
         self.screen_operator.draw_check_box(self.print_specify)
-        if self.state != 'running' and self.check_exist_input() and not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
-            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
+        if self.state != 'running' and self.check_exist_input() \
+                and not self.screen_operator.error_round_max \
+                and not self.screen_operator.error_prisoner_max:
+            self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                           self.screen_operator.start_hover_rect,
                                                           self.screen_operator.text_surface_start,
                                                           GREEN, self.state, 'start_button')
         if self.state != 'running' and self.check_exist_input():
-            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.stats_rect,
+            self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.stats_rect,
                                                           self.screen_operator.stats_hover_rect,
                                                           self.screen_operator.text_surface_stats,
                                                           ORANGE, self.state, 'stats_button')
-        self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
+        self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
                                                       RED, self.state, 'reset_button')
@@ -280,12 +286,17 @@ class ViewManager:
         """
 
         for event in pygame.event.get():
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.mouse_click = pygame.mouse.get_pressed()
+
             if event.type == pygame.QUIT:
                 self.running = False
 
             if event.type == KEYDOWN and self.state != 'begin':
 
-                self.decide_input_type(event)
+                if self.state != 'running':
+                    self.decide_input_type(event)
 
                 if self.status == 'Round':  # rounds
                     self.screen_operator.text_input_k = self.handle_input(event, self.screen_operator.text_input_k)

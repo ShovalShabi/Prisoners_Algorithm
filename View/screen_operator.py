@@ -64,6 +64,7 @@ class ScreenOperator:
         self.pris_succeed = None
         self.current_round = -1
         self.num_succeeded = 0
+        self.mouse_click = None
 
         # Screen and background
         self.size_main_screen = (screen_width, screen_height)
@@ -141,16 +142,12 @@ class ScreenOperator:
 
         :return: str
         """
-        if rect.collidepoint(mouse_pos):
+        self.mouse_click = mouse_click
+        mouse_over_button = rect.collidepoint(mouse_pos)  # Check if mouse is over button
+
+        if mouse_over_button:
             # Draw the hover rect if the mouse is over the button
             pygame.draw.rect(self.main_screen, color, hover)
-            if mouse_click[0] == 1:
-                if type_button == 'start_button':
-                    state = 'begin'
-                if type_button == 'reset_button':
-                    state = 'reset'
-                if type_button == 'stats_button':
-                    state = 'stats'
         else:
             # Draw the normal state if the mouse is not over the button
             pygame.draw.rect(self.main_screen, WHITE, rect)
@@ -158,6 +155,18 @@ class ScreenOperator:
         # Draw the text surface in the center of the button
         self.main_screen.blit(text_surface, (rect.x + rect.width // 2 - text_surface.get_width() // 2,
                                              rect.y + rect.height // 2 - text_surface.get_height() // 2))
+
+        # Check if mouse is over button and button is clicked
+
+        if self.mouse_click[0] == 1 and not mouse_over_button:
+            self.mouse_click = (False, False, False)
+        if mouse_over_button and self.mouse_click[0] == 1 and type_button != 'reset':
+            if type_button == 'start_button':
+                state = 'begin'
+            if type_button == 'reset_button':
+                state = 'reset'
+            if type_button == 'stats_button':
+                state = 'stats'
         return state
 
     def draw_objects(self, boxes_on_screen_obj: dict, prisoner: PrisonerV) -> None:
