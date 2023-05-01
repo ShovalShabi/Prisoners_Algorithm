@@ -3,7 +3,6 @@ import sys
 import pygame.time
 import tkinter as tk
 from random import randint
-
 from pygame import Surface
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
@@ -123,7 +122,8 @@ class ViewManager:
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
-                self.create_boxes()
+                if self.status == 'Prisoner':
+                    self.create_boxes()
 
             # Occurs when start button is clicked
             if self.state == 'stats' and self.check_exist_input():
@@ -486,7 +486,7 @@ class ViewManager:
             replaced_num_box = 0
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
                 replaced_num_box = randint(1, self.num_of_prisoners)
-            print(f"replaced {replaced_num_box} with box {box_number}")
+            # print(f"replaced {replaced_num_box} with box {box_number}")
 
             pos = self.boxes_on_screen_pos.pop(
                 replaced_num_box)  # The value position of the replaced box is moved to a local variable
