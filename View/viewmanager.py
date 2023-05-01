@@ -181,6 +181,7 @@ class ViewManager:
         :return: None
         """
         result = self.screen_operator.read_from_file()
+        self.root.deiconify()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
 
     def set_secondary_window(self) -> None:
