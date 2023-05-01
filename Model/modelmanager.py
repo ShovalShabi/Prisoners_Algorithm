@@ -269,5 +269,14 @@ class ModelManger:
 
         :return: None.
         """
+        self.prob_handler.output=""
         self.prob_handler = ProbabilitiesHandler(num_prisoners, num_rounds, print_specify)
         self.prob_handler.run_probabilities()
+
+    def get_statistics(self) -> str:
+        """
+        Method that get the statistics data.\n
+
+        :return: None.
+        """
+        return self.prob_handler.output

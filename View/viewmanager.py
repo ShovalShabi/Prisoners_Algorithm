@@ -180,7 +180,7 @@ class ViewManager:
 
         :return: None
         """
-        result = self.screen_operator.read_from_file()
+        result = self.view_get_output()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
 
     def set_secondary_window(self) -> None:
@@ -649,6 +649,13 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_to_init_statistics(num_prisoners, num_rounds, print_specify)
+
+    def view_get_output(self)->str:
+        """
+         Method that that get statistics.\n
+        :return: str.
+        """
+        return self.listener.view_need_output()
 
     def set_listener(self, listener) -> None:
         """
