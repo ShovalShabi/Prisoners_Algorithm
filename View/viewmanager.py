@@ -184,12 +184,11 @@ class ViewManager:
         if not self.is_root_up:
             self.set_secondary_window()
             self.screen_operator.config_text_window(tk, self.root)
-        self.root.deiconify()
         result = self.view_get_output()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
 
     def on_close(self, event):  # Ignoring method of exit button for tk window
-        self.is_root_up = False
+        # self.is_root_up = False
         self.screen_operator.text.destroy()
 
     def set_secondary_window(self) -> None:
