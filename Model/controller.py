@@ -194,6 +194,13 @@ class Controller:
         """
         self.model.run_statistics(num_prisoners, num_rounds, print_specify)
 
+    def cnt_ntfy_view_need_output(self) -> str:
+        """
+        Method that tells to get statistics data.\n
+        :return: str, the statistics data.
+        """
+        return self.model.get_statistics()
+
     def get_from_model_game_status(self):
         """
         Method for Controller to retrieve from the model to its running status.\n
@@ -276,6 +283,14 @@ class Controller:
         :return: None.
         """
         self.cnt_ntfy_to_model_init_stat(num_prisoners, num_rounds, print_specify)
+
+    def view_need_output(self) -> str:
+        """
+        Method that tells the controller to get statistics data.\n
+
+        :return: str, the statistics output
+        """
+        return self.cnt_ntfy_view_need_output()
 
     def cnt_ntfy_view_handle_box_req(self, box_num) -> None:
         """

@@ -3,6 +3,7 @@ import sys
 import pygame.time
 import tkinter as tk
 from random import randint
+
 from pygame import Surface
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
@@ -51,7 +52,6 @@ class ViewManager:
         Initialize the ViewManager Object and initializing various game variables.
         """
         # Game state
-        self.mouse_click = None
         self.state = 'not running'
         self.running = True
 
@@ -74,7 +74,6 @@ class ViewManager:
 
         # Screen Operations
         self.root = None
-        self.is_root_up = False
         self.screen_operator = None
         self.clock = Clock()
 
@@ -111,7 +110,6 @@ class ViewManager:
             # listens to event
             if self.state != 'running':
                 self.screen_operator.draw_boxes(boxes_on_screen_obj=self.boxes_on_screen_obj)
-
             self.listen_to_events()
             self.button_events()
 
@@ -122,8 +120,7 @@ class ViewManager:
 
             if self.state == 'not running':
                 # Create and draw the boxes, handle events, and update the button states
-                if self.status == 'Prisoner':
-                    self.create_boxes()
+                self.create_boxes()
 
             # Occurs when start button is clicked
             if self.state == 'stats' and self.check_exist_input():
@@ -139,8 +136,7 @@ class ViewManager:
             # Occurs when start button is clicked
             if self.state == 'begin' and self.check_exist_input():
                 self.list_depend = self.listener. \
-                    view_need_to_init_game(self.num_of_prisoners,
-                                           self.num_of_rounds, DOOR_WAY, self.print_specify)
+                    view_need_to_init_game(self.num_of_prisoners, self.num_of_rounds, DOOR_WAY, self.print_specify)
 
                 # prints result to tk
                 self.tk_print_results()
@@ -184,16 +180,9 @@ class ViewManager:
 
         :return: None
         """
-        result = self.screen_operator.read_from_file()
-        if not self.is_root_up:
-            self.set_secondary_window()
-            self.screen_operator.config_text_window(tk,self.root)
+        result = self.view_get_output()
         self.root.deiconify()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
-
-    def on_close(self, event) -> None:  # Ignoring method of exit button for tk window
-        self.is_root_up = False
-        self.screen_operator.text.destroy()  # Destroy the text widget
 
     def set_secondary_window(self) -> None:
         """
@@ -204,8 +193,11 @@ class ViewManager:
         self.root = tk.Tk()
         self.root.geometry('700x600')
         self.root.resizable(width=False, height=False)  # disable diagonal resize
-        self.root.bind("<Destroy>", self.on_close)  #Overriding the exit button to configured exit
-        self.is_root_up = True
+
+        def pass_close():  # Ignoring method of exit button for tk window
+            pass
+
+        self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled
 
     def reset_input_view(self) -> None:
         """
@@ -257,22 +249,19 @@ class ViewManager:
         :return: None.
         """
         mouse_pos = pygame.mouse.get_pos()
-        self.mouse_click = pygame.mouse.get_pressed()
-
+        mouse_click = pygame.mouse.get_pressed()
         self.screen_operator.draw_check_box(self.print_specify)
-        if self.state != 'running' and self.check_exist_input() \
-                and not self.screen_operator.error_round_max \
-                and not self.screen_operator.error_prisoner_max:
-            self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.start_rect,
+        if self.state != 'running' and self.check_exist_input() and not self.screen_operator.error_round_max and not self.screen_operator.error_prisoner_max:
+            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.start_rect,
                                                           self.screen_operator.start_hover_rect,
                                                           self.screen_operator.text_surface_start,
                                                           GREEN, self.state, 'start_button')
         if self.state != 'running' and self.check_exist_input():
-            self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.stats_rect,
+            self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.stats_rect,
                                                           self.screen_operator.stats_hover_rect,
                                                           self.screen_operator.text_surface_stats,
                                                           ORANGE, self.state, 'stats_button')
-        self.state = self.screen_operator.draw_button(self.mouse_click, mouse_pos, self.screen_operator.reset_rect,
+        self.state = self.screen_operator.draw_button(mouse_click, mouse_pos, self.screen_operator.reset_rect,
                                                       self.screen_operator.reset_hover_rect,
                                                       self.screen_operator.text_surface_reset,
                                                       RED, self.state, 'reset_button')
@@ -286,17 +275,12 @@ class ViewManager:
         """
 
         for event in pygame.event.get():
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                self.mouse_click = pygame.mouse.get_pressed()
-
             if event.type == pygame.QUIT:
                 self.running = False
 
             if event.type == KEYDOWN and self.state != 'begin':
 
-                if self.state != 'running':
-                    self.decide_input_type(event)
+                self.decide_input_type(event)
 
                 if self.status == 'Round':  # rounds
                     self.screen_operator.text_input_k = self.handle_input(event, self.screen_operator.text_input_k)
@@ -486,7 +470,7 @@ class ViewManager:
             replaced_num_box = 0
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
                 replaced_num_box = randint(1, self.num_of_prisoners)
-            # print(f"replaced {replaced_num_box} with box {box_number}")
+            print(f"replaced {replaced_num_box} with box {box_number}")
 
             pos = self.boxes_on_screen_pos.pop(
                 replaced_num_box)  # The value position of the replaced box is moved to a local variable
@@ -666,6 +650,13 @@ class ViewManager:
         :return: None.
         """
         self.listener.view_need_to_init_statistics(num_prisoners, num_rounds, print_specify)
+
+    def view_get_output(self)->str:
+        """
+         Method that that get statistics.\n
+        :return: str.
+        """
+        return self.listener.view_need_output()
 
     def set_listener(self, listener) -> None:
         """

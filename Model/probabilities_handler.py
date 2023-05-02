@@ -34,6 +34,7 @@ class ProbabilitiesHandler:
         self.num_rounds = num_rounds
         self.print_specifically = print_specifically
         self.dict_rounds = {}
+        self.output = ""
 
     def run_route(self, list_of_boxes: list, print_route: bool) -> bool:
         """
@@ -47,6 +48,8 @@ class ProbabilitiesHandler:
         for j in range(number_of_boxes):
             if print_route:
                 print("Prisoner number:", j + 1, file=self.file)
+                self.output += "--Prisoner number:{}--\n".format(j + 1)
+
             visited_boxes = []
             pointer_box = list_of_boxes[j]
             current_box = j + 1
@@ -55,6 +58,8 @@ class ProbabilitiesHandler:
                 success = False
                 if print_route:
                     print("Box number", current_box, " is leading to box", pointer_box + 1, file=self.file)
+                    self.output += "Box number {} is leading to box {}\n".format(current_box, pointer_box + 1)
+
                 if pointer_box == j and attempts < (number_of_boxes // 2):
                     success = True
                     list_of_success[j] = 1
@@ -67,24 +72,47 @@ class ProbabilitiesHandler:
                         pointer_box = list_of_boxes[pointer_box]
                         visited_boxes.append(pointer_box)
             if print_route:
+                self.output += "\n"
                 print("Total Boxes:", end=" ", file=self.file)
+                self.output += "Total Boxes: "
+
                 for o in range(number_of_boxes):
                     print(list_of_boxes[o] + 1, end=" ", file=self.file)
+                    self.output += "{} ".format(list_of_boxes[o] + 1)
+
                 print(file=self.file)
+                self.output += "\n"
+
                 print("Visited in boxes:", end=" ", file=self.file)
+                self.output += "Visited in boxes: "
+
                 for g in range(len(visited_boxes)):
                     print(visited_boxes[g] + 1, end=" ", file=self.file)
+                    self.output += "{} ".format(list_of_boxes[g] + 1)
+
                 print(file=self.file)
+                self.output += "\n"
+
                 if success:
                     print("Prisoner number", j + 1, "has been succeeded,",
                           "the chain length is", (attempts + 1), file=self.file)
+                    self.output += "Prisoner number {} has been succeeded, the chain length is {}".format(j + 1, attempts + 1)
+
                 else:
                     print("Prisoner number", j + 1, "has been failed,",
                           "the chain length is", (attempts + 1), file=self.file)
+                    self.output += "Prisoner number {} has been failed, the chain length is {}".format(j + 1, attempts + 1)
+                self.output += "\n"
+
                 print(file=self.file)
+                self.output += "\n"
+
         if print_route:
             print("The number of prisoners that found their number is",
                   sum(list_of_success), "\nout of", number_of_boxes, "prisoners.\n", file=self.file)
+            self.output += "The number of prisoners that found their number is {}\n" \
+                           "out of {} prisoners".format(sum(list_of_success), number_of_boxes)
+
         if sum(list_of_success) == number_of_boxes:
             return True
         else:
@@ -99,20 +127,29 @@ class ProbabilitiesHandler:
         self.open_file()
         if not isinstance(self.num_prisoners, int):
             print("The number of prisoners is ", self.num_prisoners, " the number of prisoners must be an integer.", file=self.file)
+            self.output += "The number of prisoners is {} the number of prisoners must be an integer.".format(self.num_prisoners)
             return
+
         if self.num_prisoners < 2:
             print("The number of prisoners is ", self.num_prisoners, " the number of prisoners must be greater than 1.", file=self.file)
+            self.output += "The number of prisoners is {} the number of prisoners must be greater than 1.".format(self.num_prisoners)
             return
+
         if not isinstance(self.num_rounds, int):
             print("The number of rounds is ", self.num_rounds, " rounds must be an integer.", file=self.file)
+            self.output += "The number of rounds is {} the number of rounds must be an integer.".format(self.num_rounds)
             return
+
         if self.num_rounds <= 0:
             print("The number of rounds is ", self.num_rounds, " rounds must be greater 0.", file=self.file)
+            self.output += "The number of rounds is {} the number of rounds must be greater 0.".format(self.num_rounds)
         success_rounds = 0
         general_lists = {}  # {round:list dependencies}
         for i in range(self.num_rounds):
             if print_route:
-                print("round number:", (i + 1), file=self.file)
+                print("Round number:", (i + 1), file=self.file)
+                self.output += "**Round number: {}**\n\n".format(i + 1)
+
             list_of_boxes = self.num_prisoners * [0]
             for j in range(self.num_prisoners):
                 list_of_boxes[j] = j
@@ -131,14 +168,25 @@ class ProbabilitiesHandler:
                 success_rounds += 1
 
         print("The total number of prisoners is", self.num_prisoners, ",the total number of rounds is", self.num_rounds, ",the number of successful rounds is ", success_rounds,
-              "\n(successful_rounds / total_rounds) as percentage is", 100 * (success_rounds / self.num_rounds),"%", file=self.file)
+              "\n(successful_rounds / total_rounds) as percentage is", 100 * (success_rounds / self.num_rounds), "%", file=self.file)
+        temp = "The total number of prisoners is -> {}\n" \
+               "The total number of rounds is -> {}\n" \
+               "The number of successful rounds is -> {}\n" \
+               "(successful_rounds / total_rounds) as percentage is -> {}%\n".format(self.num_prisoners, success_rounds, self.num_rounds, 100 * (success_rounds / self.num_rounds))
+        temp += "\n"
         success_rounds = 0
         hn = self.num_prisoners / 2
         for i in range(self.num_prisoners // 2):
             success_rounds += 1 / (hn + (i + 1))
-        print("\nProbability by loop calculation of the geometric series:\n",
+        print("\n\nProbability by loop calculation of the geometric series:\n",
               "1 - (1/((num_prisoners/2)+1) + 1/((num_prisoners/2)+2) + ...) =", 1 - success_rounds, file=self.file)
+        temp += "Probability by loop calculation of the geometric series\n" \
+                "1 - (1/((num_prisoners/2)+1) + 1/((num_prisoners/2)+2) + ...) ={}%\n".format(1 - success_rounds)
+        temp += "\n"
+
         self.close_file()
+        temp += self.output
+        self.output = temp
 
     def open_file(self) -> None:
         """
