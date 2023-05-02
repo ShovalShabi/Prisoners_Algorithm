@@ -52,6 +52,7 @@ class ViewManager:
         Initialize the ViewManager Object and initializing various game variables.
         """
         # Game state
+        self.is_root_up = False
         self.state = 'not running'
         self.running = True
 
@@ -180,9 +181,16 @@ class ViewManager:
 
         :return: None
         """
-        result = self.view_get_output()
+        if not self.is_root_up:
+            self.set_secondary_window()
+            self.screen_operator.config_text_window(tk, self.root)
         self.root.deiconify()
+        result = self.view_get_output()
         self.screen_operator.write_text_on_secondary_screen(result, tk)
+
+    def on_close(self, event):  # Ignoring method of exit button for tk window
+        self.is_root_up = False
+        self.screen_operator.text.destroy()
 
     def set_secondary_window(self) -> None:
         """
@@ -194,10 +202,9 @@ class ViewManager:
         self.root.geometry('700x600')
         self.root.resizable(width=False, height=False)  # disable diagonal resize
 
-        def pass_close():  # Ignoring method of exit button for tk window
-            pass
-
-        self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled
+        # self.root.protocol("WM_DELETE_WINDOW", pass_close)  # Overriding the exit button to disabled
+        self.root.bind("<Destroy>", self.on_close)
+        self.is_root_up = True
 
     def reset_input_view(self) -> None:
         """
@@ -651,7 +658,7 @@ class ViewManager:
         """
         self.listener.view_need_to_init_statistics(num_prisoners, num_rounds, print_specify)
 
-    def view_get_output(self)->str:
+    def view_get_output(self) -> str:
         """
          Method that that get statistics.\n
         :return: str.
