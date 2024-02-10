@@ -1,5 +1,5 @@
-from Model.modelmanager import ModelManger
-from View.viewmanager import ViewManager
+from Model.abstractmodelmanager import AbstractModelManager
+from View.abstractviewmanager import AbstractViewManager
 
 
 class Controller:
@@ -13,7 +13,7 @@ class Controller:
     view: representation of the view manager class -> ViewManger object.\n
     """
 
-    def __init__(self, model: ModelManger, view: ViewManager) -> None:
+    def __init__(self, model: AbstractModelManager, view: AbstractViewManager) -> None:
         """
         Initialize Controller object.\n
         :param model: ModelManager object, the object that representing the business logic.
@@ -23,7 +23,7 @@ class Controller:
         self.model = model
         self.view = view
 
-    def get_view(self) -> ViewManager:
+    def get_view(self) -> AbstractViewManager:
         """
         Method for getting ViewManager object.\n
         :return: ViewManager object.
@@ -37,7 +37,7 @@ class Controller:
         """
         self.view = view
 
-    def get_model(self) -> ModelManger:
+    def get_model(self) -> AbstractModelManager:
         """
         Method for getting ModelManager object.\n
         :return: ModelManager object.
@@ -174,7 +174,7 @@ class Controller:
 
         :return: int, the current round number.
         """
-        return self.model.current_round
+        return self.model.get_current_round()
 
     def cnt_update_boxes_pos(self) -> None:
         """

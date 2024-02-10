@@ -3,7 +3,6 @@ import sys
 import pygame.time
 import tkinter as tk
 from random import randint
-
 from pygame import Surface
 from pygame.event import Event
 from pygame.locals import KEYDOWN, K_BACKSPACE
@@ -13,9 +12,9 @@ from View.settings import *
 from View.box_view import BoxV
 from pygame.time import Clock
 import pygame.mixer
+from View.abstractviewmanager import AbstractViewManager
 
-
-class ViewManager:
+class ViewManager(AbstractViewManager):
     """
     A class representing the managing object that is trusted of the frontend part of the game.\n
     The class main concern is to handle the requests that comes from the user and according to that the object
@@ -51,6 +50,7 @@ class ViewManager:
         """
         Initialize the ViewManager Object and initializing various game variables.
         """
+        super().__init__()
         # Game state
         self.state = 'not running'
         self.running = True

@@ -1,9 +1,10 @@
+from Model.abstractmodelmanager import AbstractModelManager
 from Model.boxm import BoxM
 from Model.prisonerm import PrisonerM
 from Model.probabilities_handler import ProbabilitiesHandler
 
 
-class ModelManger:
+class ModelManger(AbstractModelManager):
     """
     A class representing the managing object that is trusted of the backend part of the game.\n
     The class coordinate between the changes that are taking place in the business logic, the object
@@ -24,11 +25,19 @@ class ModelManger:
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
     """
 
+    def get_current_round(self) -> int:
+        """
+        Method for Model notifying the Controller that the view need prisoner number.\n
+        :return: int, the current round number.
+        """
+        return self.current_round
+
     def __init__(self) -> None:
         """
         Initialize ModelManger Object.\n
         :return: None.
         """
+        super().__init__()
         self.dict_rounds = {}  # dict of {round_num:list dependencies of boxes}
         self.dict_prisoners = {}  # dict of {num_pris:prisoner}
         self.dict_boxes = {}  # dict of {num_box:box}
