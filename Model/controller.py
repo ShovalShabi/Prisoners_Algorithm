@@ -339,3 +339,6 @@ class Controller:
         :return: None.
         """
         self.view.handle_with_time(time)
+
+
+
