@@ -477,7 +477,6 @@ class ViewManager:
             replaced_num_box = 0
             while replaced_num_box not in self.boxes_on_screen_pos or box_number == replaced_num_box:
                 replaced_num_box = randint(1, self.num_of_prisoners)
-            print(f"replaced {replaced_num_box} with box {box_number}")
 
             pos = self.boxes_on_screen_pos.pop(
                 replaced_num_box)  # The value position of the replaced box is moved to a local variable
