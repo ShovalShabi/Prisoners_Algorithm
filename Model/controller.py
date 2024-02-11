@@ -9,8 +9,8 @@ class Controller:
 
     Attributes:/n
 
-    model: representation of the model manager class -> ModelManger object.\n
-    view: representation of the view manager class -> ViewManger object.\n
+    model: representation of the model manager class -> AbstractModelManager object.\n
+    view: representation of the view manager class -> AbstractViewManager object.\n
     """
 
     def __init__(self, model: AbstractModelManager, view: AbstractViewManager) -> None:

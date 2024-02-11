@@ -1,3 +1,4 @@
+from Model.AbstractProbabilitiesHandler import AbstractProbabilitiesHandler
 from Model.abstractmodelmanager import AbstractModelManager
 from Model.boxm import BoxM
 from Model.prisonerm import PrisonerM
@@ -24,13 +25,7 @@ class ModelManger(AbstractModelManager):
     print_specifically: user choice if he/she wants to print to file "PrisonersResults.txt" the specific route of each prisoner or not -> bool.\n
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
     """
-
-    def get_current_round(self) -> int:
-        """
-        Method for Model notifying the Controller that the view need prisoner number.\n
-        :return: int, the current round number.
-        """
-        return self.current_round
+    prob_handler: AbstractProbabilitiesHandler
 
     def __init__(self) -> None:
         """
@@ -123,6 +118,12 @@ class ModelManger(AbstractModelManager):
         self.listener = listener
 
     # ********************************************************************************#
+    def get_current_round(self) -> int:
+        """
+        Method for Model notifying the Controller that the view need prisoner number.\n
+        :return: int, the current round number.
+        """
+        return self.current_round
 
     def init_prisoners(self, num_pris: int, initial_pos: tuple) -> None:
         """

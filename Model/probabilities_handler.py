@@ -2,8 +2,10 @@ import random
 from copy import deepcopy
 from threading import Thread, Lock
 
+from Model.AbstractProbabilitiesHandler import AbstractProbabilitiesHandler
 
-class ProbabilitiesHandler:
+
+class ProbabilitiesHandler(AbstractProbabilitiesHandler):
     """
     A class representing the probabilities' handler object that is trusted of the details of each round and printing it to file
     "PrisonersResults.txt".\n
