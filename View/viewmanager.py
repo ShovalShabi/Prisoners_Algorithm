@@ -451,7 +451,7 @@ class ViewManager(AbstractViewManager):
         :return: None.
         """
         for box in self.boxes_on_screen_obj.values():
-            box.close_box(box.box_num)
+            box.close_box(new_name_img="chest_closed.png",color=YELLOW)
         self.create_prisoner(prisoner_num)
 
     def handle_box_request(self, box_number: int) -> None:
@@ -497,12 +497,9 @@ class ViewManager(AbstractViewManager):
         """
         # clear the current box image
         if not self.boxes_on_screen_obj[box_num].open:
-            self.boxes_on_screen_obj[box_num].clear_image(self.list_depend[self.current_round][box_num - 1])
-
-            # replace the image
-            self.boxes_on_screen_obj[box_num].open_box(new_name_img="chest_open.png", color=RED)
-            # list of dependencies starting from 0
-
+            self.boxes_on_screen_obj[box_num].open_box(new_name_img="chest_open.png",
+                                                       pointing_num_box=self.list_depend[self.current_round][box_num - 1], #Getting the next number of the target box
+                                                       color_num=RED)
             OPEN_CHEST_SOUND.play()  # plays the open chest sound
             self.clock.tick(WAIT_FRAME_RATE)  # waits 1 frame rate
 
