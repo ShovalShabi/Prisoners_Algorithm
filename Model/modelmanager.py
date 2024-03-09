@@ -20,7 +20,8 @@ class ModelManger(AbstractModelManager):
     current_round: the number of the current round-> int.\n
     current_prisoner: the current prisoner number-> int.\n
     succeeded: the number of succeeded prisoners in the current game-> int.\n
-    num_prisoners: the total number of prisoners -> int.\n
+    total_pris: the total number of prisoners -> int.\n
+    open_boxes: the number of  the current open boxes that has been opened till this moment -> int.\n
     num_rounds: the total number of rounds -> int.\n
     print_specifically: user choice if he/she wants to print to file "PrisonersResults.txt" the specific route of each prisoner or not -> bool.\n
     prob_handler: a probability handler object, handles with probability calculations of each round and the total success rate -> ProbabilitiesHandler object.
@@ -40,6 +41,7 @@ class ModelManger(AbstractModelManager):
         self.current_pris_num = 1
         self.succeeded = 0
         self.total_pris = 0
+        self.open_boxes = 0
         self.total_rounds = 1
         self.is_running_game = False
         self.initial_pos = None
@@ -184,6 +186,7 @@ class ModelManger(AbstractModelManager):
         self.current_round = 1
         self.total_rounds = num_rounds
         self.total_pris = num_pris
+        self.open_boxes = 0
         self.initial_pos = initial_pos
         self.init_boxes(num_pris=num_pris)
         self.init_prisoners(num_pris=num_pris, initial_pos=initial_pos)
@@ -202,7 +205,8 @@ class ModelManger(AbstractModelManager):
 
         if status[1] in self.dict_prisoners[self.current_pris_num].visited_boxes.keys():  # If the prisoner has reached the current target box
             self.model_request_to_open_box(status[1])
-        if status[0]:
+            self.open_boxes += 1
+        if status[0] and self.open_boxes <= self.total_pris//2:
             if not self.dict_prisoners[self.current_pris_num].on_exit:  # -1 is the exit point
                 self.model_request_box()  # Model alerts the View that he needs a new box, the view should bring it to screen if it's not there
 
@@ -213,6 +217,7 @@ class ModelManger(AbstractModelManager):
                                                                 pris_width=pris_dimensions[0],
                                                                 pris_height=pris_dimensions[1])
         else:
+            self.open_boxes = 0
 
             # Replacing Prisoner
             if self.dict_prisoners[self.current_pris_num].found_number:
